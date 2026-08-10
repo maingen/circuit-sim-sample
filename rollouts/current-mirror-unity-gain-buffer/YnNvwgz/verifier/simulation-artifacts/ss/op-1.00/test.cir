@@ -1,0 +1,39 @@
+Current-mirror op-amp private fixture
+.include p18_cmos_models_ss.inc
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Current-mirror OTA with K=2
+* - NMOS diff pair + tail IBIAS
+* - PMOS diode loads M3/M4
+* - Fold 1:1 (M5/M3) and output source K=2 (M6/M4)
+* - NMOS mirror K=2 (M8/M7) to output
+* Quiescent current ~2.5*Itail; slew current K*Itail
+
+IBIAS tail vss 152u
+
+M1 d1 vinn tail vss nmos w=100u l=0.4u
+M2 d2 vinp  tail vss nmos w=100u l=0.4u
+
+M3 d1  d1  vdd vdd pmos w=10u l=0.4u
+M4 d2  d2  vdd vdd pmos w=10u l=0.4u
+M5 mid d1  vdd vdd pmos w=10u l=0.4u
+M6 vout d2 vdd vdd pmos w=20u l=0.4u
+
+M7 mid  mid vss vss nmos w=6u  l=0.4u
+M8 vout mid vss vss nmos w=12u l=0.4u
+
+.ends candidate
+
+VDD vdd 0 1.8
+VB1 vb1 0 1.4
+VB2 vb2 0 0.6
+XDUT vinp vinn vout vdd vb1 vb2 0 candidate
+CLOAD vout 0 2.5p
+.temp 27
+VIN vinp 0 1
+RFB vout vinn 1m
+.control
+op
+print v(vout) i(VDD) @m.xdut.m1[vds] @m.xdut.m1[vdsat] @m.xdut.m2[vds] @m.xdut.m2[vdsat] @m.xdut.m3[vds] @m.xdut.m3[vdsat] @m.xdut.m4[vds] @m.xdut.m4[vdsat] @m.xdut.m5[vds] @m.xdut.m5[vdsat] @m.xdut.m6[vds] @m.xdut.m6[vdsat] @m.xdut.m7[vds] @m.xdut.m7[vdsat] @m.xdut.m8[vds] @m.xdut.m8[vdsat]
+quit
+.endc
+.end

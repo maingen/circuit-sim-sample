@@ -1,0 +1,17 @@
+*
+.subckt candidate in out vdd vss
+IREF vdd bias DC 200u
+M8 bias bias vss vss NMOS4 L=0.2u W=3.84u M=1
+M1 n1 in tail vss NMOS4 L=0.2u W=2.5u M=1
+M2 n2 0 tail vss NMOS4 L=0.2u W=2.5u M=1
+M3 n1 n1 vdd vdd PMOS4 L=0.2u W=5.12u M=1
+M4 n2 n1 vdd vdd PMOS4 L=0.2u W=5.12u M=1
+M5 tail bias vss vss NMOS4 L=0.2u W=3.84u M=1
+M6 vdd n2 nout nout NMOS4 L=0.2u W=16u M=1
+M7 nout bias vss vss NMOS4 L=0.2u W=3.84u M=1
+Rser nout out 2700
+Rsh n2 mids 1150000.0
+Csh mids 0 0.5p
+RFB_TOP out feedback_open 92k
+RFB_BOTTOM feedback_open 0 8k
+.ends candidate

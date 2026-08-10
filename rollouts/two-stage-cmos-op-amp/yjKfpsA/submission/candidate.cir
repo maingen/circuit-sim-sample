@@ -1,0 +1,18 @@
+.subckt candidate inp inn out vdd vss
+* Two-stage CMOS op amp
+* Stage 1: NMOS differential pair with PMOS active current-mirror load (100 uA/side)
+* Stage 2: PMOS common-source amplifier with NMOS active load (200 uA)
+* Bias: 200 uA IREF mirrored into 100 uA and 200 uA branches
+IREF vdd nbias 200u
+M8 nbias nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+M5 tail nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+M1 d1 inp tail vss NMOS4 W=2.258e-6 L=0.18e-6
+M2 d2 inn tail vss NMOS4 W=2.258e-6 L=0.18e-6
+M3 d1 d1 vdd vdd PMOS4 W=8.5e-6 L=0.18e-6
+M4 d2 d1 vdd vdd PMOS4 W=8.5e-6 L=0.18e-6
+M6 n6 d2 vdd vdd PMOS4 W=15.985e-6 L=0.18e-6
+Rs6 n6 out 385
+M7 n7 nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+Rs7 n7 out 355
+Cc out d2 0.915f
+.ends candidate

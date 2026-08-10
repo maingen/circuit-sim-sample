@@ -1,0 +1,9 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-agent@sha256:45a1621409a1c2cbf2c83ef67f8bd0457dc042461656f5d5fe9efcc7562ccab4
+    pull_policy: always
+    command: ["sleep", "infinity"]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    security_opt: ["no-new-privileges:true"]

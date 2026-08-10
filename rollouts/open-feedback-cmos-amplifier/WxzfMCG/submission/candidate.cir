@@ -1,0 +1,16 @@
+* Two-stage CMOS op amp with open feedback network
+.subckt candidate in out vdd vss
+IREF vdd bias DC 200u
+M8 bias bias vss vss NMOS4 L=0.18u W=2u
+M5 tail bias vss vss NMOS4 L=0.18u W=4u
+M1 n1 in tail vss NMOS4 L=0.18u W=20u
+M2 n2 0 tail vss NMOS4 L=0.18u W=20u
+M3 n1 n1 vdd vdd PMOS4 L=0.25u W=8u
+M4 n2 n1 vdd vdd PMOS4 L=0.25u W=8u
+Rgain n1 n2 200000
+M6 out n2 vdd vdd PMOS4 L=0.18u W=43.83u
+M7 out bias vss vss NMOS4 L=0.18u W=25u
+Rf out n2 14600
+RFB_TOP out feedback_open 92k
+RFB_BOTTOM feedback_open 0 8k
+.ends candidate

@@ -1,0 +1,49 @@
+Current-mirror op-amp private fixture
+.include p18_cmos_models_ss.inc
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Current-mirror op-amp (K=2) with adaptive balance sink
+* Unity-gain buffer front-end: 1.8 V, CL=2.5 pF external
+* All MOSFET channel lengths = 0.4 um
+
+* ----- Bias generation -----
+IBIAS bp vss 3.5u
+MPB  bp bp vdd vdd pmos w=1.0u l=0.4u
+MPN  bn bp vdd vdd pmos w=1.0u l=0.4u
+MNB  bn bn vss vss nmos w=2.0u l=0.4u
+
+* Tail current source (~220 uA)
+MT   ntail bn vss vss nmos w=126u l=0.4u
+
+* ----- NMOS differential pair (vinp non-inverting) -----
+M1   d1 vinp ntail vss nmos w=180u l=0.4u
+M2   vout vinn ntail vss nmos w=180u l=0.4u
+
+* ----- PMOS current-mirror load, K=2 -----
+M3   d1 d1 vdd vdd pmos w=10u l=0.4u
+M4   vout d1 vdd vdd pmos w=20u l=0.4u
+
+* ----- Adaptive balance sink (~Iss/2 at DC) -----
+* Rbal sets DC gate = bn; Cbal couples d1 to boost sink on SR-
+* and reduce sink on SR+ (d1 falls when sourcing).
+MBAL vout bbal vss vss nmos w=63u l=0.4u
+Rbal bn bbal 5k
+Cbal d1 bbal 180f
+
+.ends candidate
+
+VDD vdd 0 1.8
+VB1 vb1 0 1.4
+VB2 vb2 0 0.6
+XDUT vinp vinn vout vdd vb1 vb2 0 candidate
+CLOAD vout 0 2.5p
+.temp 27
+VIN vinp 0 DC 1
+VLOOP vinn vout DC 0 AC 1
+.control
+set wr_vecnames
+set wr_singlescale
+ac dec 100 1k 100G
+wrdata ac.dat v(vout) v(vinn)
+quit
+.endc
+.end

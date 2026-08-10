@@ -1,0 +1,11 @@
+.subckt candidate inp inn out vdd vss
+M4 vd2 vd1 vdd vdd PMOS4 L=0.2u W=0.64u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=14
+M3 vd1 vd1 vdd vdd PMOS4 L=0.2u W=0.64u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=14
+M1 vd1 inn vd5 0 NMOS4 L=0.2u W=0.48u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=6
+M2 vd2 inp vd5 0 NMOS4 L=0.2u W=0.48u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=6
+M5 vd5 vg5 vss 0 NMOS4 L=0.2u W=0.48u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=13
+M7 out vg5 vss 0 NMOS4 L=0.2u W=0.48u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=13
+M6 out vd2 vdd vdd PMOS4 L=0.2u W=0.64u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=26
+M8 vg5 vg5 vss 0 NMOS4 L=0.2u W=0.48u AD=1.72p AS=1.72p PD=5.25u PS=5.25u M=13
+IREF vdd vg5 DC 200u
+.ends candidate

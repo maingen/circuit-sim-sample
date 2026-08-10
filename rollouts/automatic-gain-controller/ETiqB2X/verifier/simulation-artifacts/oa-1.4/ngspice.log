@@ -1,0 +1,52 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: agc private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vcc                                        3.3
+oa                                         1.4
+agc_pkd_ref                                0.8
+agc_ref                                 1.2864
+detn                                      3.15
+detp                                      3.15
+agc                                    1.53191
+xdut.fp                                3.14846
+xdut.fn                                3.14846
+xdut.ep                                2.39134
+xdut.en                                2.39134
+xdut.ibias                            0.756728
+xdut.ninv1                             2.28501
+xdut.inv1                              2.28533
+pkd                                   0.801106
+xdut.xpkd.b                           0.895409
+xdut.xpkd.t                            1.57966
+xdut.xpkd.n1                           2.42358
+xdut.xpkd.n2                           2.52867
+xdut.ninv2                             1.29629
+xdut.inv2                              1.29656
+xdut.xagc.b                           0.895409
+xdut.xagc.t                           0.593882
+xdut.xagc.n1                           2.42672
+xdut.xagc.n2                             2.518
+vdetd#branch                      -2.56855e-06
+vdetn#branch                      -5.13709e-06
+vagcref#branch                     1.03706e-06
+vpkdref#branch                     2.65179e-06
+voa#branch                        -1.03706e-06
+vcc#branch                         -0.00249187
+
+
+No. of Data Rows : 10038
+ngspice-46 done

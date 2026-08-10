@@ -1,0 +1,10 @@
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Replace this starter with your transistor-level current-mirror op-amp.
+MREF nbias nbias vss vss nmos w=1u l=0.4u
+MOUT ntail nbias vss vss nmos w=2u l=0.4u
+M1 nleft vinp ntail vss nmos w=2u l=0.4u
+M2 vout vinn ntail vss nmos w=2u l=0.4u
+M3 nleft nleft vdd vdd pmos w=4u l=0.4u
+M4 vout nleft vdd vdd pmos w=4u l=0.4u
+IBIAS nbias vss 10u
+.ends candidate

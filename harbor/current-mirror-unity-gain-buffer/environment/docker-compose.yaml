@@ -1,0 +1,9 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/current-mirror-op-amp-agent@sha256:70f45a67af310c8042d01d0cd2e566892883dc122cef41c69dc990a4370cf460
+    pull_policy: always
+    command: ["sleep", "infinity"]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    security_opt: ["no-new-privileges:true"]

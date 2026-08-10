@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "local maingen/circuitbench-sample workspace",
+  "source_commit": null,
+  "source_state": "uncommitted task and rollout calibration",
+  "source_campaign": "jobs/transistor-level-tia-grok45-eight-20260810",
+  "source_trial": "transistor-level-tia__y5DUpXn",
+  "original_task_checksum": "663787b554d8341687f499c13eccb6d0aa9b457ca664bdbcef2de6ee901d393d",
+  "packaged_task": {
+    "task_id": "transistor-level-tia",
+    "version": "0.1.1",
+    "tree_sha": "5c9d02b8fa3b80763025d1fdc5fb5301a9793972"
+  },
+  "grade_provenance": "cached-reference-calibrated-strict",
+  "simulation_reused": true,
+  "measurement_source": "latest strict-verifier simulation artifacts",
+  "numerical_target_source": "harbor/transistor-level-tia/tests/reference_calibration.json",
+  "agent": {
+    "name": "grok-build",
+    "version": "0.2.118",
+    "model": "grok-4.5"
+  },
+  "simulator_base_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/ngspice-46-ubuntu24.04@sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
+}

@@ -1,0 +1,132 @@
+{
+  "outcome": "requirements_failed",
+  "artifact_evaluable": true,
+  "production_pass": false,
+  "final_reward": 0.9345788100075856,
+  "failure_codes": [
+    "CMOA-SR-RISE-SS",
+    "CMOA-UGF-SS"
+  ],
+  "error": null,
+  "limits": {
+    "positive_slew_rate_v_per_s": 98948011.37660436,
+    "negative_slew_rate_v_per_s": 101902777.53751183,
+    "unity_gain_frequency_hz": 172166876.27066272,
+    "phase_margin_degrees": 47.77257207546759,
+    "quiescent_current_a": 0.000399573
+  },
+  "reference_corner_measurements": {
+    "TT": {
+      "positive_slew_rate_v_per_s": 102146827.3604814,
+      "negative_slew_rate_v_per_s": 106090407.8136638,
+      "unity_gain_frequency_hz": 184453707.0617503,
+      "phase_margin_degrees": 54.318910505911774,
+      "quiescent_current_a": 0.000396113
+    },
+    "FF": {
+      "positive_slew_rate_v_per_s": 100733355.33274125,
+      "negative_slew_rate_v_per_s": 104274043.02345525,
+      "unity_gain_frequency_hz": 172166876.27066272,
+      "phase_margin_degrees": 47.77257207546759,
+      "quiescent_current_a": 0.000399573
+    },
+    "SS": {
+      "positive_slew_rate_v_per_s": 98948011.37660436,
+      "negative_slew_rate_v_per_s": 101902777.53751183,
+      "unity_gain_frequency_hz": 175244765.72938463,
+      "phase_margin_degrees": 53.628344197769266,
+      "quiescent_current_a": 0.000395474
+    }
+  },
+  "reference_scale": {
+    "positive_slew_rate_v_per_s": {
+      "best": 102146827.3604814,
+      "worst": 98948011.37660436,
+      "direction": "higher"
+    },
+    "negative_slew_rate_v_per_s": {
+      "best": 106090407.8136638,
+      "worst": 101902777.53751183,
+      "direction": "higher"
+    },
+    "unity_gain_frequency_hz": {
+      "best": 184453707.0617503,
+      "worst": 172166876.27066272,
+      "direction": "higher"
+    },
+    "phase_margin_degrees": {
+      "best": 54.318910505911774,
+      "worst": 47.77257207546759,
+      "direction": "higher"
+    },
+    "quiescent_current_a": {
+      "best": 0.000395474,
+      "worst": 0.000399573,
+      "direction": "lower"
+    }
+  },
+  "reward_boundaries": {
+    "positive_slew_rate_v_per_s": {
+      "zero_credit": 98148307.38063511,
+      "circuit_collapse": 95749195.39272733
+    },
+    "negative_slew_rate_v_per_s": {
+      "zero_credit": 100855869.96847384,
+      "circuit_collapse": 97715147.26135986
+    },
+    "unity_gain_frequency_hz": {
+      "zero_credit": 169095168.57289082,
+      "circuit_collapse": 159880045.47957516
+    },
+    "phase_margin_degrees": {
+      "zero_credit": 46.13598746785655,
+      "circuit_collapse": 41.22623364502341
+    },
+    "quiescent_current_a": {
+      "zero_credit": 0.00040059775,
+      "circuit_collapse": 0.00040367200000000005
+    }
+  },
+  "reward_collapse_trigger": null,
+  "corner_scores": {
+    "TT": 1.0,
+    "FF": 1.0,
+    "SS": 0.8037364300227567
+  },
+  "bias_current_a": 0.00014099999999999998,
+  "corners": [
+    {
+      "corner": "TT",
+      "positive_slew_rate_v_per_s": 99892542.15116371,
+      "negative_slew_rate_v_per_s": 109787009.5079653,
+      "unity_gain_frequency_hz": 182913814.4102222,
+      "phase_margin_degrees": 54.6792405476358,
+      "quiescent_current_a": 0.000386565,
+      "saturation_margin_v": 0.3288066,
+      "worst_saturation_device": "M5@1.25V",
+      "equivalent_second_pole_hz": 258140074.29575518
+    },
+    {
+      "corner": "FF",
+      "positive_slew_rate_v_per_s": 101789608.92511447,
+      "negative_slew_rate_v_per_s": 115325347.86171375,
+      "unity_gain_frequency_hz": 195434633.08911204,
+      "phase_margin_degrees": 54.51321834950673,
+      "quiescent_current_a": 0.000397536,
+      "saturation_margin_v": 0.3462988,
+      "worst_saturation_device": "M5@1.25V",
+      "equivalent_second_pole_hz": 274122998.926762
+    },
+    {
+      "corner": "SS",
+      "positive_slew_rate_v_per_s": 98439447.41440022,
+      "negative_slew_rate_v_per_s": 105266377.96980618,
+      "unity_gain_frequency_hz": 171105977.2502903,
+      "phase_margin_degrees": 54.76330506924283,
+      "quiescent_current_a": 0.000377956,
+      "saturation_margin_v": 0.30923599999999996,
+      "worst_saturation_device": "M5@1.25V",
+      "equivalent_second_pole_hz": 242228683.09650582
+    }
+  ]
+}

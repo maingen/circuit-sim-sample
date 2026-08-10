@@ -1,0 +1,173 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vcc                                        3.3
+nbias                                 0.756958
+nbias2                                0.797796
+nvr1                                  0.754047
+vreg                                   2.66609
+nvfb                                  0.779705
+nrca                                  0.781563
+nrt                                   0.106985
+nrcb                                   1.69613
+nrb                                   0.720006
+nrg                                    2.54645
+nrs                                    0.15071
+ntpc                                   1.56672
+inp                                   0.772131
+tia_p                                  0.77314
+ntp_fx                                0.772131
+ntnc                                   1.56672
+inn                                   0.772131
+tia_n                                  0.77314
+ntn_fx                                0.772131
+nref_dc                               0.816832
+ncb                                   0.799309
+nsp                                   0.772131
+ncap                                   2.51512
+ntp                                   0.115607
+ncbp                                   1.74156
+ndcg_p                                0.552503
+ncp_s                                 0.772085
+nsn                                   0.772131
+ncan                                   2.51512
+ntn                                   0.115607
+ncbn                                   1.74156
+ndcg_n                                0.552503
+ncn_s                                 0.772085
+n1pb                                    2.1247
+n1nb                                    2.1247
+n1cm                                   2.31881
+v1p                                    1.33874
+v1n                                    1.33874
+nv11                                   1.72748
+nv1e1                                 0.552928
+nv12                                   1.72748
+nv1e2                                 0.552928
+nv1t                                  0.504524
+nv1cp                                  3.12717
+vc1b                                   2.49329
+nv1dp                                  3.11157
+vc1                                    2.49587
+nv1cn                                  3.12717
+nv1dn                                  3.11157
+vga1p                                  2.34082
+vga1n                                  2.34082
+n2pb                                   2.12425
+n2nb                                   2.12425
+n2cm                                   2.31872
+v2p                                    1.33825
+v2n                                    1.33825
+nv21                                   1.65476
+nv2e1                                 0.544615
+nv22                                   1.65476
+nv2e2                                 0.544615
+nv2t                                  0.512343
+nv2z                                  0.544615
+nv2cp                                  2.99431
+vc2b                                   2.42644
+nv2dp                                   2.9233
+vc2                                    2.43233
+nv2cn                                  2.99431
+nv2dn                                   2.9233
+vga2p                                  2.20022
+vga2n                                  2.20022
+n3pb                                   2.14837
+n3nb                                   2.14837
+n3cm                                   2.36186
+bufinp                                 1.35405
+bufinn                                 1.35405
+outp                                   2.63856
+nbe1                                  0.518096
+outn                                   2.63856
+nbe2                                  0.518096
+nbt                                   0.346642
+finalp                                 2.63502
+finaln                                 2.63502
+pkdinp                                     1.8
+pkdinn                                     1.8
+npkcm                                  1.88852
+np1                                    1.01762
+np2                                    1.01762
+nq1                                   0.271697
+ne1                                   0.233711
+nq2                                   0.271697
+ne2                                   0.233711
+nete                                  0.193549
+detn                                   2.28519
+detp                                   2.28509
+nfa                                    2.27243
+nfb                                    2.27286
+nfs1                                   1.51567
+nfs2                                    1.5168
+nmid                                    1.5834
+pkd                                    1.51567
+nmci                                       3.3
+mc                                           0
+nmcib                              1.91488e-10
+mgc                                        1.4
+gc                                     1.39298
+agc                                    1.38597
+ncm                                     2.5129
+nr1                                    1.31854
+nr2                                    1.31697
+ng1a                                   3.25336
+ne1a                                  0.693972
+ng1b                                   3.25071
+ne1b                                  0.622474
+ne1t                                 0.0246727
+ng2a                                   3.18908
+ne2a                                  0.674956
+ng2b                                   3.18299
+ne2b                                  0.602051
+ne2t                                  0.024947
+nadp                                   2.26483
+nadn                                   2.26493
+nafp                                   1.50807
+nafn                                   1.50817
+nc11                                   2.62246
+nt1                                   0.884375
+nc12                                   2.55359
+nab                                   0.671397
+no1                                    1.13943
+ns1                                    1.13121
+nmid2                                  1.56378
+nin                                     1.3516
+oa                                         1.2
+nrefa                                  1.38189
+nc21                                   2.61742
+nt2                                   0.752855
+nc22                                   3.27094
+ns2                                    1.38011
+np1a                                    2.6818
+np2a                                    2.6818
+np3a                                   2.88704
+np4a                                   2.88704
+np5a                                   2.88704
+np6a                                   3.01058
+ltnf#branch                        6.11373e-06
+ltpf#branch                        6.11373e-06
+v_tb_pkdn#branch                   0.000253641
+v_tb_pkdp#branch                   0.000253641
+v_tb_oa#branch                     7.27557e-06
+v_tb_mgc#branch                   -0.000169743
+v_tb_mc#branch                               0
+v_tb_vcc#branch                     -0.0941085
+
+
+No. of Data Rows : 10008
+ngspice-46 done

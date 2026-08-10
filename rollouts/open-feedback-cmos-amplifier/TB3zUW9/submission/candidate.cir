@@ -1,0 +1,16 @@
+* Two-stage CMOS op amp with open feedback network
+* Stage 1: NMOS diff pair + PMOS current-mirror active load
+* Stage 2: NMOS source follower with NMOS active current-source load
+.subckt candidate in out vdd vss
+M1 d1 in tail 0 NMOS4 L=0.18u W=0.58u
+M2 d2 0 tail 0 NMOS4 L=0.18u W=0.58u
+M3 d1 d1 vdd vdd PMOS4 L=0.18u W=0.95u
+M4 d2 d1 vdd vdd PMOS4 L=0.18u W=0.95u
+M5 tail bias vss 0 NMOS4 L=0.18u W=2.0u
+M6 vdd d2 out 0 NMOS4 L=0.18u W=5.4u
+M7 out bias vss 0 NMOS4 L=0.18u W=0.95u
+M8 bias bias vss 0 NMOS4 L=0.18u W=1.0u
+IREF vdd bias DC 200u
+RFB_TOP out feedback_open 92k
+RFB_BOTTOM feedback_open 0 8k
+.ends candidate

@@ -1,0 +1,22 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(inp) = 7.547720e-01
+v(inn) = 7.547720e-01
+v(finalp) = 2.719537e+00
+v(finaln) = 2.719537e+00
+v(gc) = 1.399919e+00
+v(vc1) = 2.000536e+00
+v(vc1b) = 1.992678e+00
+v(vc2) = 2.015129e+00
+v(vc2b) = 1.982880e+00
+i(v_tb_vcc) = -9.21304e-02
+ngspice-46 done

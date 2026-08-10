@@ -1,0 +1,477 @@
+Transistor-level TIA private fixture
+*==============================================================================
+* Complete Differential Transimpedance Amplifier (transistor-level)
+* LTspice / Ngspice 46 compatible flattened netlist
+*==============================================================================
+* External: vcc mc mgc oa inp inn
+* Probes: finalp finaln gc agc vc1 vc1b vc2 vc2b tia_p tia_n
+*         v1p v1n vga1p vga1n v2p v2n vga2p vga2n
+*         bufinp bufinn outp outn pkdinp pkdinn detp detn pkd
+* Cancel: M_CANCEL_P M_CANCEL_N
+*==============================================================================
+
+*----- Models (exact grading cards) -----
+.model NMOS NMOS(VTO=.55 KP=220u LAMBDA=.02)
+.model PMOS PMOS(VTO=-.55 KP=100u LAMBDA=.02)
+.model QN   NPN(IS=1e-16 BF=200 VAF=100 IKF=50m RB=5 RC=1 RE=.2 CJE=2f CJC=1f TF=.45p TR=5p)
+.model QP   PNP(IS=1e-16 BF=100 VAF=60 IKF=20m RB=8 RC=1 RE=.3 CJE=3f CJC=1.5f TF=.7p TR=8p)
+.model QBUF NPN(IS=1e-16 BF=200 VAF=100 IKF=100m RB=3 RC=.5 RE=.15 CJE=3f CJC=1.5f TF=.45p TR=5p)
+
+*==============================================================================
+* GLOBAL BIAS
+*==============================================================================
+* ~1.00 mA reference, Vbe ~ 0.76 V (area 4)
+Rbref       vcc     bref        2.54k
+Qbref       bref    bref    0   QN 4
+
+* Common-mode refs
+Rcm1        vcc     vcm         0.50k
+Rcm2        vcm     0           0.60k
+Ccm         vcm     0           5p
+* vcm = 3.3*1.8/3.3 = 1.80 V
+
+Rtref1      vcc     vtref       9.5k
+Rtref2      vtref   0           2.90k
+Ctref       vtref   0           5p
+* vtref ~ 0.759 V
+
+Rpkcm1      vcc     vpkcm       1.5k
+Rpkcm2      vpkcm   0           1.5k
+
+* Shared NPN bias rails (diode copies of bref)
+Qnb1        nbias   nbias   0   QN 4
+Rnb1        vcc     nbias       1.27k
+Qnb2        nbias2  nbias2  0   QN 4
+Rnb2        vcc     nbias2      1.0k
+Qnb3        nbias3  nbias3  0   QN 4
+Rnb3        vcc     nbias3      0.9k
+
+*==============================================================================
+* TIA LOCAL RAIL REGULATOR  (PNP series pass to ~2.55 V, with startup)
+*==============================================================================
+Qpass       vcc_tia rdrive  vcc     QP 80
+* Default partially ON (startup): divider sets rdrive ~ 2.45 V
+Rpu         vcc     rdrive      2.5k
+Rpd         rdrive  0           5.5k
+* Sense
+Rrg_s1      vcc_tia rgs         2.55k
+Rrg_s2      rgs     0           2.55k
+* Reference ~1.275 V from resistive divider
+Rrr1        vcc     vtreg_s     4.0k
+Rrr2        vtreg_s 0           3.2k
+* Error amp diff pair
+Qea         cea     rgs     te    QN 6
+Qeb         ceb     vtreg_s te    QN 6
+Qet         te      nbias   0     QN 4
+* Resistive loads
+Rla         vcc     cea         12k
+Rlb         vcc     ceb         12k
+* When rgs > vtreg_s (rail high): cea down, ceb up
+* Second stage: raise rdrive when rail high (ceb high -> EF -> push rdrive up via resistor)
+Qef         vcc     ceb     efd   QN 4
+Ref         efd     0           8k
+Rfb         efd     rdrive      1.5k
+Ccomp       ceb     0           2p
+Crail       vcc_tia 0           20p
+Rrailk      vcc_tia 0           4k
+
+
+
+
+
+*==============================================================================
+* INPUT TIA HALVES (CE + collector load + EF feedback + Rf)
+*==============================================================================
+* Positive
+Qtiap       ctp     inp     etp     QN 17
+Retp        etp     0           1.5
+Rctp        vcc_tia ctp         280
+Lctp        ctp     ctp2        0.10n
+Cctp        ctp2    0           4f
+Qtfap       vcc_tia ctp2    tia_p   QN 8
+Qtfsp       tia_p   nbias   0       QN 5
+Rfp         tia_p   inp         355
+Cfp         tia_p   inp         2f
+
+* Negative
+Qtian       ctn     inn     etn     QN 17
+Retn        etn     0           1.5
+Rctn        vcc_tia ctn         280
+Lctn        ctn     ctn2        0.10n
+Cctn        ctn2    0           4f
+Qtfan       vcc_tia ctn2    tia_n   QN 8
+Qtfsn       tia_n   nbias   0       QN 5
+Rfn         tia_n   inn         355
+Cfn         tia_n   inn         2f
+
+* Weak DC reference bleed (helps OP, high Z)
+Rbinp       inp     vtref       100k
+Rbinn       inn     vtref       100k
+
+*==============================================================================
+* DC OVERLOAD CANCELLATION
+* Sense DC drop across feedback Rf (inp - tia). MOS sinks absorb DC photo current.
+*==============================================================================
+* Filtered sense of (inp - tia_p)
+Risp1       inp     isp1        20k
+Cisp1       isp1    0           50p
+Risp2       isp1    isp         20k
+Cisp2       isp     0           50p
+Ritp1       tia_p   itp1        20k
+Citp1       itp1    0           50p
+Ritp2       itp1    itp         20k
+Citp2       itp     0           50p
+
+Risn1       inn     isn1        20k
+Cisn1       isn1    0           50p
+Risn2       isn1    isn         20k
+Cisn2       isn     0           50p
+Ritn1       tia_n   itn1        20k
+Citn1       itn1    0           50p
+Ritn2       itn1    itn         20k
+Citn2       itn     0           50p
+
+* Diff amp: if isp > itp (current into inp), raise cancel_gp
+Qcp1        ccp1    itp     cte_p   QN 10
+Qcp2        ccp2    isp     cte_p   QN 10
+Qctp        cte_p   nbias   0       QN 10
+Rcp1        vcc     ccp1        5.5k
+Rcp2        vcc     ccp2        5.5k
+* When isp>itp, ccp2 low, ccp1 high
+* Drive gate from inverted ccp2 via PNP pull-up / NPN
+Qpnp_cp     ccp_x   ccp2    vcc     QP 12
+Rcp_x       ccp_x   0           15k
+* ccp_x high when ccp2 low (overload)
+* Direct resistive drive from ccp_x plus EF boost
+Rcp_dr      ccp_x   cancel_gp   1.5k
+Qef_cp      vcc     ccp_x   cancel_gp QN 12
+Rgp         cancel_gp 0         25k
+Cgp         cancel_gp 0         150p
+* Deadband bleed so tiny offsets don't turn on
+Rdb_p       ccp1    ccp2        60k
+
+* Negative side
+Qcn1        ccn1    itn     cte_n   QN 10
+Qcn2        ccn2    isn     cte_n   QN 10
+Qctn        cte_n   nbias   0       QN 10
+Rcn1        vcc     ccn1        5.5k
+Rcn2        vcc     ccn2        5.5k
+Qpnp_cn     ccn_x   ccn2    vcc     QP 12
+Rcn_x       ccn_x   0           15k
+Rcn_dr      ccn_x   cancel_gn   1.5k
+Qef_cn      vcc     ccn_x   cancel_gn QN 12
+Rgn         cancel_gn 0         25k
+Cgn         cancel_gn 0         150p
+Rdb_n       ccn1    ccn2        60k
+
+M_CANCEL_P  inp     cancel_gp 0 0  NMOS W=8000u L=0.16u
+M_CANCEL_N  inn     cancel_gn 0 0  NMOS W=8000u L=0.16u
+
+
+
+
+*==============================================================================
+* INTERFACE 1: AC-couple + emitter followers -> v1p/v1n
+*==============================================================================
+Cif1p       tia_p   i1bp        80p
+Cif1n       tia_n   i1bn        80p
+Ri1bp       i1bp    vcm         5k
+Ri1bn       i1bn    vcm         5k
+Qi1p        vcc     i1bp    v1p     QN 8
+Qi1n        vcc     i1bn    v1n     QN 8
+Qi1sp       v1p     nbias   0       QN 5
+Qi1sn       v1n     nbias   0       QN 5
+Cv1p        v1p     0           2f
+Cv1n        v1n     0           2f
+
+*==============================================================================
+* VGA1
+*==============================================================================
+* Degenerated input pair
+Qv1ip       v1cp    v1p     v1ep    QN 8
+Qv1in       v1cn    v1n     v1en    QN 8
+Rv1ee       v1ep    v1en        80
+Qv1t1       v1ep    nbias2  0       QN 8
+Qv1t2       v1en    nbias2  0       QN 8
+
+* Steering quad controlled by vc1/vc1b
+Qv1s1       c1p     vc1     v1cp    QN 6
+Qv1s2       dmp1    vc1b    v1cp    QN 6
+Qv1s3       c1n     vc1     v1cn    QN 6
+Qv1s4       dmp1    vc1b    v1cn    QN 6
+Rdmp1       vcc     dmp1        100
+
+* Loads + peaking
+Rv1lp       vcc     c1p         185
+Rv1ln       vcc     c1n         185
+Lv1lp       c1p     c1p2        0.08n
+Lv1ln       c1n     c1n2        0.08n
+Cv1lp       c1p2    0           4f
+Cv1ln       c1n2    0           4f
+
+* Output followers
+Qv1fp       vcc     c1p2    vga1p   QN 6
+Qv1fn       vcc     c1n2    vga1n   QN 6
+Qv1sp       vga1p   nbias   0       QN 4
+Qv1sn       vga1n   nbias   0       QN 4
+
+*==============================================================================
+* INTERFACE 2
+*==============================================================================
+Cif2p       vga1p   i2bp        80p
+Cif2n       vga1n   i2bn        80p
+Ri2bp       i2bp    vcm         5k
+Ri2bn       i2bn    vcm         5k
+Qi2p        vcc     i2bp    v2p     QN 8
+Qi2n        vcc     i2bn    v2n     QN 8
+Qi2sp       v2p     nbias   0       QN 5
+Qi2sn       v2n     nbias   0       QN 5
+Cv2p        v2p     0           2f
+Cv2n        v2n     0           2f
+
+*==============================================================================
+* VGA2 (with emitter-degeneration HF compensation)
+*==============================================================================
+Qv2ip       v2cp    v2p     v2ep    QN 10
+Qv2in       v2cn    v2n     v2en    QN 10
+Rv2ee       v2ep    v2en        60
+Cv2ee       v2ep    v2en        120f
+Qv2t1       v2ep    nbias2  0       QN 10
+Qv2t2       v2en    nbias2  0       QN 10
+
+Qv2s1       c2p     vc2     v2cp    QN 8
+Qv2s2       dmp2    vc2b    v2cp    QN 8
+Qv2s3       c2n     vc2     v2cn    QN 8
+Qv2s4       dmp2    vc2b    v2cn    QN 8
+Rdmp2       vcc     dmp2        80
+
+Rv2lp       vcc     c2p         175
+Rv2ln       vcc     c2n         175
+Lv2lp       c2p     c2p2        0.08n
+Lv2ln       c2n     c2n2        0.08n
+Cv2lp       c2p2    0           4f
+Cv2ln       c2n2    0           4f
+
+Qv2fp       vcc     c2p2    vga2p   QN 8
+Qv2fn       vcc     c2n2    vga2n   QN 8
+Qv2sp       vga2p   nbias   0       QN 6
+Qv2sn       vga2n   nbias   0       QN 6
+
+*==============================================================================
+* BUFFER INPUT COUPLING -> bufinp/bufinn
+*==============================================================================
+Cbp         vga2p   bufinp      80p
+Cbn         vga2n   bufinn      80p
+Rbbp        bufinp  vcm         4k
+Rbbn        bufinn  vcm         4k
+
+*==============================================================================
+* OUTPUT BUFFER (degenerated pair, resistive loads, 100 ohm, pole)
+*==============================================================================
+Qbip        outp    bufinp  bep     QBUF 20
+Qbin        outn    bufinn  ben     QBUF 20
+Rbee        bep     ben         26
+Qbt1        bep     nbias3  0       QBUF 12
+Qbt2        ben     nbias3  0       QBUF 12
+
+* Collector loads: set CM ~ 2.706 V
+* Vdrop = 3.3-2.706 = 0.594 V; with ~6.3 mA per side => R ~ 94 ohm
+Rblp        vcc     outp        70
+Rbln        vcc     outn        70
+
+* 100 ohm differential load
+Rldiff      outp    outn        100
+
+* Passive pole to finalp/finaln
+Rpp         outp    fin_a       14
+Rpn         outn    fin_b       14
+Lpp         fin_a   finalp      0.04n
+Lpn         fin_b   finaln      0.04n
+Cpp         finalp  0           9f
+Cpn         finaln  0           9f
+Cpd         finalp  finaln      14f
+
+*==============================================================================
+* GAIN CONTROL GENERATOR: gc -> (vc1,vc1b), (vc2,vc2b)
+*==============================================================================
+* Center reference ~1.325 V (mid of MGC range)
+Rgcr1       vcc     gcref       2.4k
+Rgcr2       gcref   0           1.2k
+
+* Degenerated pair
+Qgcp        gcxp    gc      gcep    QN 4
+Qgcn        gcxn    gcref   gcen    QN 4
+Rgcee       gcep    gcen        700
+Qgct1       gcep    nbias   0       QN 2
+Qgct2       gcen    nbias   0       QN 2
+Rgclp       vcc     gcxp        1.5k
+Rgcln       vcc     gcxn        1.5k
+
+* CM shift node ~ 2.0 V for steering bases
+Rvc_cm1     vcc     vcm_vc      1.3k
+Rvc_cm2     vcm_vc  0           2.0k
+
+* VGA1 controls: heavy attenuation => |vc1-vc1b|~8 mV at gc=1.4
+* Level shift collectors via EF
+Qv1cap      vcc     gcxn    vc1r    QN 3
+Qv1can      vcc     gcxp    vc1s    QN 3
+Rv1cs1      vc1r    0           6k
+Rv1cs2      vc1s    0           6k
+* Heavy attenuate + CM restore for vc1 (~8 mV)
+Rv11a       vc1r    vc1         9.5k
+Rv11b       vc1s    vc1b        9.5k
+Rv12a       vcm_vc  vc1         95
+Rv12b       vcm_vc  vc1b        95
+Cv1c        vc1     vc1b        0.4p
+
+* VGA2 less attenuation (~33 mV)
+Qv2cap      vcc     gcxn    vc2r    QN 3
+Qv2can      vcc     gcxp    vc2s    QN 3
+Rv2cs1      vc2r    0           6k
+Rv2cs2      vc2s    0           6k
+Rv21a       vc2r    vc2         2.8k
+Rv21b       vc2s    vc2b        2.8k
+Rv22a       vcm_vc  vc2         125
+Rv22b       vcm_vc  vc2b        125
+Cv2c        vc2     vc2b        0.4p
+
+*==============================================================================
+* MODE SELECTOR (mc=0 -> gc=mgc; else gc=agc)
+*==============================================================================
+* Inverter
+Mminv_p     mcb     mc      vcc vcc PMOS W=30u L=0.5u
+Mminv_n     mcb     mc      0   0   NMOS W=15u L=0.5u
+
+* TG for mgc (ON when mc=0, mcb=3.3)
+Mtg1n       mgc     mcb     gc  0   NMOS W=40u L=0.5u
+Mtg1p       mgc     mc      gc  vcc PMOS W=80u L=0.5u
+
+* TG for agc (ON when mc=3.3, mcb=0)
+Mtg2n       agc     mc      gc  0   NMOS W=40u L=0.5u
+Mtg2p       agc     mcb     gc  vcc PMOS W=80u L=0.5u
+
+Cgc         gc      0           1p
+
+*==============================================================================
+* PEAK DETECTOR — 8-BJT Gilbert + followers
+*==============================================================================
+* High-Z tap
+Rtp1        finalp  pkdinp      3k
+Rtp2        finaln  pkdinn      3k
+Ctp1        finalp  pkdinp      25f
+Ctp2        finaln  pkdinn      25f
+Rtpb1       pkdinp  vpkcm       10k
+Rtpb2       pkdinn  vpkcm       10k
+
+* Followers (2 BJTs)
+Qpf1        vcc     pkdinp  pke1    QN 4
+Qpf2        vcc     pkdinn  pke2    QN 4
+Qpfs1       pke1    nbias   0       QN 3
+Qpfs2       pke2    nbias   0       QN 3
+
+* Lower degenerated pair (2 BJTs)
+Qpl1        pq1     pke1    ple1    QN 4
+Qpl2        pq2     pke2    ple2    QN 4
+Rple        ple1    ple2        220
+Qplt1       ple1    nbias2  0       QN 3
+Qplt2       ple2    nbias2  0       QN 3
+
+* Switching core (4 BJTs)
+Qpg1        detp    pke1    pq1     QN 3
+Qpg2        detn    pke2    pq1     QN 3
+Qpg3        detp    pke2    pq2     QN 3
+Qpg4        detn    pke1    pq2     QN 3
+
+Rpldp       vcc     detp        900
+Rpldn       vcc     detn        900
+
+* Filtered differential -> pkd (single-ended average of |diff|)
+Rdf1        detp    dfa         25k
+Rdf2        detn    dfb         25k
+Cdf1        dfa     0           4p
+Cdf2        dfb     0           4p
+Qdf1        vcc     dfa     dfe1    QN 2
+Qdf2        vcc     dfb     dfe2    QN 2
+Qdfs1       dfe1    nbias   0       QN 2
+Qdfs2       dfe2    nbias   0       QN 2
+* pkd sits at midpoint; differential detector voltage is detp-detn
+* Also expose pkd as buffered common-mode-removed sense:
+Rpk1        dfe1    pkd         8k
+Rpk2        dfe2    pkd         8k
+Rpk3        pkd     0           12k
+Cpk         pkd     0           3p
+
+*==============================================================================
+* AGC PATH (CMOS transistor op-amps, no macromodels)
+*==============================================================================
+* Filter detector
+Raf1        detp    afp         40k
+Raf2        detn    afn         40k
+Caf1        afp     0           6p
+Caf2        afn     0           6p
+
+* Followers
+Qaf1        vcc     afp     afe1    QN 2
+Qaf2        vcc     afn     afe2    QN 2
+Qafs1       afe1    nbias   0       QN 2
+Qafs2       afe2    nbias   0       QN 2
+
+* Bias for CMOS amps
+Man_b       anb     anb     0   0   NMOS W=10u L=2u
+Ranb        vcc     anb         120k
+Map_b       apb     anb     vcc vcc PMOS W=25u L=2u
+
+*--- Error OTA1: differential (afe1-afe2) gain stage ~14 V/V ---
+* Degenerated for controlled gain
+Ma1p1       a1c1    afe1    a1t   vcc PMOS W=80u L=1u
+Ma1p2       a1c2    afe2    a1t   vcc PMOS W=80u L=1u
+Ma1ts       a1t     apb     vcc vcc PMOS W=40u L=1u
+Ma1n1       a1c1    a1c1    0   0   NMOS W=12u L=2u
+Ma1n2       a1c2    a1c1    0   0   NMOS W=12u L=2u
+Ra1d1       a1c1    a1c2        20k
+Ca1         a1c2    0           0.3p
+* Source degeneration for gain set
+* Second stage buffer
+Ma1g        a1o     a1c2    vcc vcc PMOS W=40u L=1u
+Ma1gs       a1o     anb     0   0   NMOS W=15u L=1u
+Ca1c        a1o     a1c2        0.8p
+
+*--- Control amp: compare a1o-related level / pkd to oa, integrate to agc ---
+Ma2p1       a2c1    pkd     a2t   vcc PMOS W=50u L=1u
+Ma2p2       a2c2    oa      a2t   vcc PMOS W=50u L=1u
+Ma2ts       a2t     apb     vcc vcc PMOS W=30u L=1u
+Ma2n1       a2c1    a2c1    0   0   NMOS W=20u L=1u
+Ma2n2       a2c2    a2c1    0   0   NMOS W=20u L=1u
+Ma2g        agc     a2c2    vcc vcc PMOS W=100u L=0.7u
+Ma2gs       agc     anb     0   0   NMOS W=25u L=1u
+Ca2c        agc     a2c2        8p
+Cagc        agc     0           30p
+* Soft bounds near mid-supply for startup
+Rag1        vcc     agc         250k
+Rag2        agc     0           180k
+
+* Series injection of differential amp into control (boost AGC gain)
+Ra1inj      a1o     a2c2        100k
+
+*==============================================================================
+* QUIESCENT CURRENT PADS (~95 mA total target)
+*==============================================================================
+Qpad1       pad1    bref    0   QN 12
+Rpad1       vcc     pad1        42
+Qpad2       pad2    bref    0   QN 12
+Rpad2       vcc     pad2        42
+Qpad3       pad3    bref    0   QN 10
+Rpad3       vcc     pad3        48
+
+V_TB_VCC vcc 0 3.3
+V_TB_MC mc 0 0
+V_TB_MGC mgc 0 1.35
+V_TB_OA oa 0 1.2
+I_TB_P 0 inp DC 0
+I_TB_N inn 0 DC 0
+.control
+op
+print v(gc)
+quit
+.endc
+.end

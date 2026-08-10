@@ -1,0 +1,13 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/current-mirror-op-amp-verifier@sha256:7624ab1741fce9c54f22fda27f2cfe801a262b1bbb4c7d017b0406c41932666d
+    pull_policy: always
+    user: root
+    command: ["sleep", "infinity"]
+    tmpfs:
+      - /tmp:mode=1777
+      - /logs:mode=1777
+      - /artifacts:mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,47 @@
+{
+  "outcome": "requirements_failed",
+  "artifact_evaluable": true,
+  "production_pass": false,
+  "final_reward": 0.9761012697283731,
+  "failure_codes": [
+    "S92-DIFFERENTIAL-GAIN-1KHZ"
+  ],
+  "error": null,
+  "measurements": {
+    "output_at_vcm_neg1_v": -0.884034049,
+    "output_at_vcm_zero_v": -0.524454765,
+    "output_at_vcm_pos1_v": -0.179773044,
+    "differential_gain_1khz_v_per_v": 1536.757269864058,
+    "upper_3db_hz": 6283800.729361209,
+    "transient_gain_v_per_v": 563.496956534298,
+    "output_swing_peak_to_peak_v": 1.80505283,
+    "thd_percent": 34.81750660598075
+  },
+  "structural_rewards": {
+    "exact_interface": 1.0,
+    "accepted_bounded_netlist": 1.0,
+    "required_cmos_topology_and_bias": 1.0,
+    "allowed_elements_and_models": 1.0,
+    "no_hidden_dependencies": 1.0,
+    "ngspice_completed": 1.0,
+    "finite_required_measurements": 1.0
+  },
+  "metric_rewards": {
+    "output_at_vcm_neg1": 1.0,
+    "output_at_vcm_zero": 1.0,
+    "output_at_vcm_pos1": 1.0,
+    "differential_gain_1khz": 0.6654177761972239,
+    "upper_3db": 1.0,
+    "transient_output_swing": 1.0,
+    "transient_thd": 1.0
+  },
+  "targets": {
+    "output_at_vcm_neg1_v": -0.883971454,
+    "output_at_vcm_zero_v": -0.524603301,
+    "output_at_vcm_pos1_v": -0.180306539,
+    "differential_gain_1khz_v_per_v": 3079.2830706475884,
+    "upper_3db_limit_hz": 6252390.225087503,
+    "output_swing_peak_to_peak_v": 1.775361339,
+    "thd_limit_percent": 35.301701522402794
+  }
+}

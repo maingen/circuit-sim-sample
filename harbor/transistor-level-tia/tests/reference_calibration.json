@@ -1,0 +1,551 @@
+{
+  "schema_version": "1.0",
+  "source_circuit": "solution/reference.cir",
+  "calibration_policy": "reference-measured targets with 5 percent full-credit and 20 percent zero-credit normalized-error boundaries",
+  "criteria": [
+    {
+      "test": "nominal-op",
+      "name": "positive input voltage",
+      "value": 0.7598457,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "negative input voltage",
+      "value": 0.7598457,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "positive input voltage limit",
+      "value": 0.7598457,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "negative input voltage limit",
+      "value": 0.7598457,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "input voltage mismatch",
+      "value": 0.0,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "output common mode",
+      "value": 2.706436,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "differential output offset",
+      "value": 0.0,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "selected gain control",
+      "value": 1.399987,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "VGA1 control difference",
+      "value": 0.008145000000000291,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "VGA2 control difference",
+      "value": 0.03381500000000015,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "supply current",
+      "value": 0.0960491,
+      "unit": "A",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "nominal-op",
+      "name": "supply power",
+      "value": 0.31696202999999995,
+      "unit": "W",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-mgc-1.25",
+      "name": "transimpedance at 10 MHz",
+      "value": 68.96345126758835,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.25",
+      "name": "transimpedance at 33 GHz",
+      "value": 65.45362115644015,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.25",
+      "name": "3 dB bandwidth",
+      "value": 29745619814.273605,
+      "unit": "Hz",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-mgc-1.30",
+      "name": "transimpedance at 10 MHz",
+      "value": 70.29758651122508,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.30",
+      "name": "transimpedance at 33 GHz",
+      "value": 66.79201803874216,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.30",
+      "name": "3 dB bandwidth",
+      "value": 29768953826.274284,
+      "unit": "Hz",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-mgc-1.35",
+      "name": "transimpedance at 10 MHz",
+      "value": 71.46065194361454,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.35",
+      "name": "transimpedance at 33 GHz",
+      "value": 67.95898550653072,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.35",
+      "name": "3 dB bandwidth",
+      "value": 29790369042.51979,
+      "unit": "Hz",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-mgc-1.40",
+      "name": "transimpedance at 10 MHz",
+      "value": 72.46519470887785,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.40",
+      "name": "transimpedance at 33 GHz",
+      "value": 68.96698085435293,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "ac-mgc-1.40",
+      "name": "3 dB bandwidth",
+      "value": 29809360382.25127,
+      "unit": "Hz",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-sweep",
+      "name": "bandwidth spread",
+      "value": 63740567.97766495,
+      "unit": "Hz",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "ac-mgc-1.40",
+      "name": "group delay near 10 GHz",
+      "value": 1.3012357213169991E-11,
+      "unit": "s",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "local-gain",
+      "name": "VGA1 local gain",
+      "value": 8.519528060884198,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "local-gain",
+      "name": "VGA2 local gain",
+      "value": 11.187949859742863,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "local-gain",
+      "name": "output buffer local gain",
+      "value": 3.5064540890639484,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "dc-overload",
+      "name": "positive input voltage",
+      "value": 0.7810444,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "negative input voltage",
+      "value": 0.7771686,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "positive input voltage limit",
+      "value": 0.7810444,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "negative input voltage limit",
+      "value": 0.7771686,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "input voltage mismatch",
+      "value": 0.003875799999999985,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "final differential offset",
+      "value": 0.0,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "positive cancellation current",
+      "value": 0.004527341,
+      "unit": "A",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "dc-overload",
+      "name": "negative cancellation current",
+      "value": 0.003603848,
+      "unit": "A",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-400mVpp",
+      "name": "output peak-to-peak",
+      "value": 0.5919048899999999,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-400mVpp",
+      "name": "differential gain",
+      "value": 3.4038422056815447,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "buffer-400mVpp",
+      "name": "total harmonic distortion",
+      "value": 0.32062723045085917,
+      "unit": "percent",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-400mVpp",
+      "name": "output common mode",
+      "value": 2.70204451035982,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-600mVpp",
+      "name": "output peak-to-peak",
+      "value": 0.86871849,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-600mVpp",
+      "name": "differential gain",
+      "value": 3.2145597713422225,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "buffer-600mVpp",
+      "name": "total harmonic distortion",
+      "value": 0.9256904833444389,
+      "unit": "percent",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-600mVpp",
+      "name": "output common mode",
+      "value": 2.7020364777536234,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-625mVpp",
+      "name": "output peak-to-peak",
+      "value": 0.9010807699999996,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-625mVpp",
+      "name": "differential gain",
+      "value": 3.1776774183621006,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "buffer-625mVpp",
+      "name": "total harmonic distortion",
+      "value": 1.0486174600593348,
+      "unit": "percent",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-625mVpp",
+      "name": "output common mode",
+      "value": 2.7020342023013493,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-800mVpp",
+      "name": "output peak-to-peak",
+      "value": 1.09697433,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-800mVpp",
+      "name": "differential gain",
+      "value": 2.7421330322327027,
+      "unit": "dB",
+      "criterion_type": "central",
+      "scoring_domain": "linear magnitude converted from dB"
+    },
+    {
+      "test": "buffer-800mVpp",
+      "name": "total harmonic distortion",
+      "value": 2.5825025830666335,
+      "unit": "percent",
+      "criterion_type": "maximum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "buffer-800mVpp",
+      "name": "output common mode",
+      "value": 2.7019993923288355,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "detector-50mVpp",
+      "name": "average differential detector output",
+      "value": 0.015028764623075388,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "detector-200mVpp",
+      "name": "average differential detector output",
+      "value": 0.09232429381723656,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "detector-400mVpp",
+      "name": "average differential detector output",
+      "value": 0.1594903970225955,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "detector-550mVpp",
+      "name": "average differential detector output",
+      "value": 0.17995931788442313,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "peak-detector",
+      "name": "strictly monotonic detector response",
+      "value": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "agc-amplifier",
+      "name": "AGC gain",
+      "value": 14.036733333333336,
+      "unit": "V/V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "selector-manual-1.25",
+      "name": "manual selector output",
+      "value": 1.249988,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "selector-manual-1.30",
+      "name": "manual selector output",
+      "value": 1.299988,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "selector-manual-1.35",
+      "name": "manual selector output",
+      "value": 1.349987,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "selector-manual-1.40",
+      "name": "manual selector output",
+      "value": 1.399987,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "selector-agc",
+      "name": "AGC selector output",
+      "value": 1.299988,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "pam4-eye",
+      "name": "differential output peak-to-peak",
+      "value": 0.8054793800000004,
+      "unit": "V",
+      "criterion_type": "central",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "pam4-eye",
+      "name": "minimum vertical eye opening",
+      "value": 0.23310177135960009,
+      "unit": "V",
+      "criterion_type": "minimum",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "pam4-eye",
+      "name": "four distinct sampled rails",
+      "value": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "scoring_domain": "linear"
+    },
+    {
+      "test": "pam4-eye",
+      "name": "three positive eye openings",
+      "value": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "scoring_domain": "linear"
+    }
+  ]
+}

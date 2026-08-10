@@ -1,0 +1,21 @@
+{
+    "task": {
+        "path": "testing/current-mirror-op-amp-harbor"
+    },
+    "trial_name": "current-mirror-op-amp-harbor__YnNvwgz",
+    "trials_dir": "testing/results/current-mirror-op-amp-grok45-eight-native-trajectories-r14-20260808/current-mirror-op-amp-grok45-eight-native-trajectories-r14-20260808",
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.5",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        }
+    },
+    "environment": {
+        "import_path": "timed_ota_aks_environment:TimedOtaAksKataEnvironment",
+        "cpu_enforcement_policy": "ignore",
+        "memory_enforcement_policy": "ignore"
+    },
+    "job_id": "34a5e0f3-bf9a-4736-a10c-c1f09d8081cf"
+}

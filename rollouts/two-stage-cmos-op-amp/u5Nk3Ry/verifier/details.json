@@ -1,0 +1,21 @@
+{
+  "outcome": "candidate_invalid",
+  "artifact_evaluable": false,
+  "production_pass": false,
+  "final_reward": 0.0,
+  "failure_codes": [
+    "S92-CANDIDATE-INVALID"
+  ],
+  "error": "an NMOS differential input pair with a shared source is required",
+  "measurements": {},
+  "structural_rewards": {
+    "exact_interface": 0.0,
+    "accepted_bounded_netlist": 0.0,
+    "required_cmos_topology_and_bias": 0.0,
+    "allowed_elements_and_models": 0.0,
+    "no_hidden_dependencies": 0.0,
+    "ngspice_completed": 0.0,
+    "finite_required_measurements": 0.0
+  },
+  "metric_rewards": {}
+}

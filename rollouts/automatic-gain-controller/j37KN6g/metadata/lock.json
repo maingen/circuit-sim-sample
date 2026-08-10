@@ -1,0 +1,41 @@
+{
+    "schema_version": 1,
+    "task": {
+        "name": "tia-agc-controller-harbor",
+        "type": "local",
+        "digest": "sha256:b22e3cb365c31c69181c5cd5c52981d3e08fecc49b0e3db637c2623228da29b2",
+        "path": "testing/tia-agc-controller-harbor"
+    },
+    "install_only": false,
+    "timeout_multiplier": 1.0,
+    "agent_setup_timeout_multiplier": 1.0,
+    "agent": {
+        "import_path": "eesimbench_testing.preinstalled_grok_build:PreinstalledGrokBuild",
+        "model_name": "grok-4.5",
+        "skills": [],
+        "resume_trajectory": false,
+        "extra_allowed_hosts": [],
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        },
+        "mcp_servers": []
+    },
+    "skills": [],
+    "environment": {
+        "type": "docker",
+        "force_build": false,
+        "delete": true,
+        "cpu_enforcement_policy": "auto",
+        "memory_enforcement_policy": "auto",
+        "extra_docker_compose": [],
+        "kwargs": {},
+        "extra_allowed_hosts": []
+    },
+    "verifier": {
+        "disable": false
+    }
+}

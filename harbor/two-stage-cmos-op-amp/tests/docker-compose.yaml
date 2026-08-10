@@ -1,0 +1,13 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/s9-2-two-stage-cmos-op-amp-verifier@sha256:50539faf21dec401484f0fdc61c203fe9d41ae685cd5054e0ecc89745d0586a3
+    pull_policy: always
+    user: root
+    command: ["sleep", "infinity"]
+    tmpfs:
+      - /tmp:mode=1777
+      - /logs:mode=1777
+      - /artifacts:mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/eesimbench",
+  "source_commit": "247493d329b8fcf18568a8bfda3f7467e3f6d35c",
+  "source_campaign": "testing/results/tia-agc-v110-disclosed-grok45-eight-orbstack-20260810-112438/tia-agc-v110-disclosed-grok45-eight-orbstack-20260810-112438",
+  "source_trial": "tia-agc-controller-harbor__9yEdjUU",
+  "original_task_checksum": "d7f98ffe088b2959bceb5b1ed5eeb0df353fdcf1a6ac14efc906f8a13f7a6111",
+  "frozen_task": {
+    "task_id": "automatic-gain-controller",
+    "version": "1.1.0",
+    "tree_sha": "b05b53f8e7f8616e8407175fb1415350d5a53619"
+  },
+  "packaged_task": {
+    "task_id": "automatic-gain-controller",
+    "version": "1.1.0",
+    "tree_sha": "6cfd8a75cf7788943ecf91f962d4b0fd6e0e36a5"
+  },
+  "grade_provenance": "original-final",
+  "agent_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/tia-block-tasks@sha256:b5f82c259c958c8916425b9da3ac33dedc00fcb80c9203d0452cfefe8215f24b",
+  "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/tia-block-tasks@sha256:f832b38373e6dd9faae47481af983e739d81bb859560e81488f3873b36167446"
+}

@@ -1,0 +1,11 @@
+{
+  "outcome": "candidate_invalid",
+  "artifact_evaluable": false,
+  "production_pass": false,
+  "final_reward": 0.0,
+  "failure_codes": [
+    "CMOA-CANDIDATE-INVALID"
+  ],
+  "error": "M3 must have four nodes, a model, w, and l",
+  "corners": []
+}

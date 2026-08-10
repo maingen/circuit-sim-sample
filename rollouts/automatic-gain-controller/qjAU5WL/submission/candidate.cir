@@ -1,0 +1,53 @@
+* Transistor-level AGC controller
+* Input filter + EF buffers + dual local BJT op-amp stages
+
+.subckt local_amp inp inn out vdd vss
+* Bias reference (~65 uA)
+Rref vdd bref 40k
+Qref bref bref vss QN_SYS
+* Tail current source
+Qtail tnode bref vss QN_SYS
+* NPN differential pair (slight emitter degen on inverting leg for offset trim)
+Q1 c1 inn te1 QN_SYS
+Re1 te1 tnode 10
+Q2 c2 inp tnode QN_SYS
+* PNP active mirror load
+Q3 c1 c1 vdd QP_SYS
+Q4 c2 c1 vdd QP_SYS
+* Additional gain/output stage: PNP CE + NPN current-source sinks
+Q5 out c2 vdd QP_SYS
+Qs0 out bref vss QN_SYS
+Qs1 out bref vss QN_SYS
+* Miller compensation
+Rm c2 cm 200
+Cm cm out 8p
+.ends local_amp
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* --- Detector input filter: 600 ohm each leg, 150 fF differential ---
+Rf_p detp net_fp 600
+Rf_n detn net_fn 600
+Cdiff net_fp net_fn 150f
+
+* --- NPN emitter-follower isolation with current-mirror sinks ---
+Qef_p vcc net_fp net_ep QN_SYS
+Qef_n vcc net_fn net_en QN_SYS
+Riref vcc net_mref 15k
+Qmir_r net_mref net_mref vss QN_SYS
+Qmir_p net_ep net_mref vss QN_SYS
+Qmir_n net_en net_mref vss QN_SYS
+
+* --- Stage 1: closed-loop gain ~13.97, pkd = agc_pkd_ref + G*(ep-en) ---
+Rg1n net_en sum1n 20k
+Rf1n sum1n pkd 284k
+Rg1p net_ep sum1p 20k
+Rf1p sum1p agc_pkd_ref 284k
+Xamp1 sum1p sum1n pkd vcc vss local_amp
+
+* --- Stage 2: compare pkd with oa, referenced to agc_ref → agc ---
+Rg2n pkd sum2n 20k
+Rf2n sum2n agc 9.5k
+Rg2p oa sum2p 20k
+Rf2p sum2p agc_ref 1.8k
+Xamp2 sum2p sum2n agc vcc vss local_amp
+.ends candidate

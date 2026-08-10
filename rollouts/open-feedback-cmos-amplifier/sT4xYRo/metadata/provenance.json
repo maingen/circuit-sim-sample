@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/eesimbench",
+  "source_commit": "366ce1df8c5e176773e99a5b063f851124e0308f",
+  "source_campaign": "testing/results/s11-2-b-open-feedback-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-2026/s11-2-b-open-feedback-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-2026",
+  "source_trial": "s11-2-b-open-feedback-two-stage__sT4xYRo",
+  "original_task_checksum": "a85f78d0843fbecdfb7af3d2c894aab8a9436da39831122aab59cdd0b8d28326",
+  "packaged_task": {
+    "task_id": "open-feedback-cmos-amplifier",
+    "version": "0.1.1",
+    "tree_sha": "2a1703ba9c84f70c1b31b5492ae22e4d34c04e72"
+  },
+  "grade_provenance": "original-final",
+  "original_verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-verifier@sha256:d4afbace74c5fe4332b8f24cb5bb98d49a3f8a065419fba5fb1e431df026bdd2",
+  "final_verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-verifier@sha256:d4afbace74c5fe4332b8f24cb5bb98d49a3f8a065419fba5fb1e431df026bdd2"
+}

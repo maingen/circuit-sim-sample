@@ -1,0 +1,41 @@
+schema_version = "1.3"
+artifacts = ["/app/candidate.cir"]
+
+[task]
+name = "maingen/open-feedback-cmos-amplifier"
+version = "0.1.1"
+description = "Design a two-stage CMOS op amp loaded by an open 0.08 feedback network, with controlled gain, bandwidth, and transient distortion."
+keywords = ["electrical-engineering", "spice", "ngspice", "analog", "cmos", "op-amp"]
+
+[[task.authors]]
+name = "Maingen"
+email = "david@maingen.ai"
+
+[metadata]
+category = "electrical-engineering"
+difficulty = "draft"
+harness = "harbor-0.20.0"
+simulator = "ngspice-46"
+simulator_base_image = "eesimbench/ngspice-46-ubuntu24.04"
+simulator_base_digest = "sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
+model = "supplied 0.18 um NMOS4 and PMOS4 Level 1"
+model_sha256 = "6cb4327c4fa5d00af4eff9805e6a22689ac75939e3d173f0ae1b44dd4a522a99"
+status = "draft"
+
+[verifier]
+timeout_sec = 300.0
+environment_mode = "separate"
+user = "verifier"
+network_mode = "no-network"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+os = "linux"
+
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-verifier@sha256:d4afbace74c5fe4332b8f24cb5bb98d49a3f8a065419fba5fb1e431df026bdd2"
+[environment]
+network_mode = "public"
+build_timeout_sec = 86400.0
+os = "linux"
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-agent@sha256:45a1621409a1c2cbf2c83ef67f8bd0457dc042461656f5d5fe9efcc7562ccab4"

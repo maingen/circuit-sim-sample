@@ -1,0 +1,41 @@
+schema_version = "1.3"
+artifacts = ["/app/candidate.cir"]
+
+[task]
+name = "maingen/tia-agc-controller"
+version = "1.1.0"
+description = "A detector filter and two-stage physical feedback controller for peak monitoring and automatic gain command generation."
+keywords = ["electrical-engineering", "spice", "ngspice", "analog", "transistor-level", "tia"]
+
+[[task.authors]]
+name = "Maingen"
+email = "david@maingen.ai"
+
+[metadata]
+category = "electrical-engineering"
+difficulty = "hard"
+harness = "harbor-0.20.0"
+simulator = "ngspice-46"
+simulator_base_image = "eesimbench/ngspice-46-ubuntu24.04"
+simulator_base_digest = "sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
+model_sha256 = "eb6e698b3425361749de966d8bc3a970a93d9ae8e047e502309bfb2e84e07c5a"
+source_identifier = "agc_controller_tl_run_01"
+status = "shippable"
+
+[verifier]
+timeout_sec = 86400.0
+environment_mode = "separate"
+user = "verifier"
+network_mode = "no-network"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/tia-block-tasks@sha256:f832b38373e6dd9faae47481af983e739d81bb859560e81488f3873b36167446"
+os = "linux"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 86400.0
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/tia-block-tasks@sha256:b5f82c259c958c8916425b9da3ac33dedc00fcb80c9203d0452cfefe8215f24b"
+os = "linux"

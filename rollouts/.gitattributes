@@ -1,0 +1,4 @@
+*.dat binary
+*.gz binary
+*.inc binary
+*.sqlite binary

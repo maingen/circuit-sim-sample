@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/eesimbench",
+  "source_commit": "366ce1df8c5e176773e99a5b063f851124e0308f",
+  "source_campaign": "testing/results/s9-2-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-233417/s9-2-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-233417",
+  "source_trial": "s9-2-two-stage-cmos-op-amp-harbo__TFz7hc9",
+  "original_task_checksum": "1b6ef1ab0b0590058f11610a6e782258c76b216ab5000017ddaa4a3d50d827e4",
+  "packaged_task": {
+    "task_id": "two-stage-cmos-op-amp",
+    "version": "0.2.0",
+    "tree_sha": "bf2d18043cee8d46bcbe985d8308f438c97646a2"
+  },
+  "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/s9-2-two-stage-cmos-op-amp-verifier@sha256:50539faf21dec401484f0fdc61c203fe9d41ae685cd5054e0ecc89745d0586a3"
+}

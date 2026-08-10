@@ -1,0 +1,23 @@
+{
+    "task": {
+        "path": "harbor/transistor-level-tia"
+    },
+    "trial_name": "transistor-level-tia__dGFu6LW",
+    "trials_dir": "jobs/transistor-level-tia-grok45-eight-20260810",
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.5",
+        "n_concurrent": 8,
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "artifacts": [
+        "/app/candidate.cir"
+    ],
+    "job_id": "c49d01e1-1ad2-4292-956f-d44e090bb5a4"
+}

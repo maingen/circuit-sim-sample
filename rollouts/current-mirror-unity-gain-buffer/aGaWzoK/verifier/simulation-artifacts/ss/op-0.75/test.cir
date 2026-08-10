@@ -1,0 +1,37 @@
+Current-mirror op-amp private fixture
+.include p18_cmos_models_ss.inc
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* 5-transistor current-mirror OTA with mirror ratio K=2
+* Ports: vinp vinn vout vdd vb1 vb2 vss
+*
+* Tail current set by IBIAS (320 uA).
+* Diff pair sized 1:K so branch currents match the PMOS mirror ratio K=2
+* at balance (zero systematic offset):
+*   M1 : M2 = 1 : 2
+*   M3 : M4 = 1 : 2
+* vinp is the non-inverting input.
+*
+IBIAS ntail vss 320u
+M1    d1   vinp ntail vss nmos w=55.0u l=0.4u
+M2    vout vinn ntail vss nmos w=110.0u l=0.4u
+M3    d1   d1   vdd  vdd  pmos w=25.0u l=0.4u
+M4    vout d1   vdd  vdd  pmos w=50.0u l=0.4u
+* Unused bias ports tied only to MOSFET gates
+Mdum1 vdd  vb1  vdd  vdd  pmos w=0.4u l=0.4u
+Mdum2 vss  vb2  vss  vss  nmos w=0.4u l=0.4u
+.ends candidate
+
+VDD vdd 0 1.8
+VB1 vb1 0 1.4
+VB2 vb2 0 0.6
+XDUT vinp vinn vout vdd vb1 vb2 0 candidate
+CLOAD vout 0 2.5p
+.temp 27
+VIN vinp 0 0.75
+RFB vout vinn 1m
+.control
+op
+print v(vout) i(VDD) @m.xdut.m1[vds] @m.xdut.m1[vdsat] @m.xdut.m2[vds] @m.xdut.m2[vdsat] @m.xdut.m3[vds] @m.xdut.m3[vdsat] @m.xdut.m4[vds] @m.xdut.m4[vdsat] @m.xdut.mdum1[vds] @m.xdut.mdum1[vdsat] @m.xdut.mdum2[vds] @m.xdut.mdum2[vdsat]
+quit
+.endc
+.end

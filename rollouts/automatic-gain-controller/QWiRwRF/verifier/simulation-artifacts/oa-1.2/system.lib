@@ -1,0 +1,7 @@
+* Trusted generic device cards for the transistor-level TIA block family.
+.model NMOS_SYS NMOS(VTO=0.55 KP=220u LAMBDA=0.02)
+.model PMOS_SYS PMOS(VTO=-0.55 KP=100u LAMBDA=0.02)
+.model QN_SYS NPN(IS=1e-16 BF=200 VAF=100 IKF=50m RB=5 RC=1 RE=0.2 CJE=2f CJC=1f TF=0.45p TR=5p)
+.model QP_SYS PNP(IS=1e-16 BF=100 VAF=60 IKF=20m RB=8 RC=1 RE=0.3 CJE=3f CJC=1.5f TF=0.7p TR=8p)
+.model QBUF_SYS NPN(IS=1e-16 BF=200 VAF=100 IKF=100m RB=3 RC=0.5 RE=0.15 CJE=3f CJC=1.5f TF=0.45p TR=5p)
+.model DVAR_SYS D(IS=1e-16 RS=1 CJO=50f VJ=0.7 M=0.5 TT=1p)

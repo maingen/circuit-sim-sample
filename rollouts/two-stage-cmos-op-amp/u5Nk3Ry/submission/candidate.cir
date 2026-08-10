@@ -1,0 +1,19 @@
+.subckt candidate inp inn out vdd vss
+* Two-stage CMOS op amp: PMOS diff pair + NMOS CS second stage
+* Bias IREF=200uA; tail 100uA; second stage 200uA
+IREF vdd nbias 200u
+Mnb nbias nbias vss vss NMOS4 W=7.2u L=0.18u
+Rsp vdd spb 306
+Mpb pbias pbias spb vdd PMOS4 W=14.4u L=0.18u
+Mnc pbias nbias vss vss NMOS4 W=7.2u L=0.18u
+Mpt ntail pbias vdd vdd PMOS4 W=7.2u L=0.18u
+M1 nd1 inp ntail vdd PMOS4 W=4.6u L=0.18u
+M2 nd2 inn ntail vdd PMOS4 W=4.6u L=0.18u
+M3 nd1 nd1 vss vss NMOS4 W=1.641u L=0.18u
+M4 nd2 nd1 vss vss NMOS4 W=1.641u L=0.18u
+Rs6 s6 vss 306
+Rs7 vdd s7 306
+M6 out nd2 s6 vss NMOS4 W=9.214u L=0.18u
+M7 out pbias s7 vdd PMOS4 W=14.4u L=0.18u
+Cc nd2 out 1.67f
+.ends candidate

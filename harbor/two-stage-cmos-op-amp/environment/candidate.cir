@@ -1,0 +1,3 @@
+.subckt candidate inp inn out vdd vss
+* Build your two-stage CMOS op amp here.
+.ends candidate

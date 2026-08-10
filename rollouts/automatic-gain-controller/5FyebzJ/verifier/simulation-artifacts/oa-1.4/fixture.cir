@@ -1,0 +1,89 @@
+AGC private fixture
+.include system.lib
+* Transistor-level AGC controller
+* Ports: detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+
+* ---- Differential input filter (600 ohm each leg, 150 fF diff) ----
+Rfp detp net_fp 600
+Rfn detn net_fn 600
+Cdiff net_fp net_fn 150f
+
+* ---- NPN emitter followers isolate the filter ----
+Qefp vcc net_fp net_ep QN_SYS
+Qefn vcc net_fn net_en QN_SYS
+
+* ---- BJT current-mirror sinks for the emitter followers ----
+Qmir_r net_mref net_mref vss QN_SYS
+Rmir   vcc net_mref 10k
+Qmir_p net_ep  net_mref vss QN_SYS
+Qmir_n net_en  net_mref vss QN_SYS
+
+* ---- Stage 1: closed-loop diff amp, realized gain ~13.97 V/V ----
+* pkd = agc_pkd_ref + G1*(net_ep - net_en)
+* Rf/Rg trimmed above 13.97 to cancel EF attenuation / finite Aol.
+Rg1n net_en      amp1_inn 5k
+Rf1  pkd         amp1_inn 71.4k
+Rg1p net_ep      amp1_inp 5k
+Rf1r agc_pkd_ref amp1_inp 71.4k
+Xamp1 amp1_inn amp1_inp pkd vcc vss local_opamp
+
+* ---- Stage 2: compare pkd with oa path, generate agc ----
+* agc = oa + G2*(agc_ref - pkd),  G2 = Rf2/Rg2 = 0.475
+* At mid-scale oa (1.3 V) this yields ~1.399 V / ~1.200 V
+* at the 20 mV / 50 mV detector points; agc falls as pkd rises.
+Rg2n pkd     amp2_inn 10k
+Rf2  agc     amp2_inn 4.75k
+Rg2p agc_ref amp2_inp 10k
+Rf2r oa      amp2_inp 4.75k
+Xamp2 amp2_inn amp2_inp agc vcc vss local_opamp
+
+.ends candidate
+
+* ============================================================
+* Local CMOS two-stage Miller op-amp (used exactly twice above)
+*   - NMOS differential pair
+*   - NMOS tail current source
+*   - PMOS active current-mirror load
+*   - PMOS common-source second gain stage with NMOS load
+*   - Miller compensation capacitor
+* ============================================================
+.subckt local_opamp inn inp out vcc vss
+* Bias (~40 uA reference)
+Rbias vcc nref 35k
+Mnref  nref nref vss vss NMOS_SYS W=10u L=2u
+Mntail tail nref vss vss NMOS_SYS W=20u L=2u
+Mnload out  nref vss vss NMOS_SYS W=40u L=2u
+
+* Stage 1: NMOS diff pair + PMOS mirror load
+Mn1 o1  inn tail vss NMOS_SYS W=50u L=1u
+Mn2 o1p inp tail vss NMOS_SYS W=50u L=1u
+Mp3 o1  o1  vcc vcc PMOS_SYS W=30u L=1u
+Mp4 o1p o1  vcc vcc PMOS_SYS W=30u L=1u
+
+* Stage 2: PMOS common-source
+Mp5 out o1p vcc vcc PMOS_SYS W=100u L=1u
+
+* Miller compensation
+Cc out o1p 2p
+.ends local_opamp
+
+
+VCC vcc 0 3.3
+VOA oa 0 1.4
+VPKDREF agc_pkd_ref 0 0.8
+VAGCREF agc_ref 0 1.2864
+VDETN detn 0 3.15
+VDETD detp detn PWL(0 0 1u 0 1.01u 20m 3u 20m 3.01u 50m 5u 50m 5.01u 0 6u 0 6.01u 20m 8u 20m 8.01u 50m 10u 50m)
+RLOAD agc 0 1Meg
+CLOAD agc 0 10p
+XDUT detp detn oa pkd agc agc_pkd_ref agc_ref vcc 0 candidate
+
+.control
+set wr_vecnames
+set wr_singlescale
+tran 1n 10u
+wrdata tran.dat v(pkd) v(agc)
+quit
+.endc
+.end

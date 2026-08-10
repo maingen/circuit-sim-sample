@@ -1,0 +1,79 @@
+AGC private fixture
+.include system.lib
+* Transistor-level AGC controller
+* Local two-stage Miller CMOS op-amp used twice (pkd and agc).
+.subckt opamp_cmos inp inn out vcc vss
+* --- bias (resistor + NMOS diode, PMOS mirror reference) ---
+Rbias  vcc   biasn  60k
+Mbn    biasn biasn  vss  vss  NMOS_SYS W=5u L=2u
+Mbp_s  biasp biasn  vss  vss  NMOS_SYS W=5u L=2u
+Mbp    biasp biasp  vcc  vcc  PMOS_SYS W=10u L=2u
+*
+* --- stage 1: NMOS diff pair, NMOS tail, PMOS active mirror load ---
+Mtail  tail  biasn  vss  vss  NMOS_SYS W=25u L=1u
+M1     n1    inn    tail vss  NMOS_SYS W=40u L=1u
+M2     n2    inp    tail vss  NMOS_SYS W=40u L=1u
+M3     n1    n1     vcc  vcc  PMOS_SYS W=25u L=1u
+M4     n2    n1     vcc  vcc  PMOS_SYS W=25u L=1u
+*
+* --- stage 2: PMOS common-source + NMOS current-source load ---
+M5     out   n2     vcc  vcc  PMOS_SYS W=100u L=1u
+M6     out   biasn  vss  vss  NMOS_SYS W=30u L=1u
+*
+* --- physical Miller compensation ---
+Rc     n2    nc     600
+Cc     nc    out    1.2p
+.ends opamp_cmos
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* --- differential detector input filter ---
+Rf_p   detp  filtp  600
+Rf_n   detn  filtn  600
+Cf     filtp filtn  150f
+*
+* --- NPN emitter-follower isolation with NPN current-mirror sinks ---
+Qef_p  vcc   filtp  bufp  QN_SYS
+Qef_n  vcc   filtn  bufn  QN_SYS
+Rmirr  vcc   mirr   6k
+Qm_ref mirr  mirr   vss   QN_SYS
+Qm_p   bufp  mirr   vss   QN_SYS
+Qm_n   bufn  mirr   vss   QN_SYS
+*
+* --- stage 1: closed-loop differential amplifier -> pkd ---
+* overall det-to-pkd gain ~= 13.97 V/V about agc_pkd_ref
+R1a    bufn  n_s1n  10k
+R2a    n_s1n pkd    140.9k
+R1b    bufp  n_s1p  10.04k
+R2b    n_s1p agc_pkd_ref  140.9k
+X1     n_s1p n_s1n  pkd   vcc vss  opamp_cmos
+Cp_kd  pkd   vss    100f
+*
+* --- stage 2: compare pkd with oa -> agc ---
+* agc falls as detector difference (and pkd) rises
+R3a    pkd   n_s2n  20k
+R4a    n_s2n agc    9.5k
+R3b    oa    n_s2p  20k
+R4b    n_s2p agc_ref  1.9k
+X2     n_s2p n_s2n  agc   vcc vss  opamp_cmos
+Cagc   agc   vss    0.5p
+.ends candidate
+
+
+VCC vcc 0 3.3
+VOA oa 0 1.4
+VPKDREF agc_pkd_ref 0 0.8
+VAGCREF agc_ref 0 1.2864
+VDETN detn 0 3.15
+VDETD detp detn PWL(0 0 1u 0 1.01u 20m 3u 20m 3.01u 50m 5u 50m 5.01u 0 6u 0 6.01u 20m 8u 20m 8.01u 50m 10u 50m)
+RLOAD agc 0 1Meg
+CLOAD agc 0 10p
+XDUT detp detn oa pkd agc agc_pkd_ref agc_ref vcc 0 candidate
+
+.control
+set wr_vecnames
+set wr_singlescale
+tran 1n 10u
+wrdata tran.dat v(pkd) v(agc)
+quit
+.endc
+.end

@@ -1,0 +1,24 @@
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Authoring prototype only. This circuit does not pass the draft verifier.
+M1 n4 vinp tail vss nmos w=180u l=0.4u
+M2 n5 vinn tail vss nmos w=180u l=0.4u
+M3 n4 vb2 n6 vdd pmos w=40u l=0.4u
+M4 n5 vb2 n7 vdd pmos w=40u l=0.4u
+MREF n6 n4 vdd vdd pmos w=20u l=0.4u
+M6 n7 n5 vdd vdd pmos w=20u l=0.4u
+M7 n10 n5 vdd vdd pmos w=20u l=0.4u
+MOUT n11 n4 vdd vdd pmos w=40u l=0.4u
+M9 n12 vb2 n10 vdd pmos w=20u l=0.4u
+M10 vout vb2 n11 vdd pmos w=40u l=0.4u
+M11 n12 vb1 n14 vss nmos w=4u l=0.4u
+M12 vout vb1 n15 vss nmos w=8u l=0.4u
+M13 n14 n12 vss vss nmos w=4u l=0.4u
+M14 n15 n12 vss vss nmos w=8u l=0.4u
+MPBOOST vout gp vdd vdd pmos w=200u l=0.4u
+MNBOOST vout gn vss vss nmos w=100u l=0.4u
+RPG gp vdd 1Meg
+CPG gp n4 0.3p
+RNG gn vss 1Meg
+CNG gn n4 0.3p
+IBIAS tail vss 160u
+.ends candidate

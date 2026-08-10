@@ -1,0 +1,56 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: current-mirror op-amp private fixture
+
+Warning: Model issue on line 2 :
+  .model nmos nmos version=3.1 level=49 noimod=1 tnom=2.70e+01 tox=    3.9 ...
+unrecognized parameter (xl) - ignored
+unrecognized parameter (xw) - ignored
+
+Warning: Model issue on line 41 :
+  .model pmos pmos version=3.1 level=49 noimod=1 tnom=2.70e+01 tox=    3.9 ...
+unrecognized parameter (xl) - ignored
+unrecognized parameter (xw) - ignored
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+
+No. of Data Rows : 1
+v(vout) = 1.243321e+00
+i(vdd) = -3.98505e-04
+@m.xdut.mpb[vds] = 5.302872e-01
+@m.xdut.mpb[vdsat] = 1.582092e-01
+@m.xdut.mpn[vds] = 1.371504e+00
+@m.xdut.mpn[vdsat] = 1.605038e-01
+@m.xdut.mnb[vds] = 4.283729e-01
+@m.xdut.mnb[vdsat] = 7.733697e-02
+@m.xdut.mt[vds] = 6.937401e-01
+@m.xdut.mt[vdsat] = 7.535323e-02
+@m.xdut.m1[vds] = 3.678283e-01
+@m.xdut.m1[vdsat] = 6.055474e-02
+@m.xdut.m2[vds] = 5.446201e-01
+@m.xdut.m2[vdsat] = 5.834012e-02
+@m.xdut.m3[vds] = 7.311869e-01
+@m.xdut.m3[vdsat] = 3.064237e-01
+@m.xdut.m4[vds] = 5.527206e-01
+@m.xdut.m4[vdsat] = 3.062700e-01
+@m.xdut.mbal[vds] = 1.241407e+00
+@m.xdut.mbal[vdsat] = 7.784825e-02
+ngspice-46 done

@@ -1,0 +1,50 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: agc private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vcc                                        3.3
+oa                                         1.4
+agc_pkd_ref                                0.8
+agc_ref                                 1.2864
+detn                                      3.15
+detp                                      3.15
+agc                                    1.63059
+xdut.net_fp                            3.14917
+xdut.net_fn                            3.14917
+xdut.net_ep                            2.40805
+xdut.net_en                            2.40805
+xdut.net_mref                           0.7388
+xdut.amp1_inn                          2.30286
+pkd                                   0.800669
+xdut.amp1_inp                          2.30281
+xdut.xamp1.nref                       0.899961
+xdut.xamp1.tail                        1.64137
+xdut.xamp1.o1                          2.53624
+xdut.xamp1.o1p                         2.55656
+xdut.amp2_inn                          1.36332
+xdut.amp2_inp                          1.36342
+xdut.xamp2.nref                       0.899961
+xdut.xamp2.tail                       0.703894
+xdut.xamp2.o1                          2.53825
+xdut.xamp2.o1p                         2.49495
+vdetd#branch                      -1.38643e-06
+vdetn#branch                      -2.77283e-06
+vagcref#branch                     7.70169e-06
+vpkdref#branch                     2.10478e-05
+voa#branch                        -7.70169e-06
+vcc#branch                         -0.00175395
+
+
+No. of Data Rows : 10038
+ngspice-46 done

@@ -1,0 +1,42 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: s.11.2.b private open-feedback op-amp fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1480
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                          1
+vss                                         -1
+in                                           0
+xdut.d1                               0.369125
+xdut.tail                            -0.659743
+xdut.d2                               0.369125
+xdut.nbias                           -0.252416
+out                                  -0.353616
+xdut.mid                              0.369125
+xdut.feedback_open                  -0.0282893
+vin#branch                                   0
+vss#branch                          0.00285164
+vdd#branch                         -0.00284811
+
+
+No. of Data Rows : 5001
+ngspice-46 done

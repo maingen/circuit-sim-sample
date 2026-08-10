@@ -1,0 +1,9 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/tia-block-tasks@sha256:b5f82c259c958c8916425b9da3ac33dedc00fcb80c9203d0452cfefe8215f24b
+    pull_policy: always
+    command: ["sleep", "infinity"]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    security_opt: ["no-new-privileges:true"]

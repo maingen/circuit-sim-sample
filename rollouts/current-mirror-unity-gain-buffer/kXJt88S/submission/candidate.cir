@@ -1,0 +1,25 @@
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Symmetrical current-mirror OTA for unity-gain buffer
+* Ports: vinp vinn vout vdd vb1 vb2 vss
+* All L = 0.4 um; supply 1.8 V; designed for 2.5 pF load
+*
+* Tail current source
+IBIAS ntail vss 75u
+*
+* NMOS differential pair (non-inverting = vinp)
+M1 d1 vinp ntail vss nmos w=45u l=0.4u
+M2 d2 vinn ntail vss nmos w=45u l=0.4u
+*
+* PMOS diode loads
+M3 d1 d1 vdd vdd pmos w=5u l=0.4u
+M4 d2 d2 vdd vdd pmos w=5u l=0.4u
+*
+* PMOS current mirrors, K = 21/5 = 4.2
+M5 vout d1 vdd vdd pmos w=21u l=0.4u
+M6 d7  d2 vdd vdd pmos w=21u l=0.4u
+*
+* NMOS fold / push-pull sink, 1:1
+M7 d7  d7 vss vss nmos w=10u l=0.4u
+M8 vout d7 vss vss nmos w=10u l=0.4u
+*
+.ends candidate

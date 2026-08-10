@@ -1,0 +1,51 @@
+{
+  "outcome": "requirements_failed",
+  "artifact_evaluable": true,
+  "production_pass": false,
+  "final_reward": 0.9230769230769231,
+  "failure_codes": [
+    "S112B-TRANSIENT-THD"
+  ],
+  "error": null,
+  "measurements": {
+    "gain_10mhz_v_per_v": 45.50566724611434,
+    "low_frequency_gain_v_per_v": 45.65500437988999,
+    "upper_3db_hz": 122829505.47574565,
+    "transient_gain_v_per_v": 47.54383552319878,
+    "transient_phase_degrees": -0.00044538741576616303,
+    "thd_percent": 0.08256409436684167,
+    "loaded_to_unloaded_gain_ratio": 0.9948271372037539,
+    "first_stage_branch_a_current_a": 1.83995666e-05,
+    "first_stage_branch_b_current_a": 1.83995666e-05,
+    "tail_branch_current_a": 0.000261357821,
+    "second_stage_branch_a_current_a": 0.000182826527,
+    "second_stage_branch_b_current_a": 0.000186790325,
+    "bias_branch_current_a": 0.0002
+  },
+  "structural_rewards": {
+    "exact_interface": 1.0,
+    "accepted_bounded_netlist": 1.0,
+    "required_two_stage_cmos_topology_and_open_feedback_network": 1.0,
+    "allowed_elements_and_models": 1.0,
+    "exact_reference_current": 1.0,
+    "no_hidden_dependencies": 1.0,
+    "ngspice_completed": 1.0,
+    "finite_required_measurements": 1.0
+  },
+  "metric_rewards": {
+    "gain_10mhz": 1.0,
+    "upper_3db": 1.0,
+    "transient_gain": 1.0,
+    "transient_thd": 0.0,
+    "loaded_to_unloaded_gain_ratio": 1.0
+  },
+  "targets": {
+    "gain_10mhz_v_per_v": 45.56398908157094,
+    "upper_3db_limit_hz": 82720000.0,
+    "transient_gain_v_per_v": 47.510692006527876,
+    "thd_limit_percent": 0.004032,
+    "unloaded_gain_reference_v_per_v": 45.74228581462005,
+    "loaded_ratio_minimum": 0.97,
+    "loaded_ratio_maximum": 1.0
+  }
+}

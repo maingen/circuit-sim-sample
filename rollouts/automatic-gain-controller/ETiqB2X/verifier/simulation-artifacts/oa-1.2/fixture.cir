@@ -1,0 +1,77 @@
+AGC private fixture
+.include system.lib
+* Transistor-level AGC controller
+* Local two-stage Miller CMOS op-amp, instantiated twice.
+
+.subckt ampc inp inn out vcc vss
+* Bias
+Mb b b vss vss NMOS_SYS W=8u L=2u
+Rb vcc b 45k
+* Tail current source
+Mt t b vss vss NMOS_SYS W=32u L=2u
+* NMOS differential pair (inp = non-inverting)
+M1 n1 inn t vss NMOS_SYS W=40u L=1u
+M2 n2 inp t vss NMOS_SYS W=40u L=1u
+* PMOS active current-mirror load
+Mp1 n1 n1 vcc vcc PMOS_SYS W=20u L=1u
+Mp2 n2 n1 vcc vcc PMOS_SYS W=20u L=1u
+* Second gain / output stage
+Mp3 out n2 vcc vcc PMOS_SYS W=80u L=1u
+Mn3 out b vss vss NMOS_SYS W=32u L=2u
+* Miller compensation
+Cc n2 out 800f
+.ends ampc
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* --- Differential detector input filter ---
+Rfp detp fp 600
+Rfn detn fn 600
+Cf fp fn 150f
+
+* --- NPN emitter-follower isolation ---
+Qef_p vcc fp ep QN_SYS
+Qef_n vcc fn en QN_SYS
+
+* --- NPN current-mirror sinks ---
+Rset vcc ibias 5k
+Qref ibias ibias vss QN_SYS
+Qs_p ep ibias vss QN_SYS
+Qs_n en ibias vss QN_SYS
+
+* --- Stage 1: closed-loop gain 13.97 -> pkd ---
+* pkd = agc_pkd_ref + (Rf/Rg)*(ep - en)
+Rg_p ep  ninv1 40.1k
+Rf_p agc_pkd_ref ninv1 560k
+Rg_n en  inv1 40k
+Rf_n pkd inv1 560k
+Xpkd ninv1 inv1 pkd vcc vss ampc
+
+* --- Stage 2: compare pkd with oa -> agc ---
+* Diff-amp with unmatched + side so agc falls as pkd rises:
+*   agc ≈ 1.399 V @ 20 mV and 1.200 V @ 50 mV (oa = 1.4 V)
+R1 oa      ninv2 100k
+R2 agc_ref ninv2 9.54k
+R3 pkd     inv2  100k
+R4 agc     inv2  47.5k
+Xagc ninv2 inv2 agc vcc vss ampc
+.ends candidate
+
+
+VCC vcc 0 3.3
+VOA oa 0 1.2
+VPKDREF agc_pkd_ref 0 0.8
+VAGCREF agc_ref 0 1.2864
+VDETN detn 0 3.15
+VDETD detp detn PWL(0 0 1u 0 1.01u 20m 3u 20m 3.01u 50m 5u 50m 5.01u 0 6u 0 6.01u 20m 8u 20m 8.01u 50m 10u 50m)
+RLOAD agc 0 1Meg
+CLOAD agc 0 10p
+XDUT detp detn oa pkd agc agc_pkd_ref agc_ref vcc 0 candidate
+
+.control
+set wr_vecnames
+set wr_singlescale
+tran 1n 10u
+wrdata tran.dat v(pkd) v(agc)
+quit
+.endc
+.end

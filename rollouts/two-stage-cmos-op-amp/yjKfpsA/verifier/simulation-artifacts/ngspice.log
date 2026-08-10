@@ -1,0 +1,54 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: s.9.2 two-stage cmos op amp private fixture
+
+Warning: Model issue on line 1 :
+  .model pmos4 pmos(level=1 vto=-0.5 gamma=0.3 phi=0.8 ld=0.01e-06 wd=0 uo ...
+unrecognized parameter (wd) - ignored
+
+Warning: Model issue on line 6 :
+  .model nmos4 nmos(level=1 vto=0.5 gamma=0.3 phi=0.8 ld=0.01e-06 wd=0 uo= ...
+unrecognized parameter (wd) - ignored
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 2001
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 3201
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vdd                                          1
+vss                                         -1
+vcm                                          0
+inp                                          0
+inn                                          0
+xdut.nbias                           -0.256893
+xdut.tail                            -0.759405
+xdut.d1                               0.307868
+xdut.d2                               0.307868
+xdut.n6                              -0.449633
+out                                  -0.524674
+xdut.n7                              -0.593867
+vinn#branch                                  0
+vinp#branch                                  0
+vcm#branch                                   0
+vss#branch                         0.000587301
+vdd#branch                        -0.000587301
+
+
+No. of Data Rows : 5001
+ngspice-46 done

@@ -1,0 +1,40 @@
+schema_version = "1.3"
+artifacts = ["/app/candidate.cir"]
+
+[task]
+name = "maingen/transistor-level-tia"
+version = "0.1.1"
+description = "Design a complete 3.3 V transistor-level differential TIA with dual VGAs, output buffer, Gilbert peak detector, and AGC."
+keywords = ["electrical-engineering", "spice", "ngspice", "analog", "tia", "vga", "agc", "bjt", "mosfet"]
+
+[[task.authors]]
+name = "Maingen"
+email = "david@maingen.ai"
+
+[metadata]
+category = "electrical-engineering"
+difficulty = "hard"
+harness = "harbor-0.20.0"
+simulator = "ngspice-46"
+simulator_base_image = "eesimbench/ngspice-46-ubuntu24.04"
+simulator_base_digest = "sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
+model_bundle = "embedded-generic-bjt-and-level-1-mos"
+status = "validated-reference"
+
+[verifier]
+timeout_sec = 86400.0
+environment_mode = "separate"
+user = "verifier"
+network_mode = "no-network"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+docker_image = "eesimbench/transistor-level-tia-verifier:local"
+os = "linux"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 86400.0
+docker_image = "eesimbench/transistor-level-tia-agent:local"
+os = "linux"

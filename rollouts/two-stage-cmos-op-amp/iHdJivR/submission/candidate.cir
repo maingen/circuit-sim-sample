@@ -1,0 +1,15 @@
+.subckt candidate inp inn out vdd vss
+IREF vdd nbias 200u
+Mb nbias nbias vss vss NMOS4 W=20u L=1u
+Mn2b pbias nbias vss vss NMOS4 W=20u L=1u
+Mp2b pbias pbias vdd vdd PMOS4 W=40u L=1u
+M5 ntail nbias vss vss NMOS4 W=10u L=1u
+M1 d1 inn ntail vss NMOS4 W=40u L=1u
+M2 d2 inp ntail vss NMOS4 W=40u L=1u
+M3 d1 d1 vdd vdd PMOS4 W=3.137u L=1u
+M4 d2 d1 vdd vdd PMOS4 W=3.137u L=1u
+M6 out pbias vdd vdd PMOS4 W=34.5u L=1u
+M7 out d2 vss vss NMOS4 W=6.845u L=1u
+Cc out d2 3.135f
+Rt ntail vss 1.08e6
+.ends candidate

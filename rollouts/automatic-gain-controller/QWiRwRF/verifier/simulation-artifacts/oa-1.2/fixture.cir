@@ -1,0 +1,76 @@
+AGC private fixture
+.include system.lib
+* Transistor-level AGC controller
+* Local CMOS two-stage op-amp (diff pair, tail, active load, CS stage, Miller C)
+.subckt amp_local inp inn out vcc vss
+* Bias reference
+Mb_ref vb vb vss vss NMOS_SYS W=12u L=2u
+Rb     vcc vb 40k
+* Tail current source
+Mtail  t vb vss vss NMOS_SYS W=24u L=2u
+* NMOS differential pair (M2 on inp => overall non-inverting)
+M1     d1 inn t vss NMOS_SYS W=60u L=1u
+M2     d2 inp t vss NMOS_SYS W=60u L=1u
+* PMOS active current-mirror load
+M3     d1 d1 vcc vcc PMOS_SYS W=30u L=1u
+M4     d2 d1 vcc vcc PMOS_SYS W=30u L=1u
+* Second gain stage (PMOS CS + NMOS sink)
+M6     out d2 vcc vcc PMOS_SYS W=120u L=1u
+M7     out vb vss vss NMOS_SYS W=60u L=2u
+* Miller compensation
+Cc     out d2 500f
+.ends amp_local
+
+* Top-level AGC candidate
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* ---- Detector input filter: 600 ohm each leg, 150 fF differential ----
+Rfp    detp fp 600
+Rfn    detn fn 600
+Cdiff  fp fn 150f
+
+* ---- NPN emitter-follower isolation with NPN mirror sinks ----
+Qefp   vcc fp ep QN_SYS
+Qefn   vcc fn en QN_SYS
+Rset   vcc bref 10k
+Qref   bref bref vss QN_SYS
+Qsp    ep bref vss QN_SYS
+Qsn    en bref vss QN_SYS
+
+* ---- Stage 1: closed-loop diff amp, gain ~13.97 V/V ----
+* pkd = agc_pkd_ref + (Rf/R1)*(ep - en)
+R1n    en n1 1k
+Rfn1   pkd n1 15.12k
+R1p    ep p1 1k
+Rfp1   agc_pkd_ref p1 15.12k
+X1     p1 n1 pkd vcc vss amp_local
+
+* ---- Stage 2: compare pkd with oa, generate agc ----
+* Inverting summing amp vs agc_ref:
+*   agc = agc_ref - gp*(pkd - agc_ref) - go*(oa - agc_ref)
+* gp = 4.75k/10k = 0.475, go = 4.75k/28.1k ~ 0.169
+Rp     pkd n2 10k
+Ro     oa  n2 28.1k
+Rf2    agc n2 4.75k
+X2     agc_ref n2 agc vcc vss amp_local
+
+.ends candidate
+
+
+VCC vcc 0 3.3
+VOA oa 0 1.2
+VPKDREF agc_pkd_ref 0 0.8
+VAGCREF agc_ref 0 1.2864
+VDETN detn 0 3.15
+VDETD detp detn PWL(0 0 1u 0 1.01u 20m 3u 20m 3.01u 50m 5u 50m 5.01u 0 6u 0 6.01u 20m 8u 20m 8.01u 50m 10u 50m)
+RLOAD agc 0 1Meg
+CLOAD agc 0 10p
+XDUT detp detn oa pkd agc agc_pkd_ref agc_ref vcc 0 candidate
+
+.control
+set wr_vecnames
+set wr_singlescale
+tran 1n 10u
+wrdata tran.dat v(pkd) v(agc)
+quit
+.endc
+.end

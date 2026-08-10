@@ -1,0 +1,20 @@
+{
+    "task": {
+        "path": "testing/s11-2-b-open-feedback-two-stage-cmos-op-amp-harbor"
+    },
+    "trial_name": "s11-2-b-open-feedback-two-stage__WxzfMCG",
+    "trials_dir": "testing/results/s11-2-b-open-feedback-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-2026/s11-2-b-open-feedback-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-2026",
+    "agent_setup_timeout_multiplier": 4.0,
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.5",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "job_id": "09b8f1a0-ed95-464e-b3e8-9c3e9498c84f"
+}

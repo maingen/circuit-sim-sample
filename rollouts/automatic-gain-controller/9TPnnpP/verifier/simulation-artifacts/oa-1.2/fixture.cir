@@ -1,0 +1,75 @@
+AGC private fixture
+.include system.lib
+* Transistor-level AGC controller
+* Local two-stage Miller CMOS op-amp (used twice)
+.subckt amp inn inp out vcc vss
+* Bias
+Mb1 b1 b1 vcc vcc PMOS_SYS W=20u L=2u
+Rb  b1 vss 80k
+Mb2 b2 b1 vcc vcc PMOS_SYS W=20u L=2u
+Mb3 b2 b2 vss vss NMOS_SYS W=10u L=2u
+* Tail current source
+Mt1 t b2 vss vss NMOS_SYS W=40u L=2u
+* NMOS differential pair
+M1 d1 inn t vss NMOS_SYS W=80u L=1u
+M2 d2 inp t vss NMOS_SYS W=80u L=1u
+* PMOS active load
+M3 d1 d1 vcc vcc PMOS_SYS W=40u L=2u
+M4 d2 d1 vcc vcc PMOS_SYS W=40u L=2u
+* Second gain / output stage
+M5 out d2 vcc vcc PMOS_SYS W=120u L=1u
+M6 out b2 vss vss NMOS_SYS W=60u L=2u
+* Miller compensation
+Rc d2 cz 1k
+Cc cz out 4p
+.ends amp
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* Differential detector input filter
+Rf1 detp nfp 600
+Rf2 detn nfn 600
+Cf  nfp nfn 150f
+
+* NPN emitter-follower isolation
+Qef1 vcc nfp ep QN_SYS
+Qef2 vcc nfn en QN_SYS
+
+* NPN current-mirror sinks
+Rset vcc mirr 4.5k
+Qref mirr mirr vss QN_SYS
+Qs1  ep   mirr vss QN_SYS
+Qs2  en   mirr vss QN_SYS
+
+* Closed-loop stage 1: pkd = agc_pkd_ref + 13.97*(ep - en)
+R1a en  nin1 50k
+R2a nin1 pkd 699.7k
+R1b ep  nip1 50k
+R2b nip1 agc_pkd_ref 699.7k
+X1 nin1 nip1 pkd vcc vss amp
+
+* Closed-loop stage 2: sum pkd and oa vs agc_ref -> agc
+Rpkd pkd nin2 100.03k
+Roa  oa  nin2 268.4k
+Rfb  agc nin2 47.5k
+X2 nin2 agc_ref agc vcc vss amp
+.ends candidate
+
+
+VCC vcc 0 3.3
+VOA oa 0 1.2
+VPKDREF agc_pkd_ref 0 0.8
+VAGCREF agc_ref 0 1.2864
+VDETN detn 0 3.15
+VDETD detp detn PWL(0 0 1u 0 1.01u 20m 3u 20m 3.01u 50m 5u 50m 5.01u 0 6u 0 6.01u 20m 8u 20m 8.01u 50m 10u 50m)
+RLOAD agc 0 1Meg
+CLOAD agc 0 10p
+XDUT detp detn oa pkd agc agc_pkd_ref agc_ref vcc 0 candidate
+
+.control
+set wr_vecnames
+set wr_singlescale
+tran 1n 10u
+wrdata tran.dat v(pkd) v(agc)
+quit
+.endc
+.end

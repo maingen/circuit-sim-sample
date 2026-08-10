@@ -1,0 +1,41 @@
+schema_version = "1.3"
+artifacts = ["/app/candidate.cir"]
+
+[task]
+name = "maingen/two-stage-cmos-op-amp"
+version = "0.2.0"
+description = "Design a dual-supply two-stage CMOS op amp with common-mode, gain, bandwidth, overload swing, and distortion targets."
+keywords = ["electrical-engineering", "spice", "ngspice", "analog", "cmos", "op-amp"]
+
+[[task.authors]]
+name = "Maingen"
+email = "david@maingen.ai"
+
+[metadata]
+category = "electrical-engineering"
+difficulty = "draft"
+harness = "harbor-0.20.0"
+simulator = "ngspice-46"
+simulator_base_image = "eesimbench/ngspice-46-ubuntu24.04"
+simulator_base_digest = "sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
+model = "0.18 um NMOS4 and PMOS4 Level 1"
+model_sha256 = "02094fb8acf1927012eda6dc59941cbf236ef8f7544bd39e166b3e202f2bb8ec"
+status = "draft"
+
+[verifier]
+timeout_sec = 300.0
+environment_mode = "separate"
+user = "verifier"
+network_mode = "no-network"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+os = "linux"
+
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/s9-2-two-stage-cmos-op-amp-verifier@sha256:50539faf21dec401484f0fdc61c203fe9d41ae685cd5054e0ecc89745d0586a3"
+[environment]
+network_mode = "public"
+build_timeout_sec = 86400.0
+os = "linux"
+docker_image = "public.ecr.aws/r9r0c2u2/eesimbench/s9-2-two-stage-cmos-op-amp-agent@sha256:1eaad79ca16052e8a8ceff2875327f2c30c9a06293f904a65e7bcd154655c9e5"

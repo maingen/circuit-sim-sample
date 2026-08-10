@@ -1,0 +1,52 @@
+* Transistor-level AGC controller
+.subckt amp inn inp out vcc vss
+* Two-stage CMOS op-amp:
+* NMOS differential pair, NMOS tail, PMOS active mirror load,
+* PMOS common-source gain stage, Miller RC compensation.
+Rbias vcc bb 100k
+Mbn bb bb vss vss NMOS_SYS W=5u L=2u
+Mtail t bb vss vss NMOS_SYS W=20u L=2u
+Md1 d1 inn t vss NMOS_SYS W=40u L=1u
+Md2 d2 inp t vss NMOS_SYS W=40u L=1u
+Mp1 d1 d1 vcc vcc PMOS_SYS W=20u L=1u
+Mp2 d2 d1 vcc vcc PMOS_SYS W=20u L=1u
+Mout out d2 vcc vcc PMOS_SYS W=80u L=1u
+Mnout out bb vss vss NMOS_SYS W=40u L=2u
+Cc out midc 1p
+Rc midc d2 1.5k
+.ends amp
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* Differential detector filter: 600 ohm per leg, 150 fF differential
+Rfilt1 detp f1 600
+Rfilt2 detn f2 600
+Cfilt f1 f2 150f
+
+* NPN emitter-follower isolation with NPN current-mirror sinks
+Rmbias vcc mb 25k
+Qmbias mb mb vss QN_SYS
+Qs1 e1 mb vss QN_SYS m=4
+Qs2 e2 mb vss QN_SYS m=4
+Qf1 vcc f1 e1 QN_SYS
+Qf2 vcc f2 e2 QN_SYS
+
+* First closed-loop stage: differential gain 13.97 V/V
+* pkd = agc_pkd_ref + (Rf/Rin)*(buffered_detp - buffered_detn)
+Rin_a e2 hn 50k
+Rf_a hn pkd 701k
+Rin_b e1 hp 50k
+Rf_b hp agc_pkd_ref 701k
+X1 hn hp pkd vcc vss amp
+
+* Second stage: compare pkd with oa to generate agc
+* agc = Vref + 0.475*(oa - pkd), decreasing as detector amplitude rises
+R2in_a pkd gn 100k
+R2f_a gn agc 47.5k
+R2in_b oa gp 100k
+R2f_b gp vref 47.5k
+* Vref from agc_ref (pulled slightly toward vcc for DC target centering)
+Rvr1 vcc vref 20k
+Rvr2 vref agc_ref 578
+X2 gn gp agc vcc vss amp
+
+.ends candidate

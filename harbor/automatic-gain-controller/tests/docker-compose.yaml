@@ -1,0 +1,13 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/tia-block-tasks@sha256:f832b38373e6dd9faae47481af983e739d81bb859560e81488f3873b36167446
+    pull_policy: always
+    user: root
+    command: ["sleep", "infinity"]
+    tmpfs:
+      - /tmp:mode=1777
+      - /logs:mode=1777
+      - /artifacts:mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

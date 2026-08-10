@@ -1,0 +1,54 @@
+.model NMOS4 NMOS(LEVEL= 1 VTO=0.5 GAMMA= 0.3 PHI=0.84
++ LAMBDA= 0.08
++ RS= 0.0
++ RD= 0.0
++ CBD= 0.0
++ CBS= 0.0
++ IS= 1.0e-14
++ PB= 0.9
++ CGSO= 0.3665e-9
++ CGDO= 0.3665e-9
++ CGBO= 0.38e-9
++ RSH= 0
++ CJ= 1.6e-3
++ MJ= 0.5
++ CJSW= 2.0405e-10
++ MJSW= 0.200379
++ JS= 8.38e-6
++ TOX= 4.08e-09
++ NSS= 0.0
++ TPG= 1.0
++ LD= 10e-9
++ U0 = 291
++ KF= 0.0
++ AF= 1.0
++ FC= 0.5
++ TNOM= 27
++ )
+
+.model PMOS4 PMOS(LEVEL= 1 VTO=-0.5 KP=86.1e-6 GAMMA= 0.3
++ PHI= 0.8
++ LAMBDA= 0.11
++ RS= 0.0
++ RD= 0.0
++ CBD= 0.0
++ CBS= 0.0
++ IS= 1.0e-14
++ PB= 0.9
++ CGSO= 0.3426e-9
++ CGDO= 0.3426e-9
++ CGBO= 0.35e-9
++ RSH= 0
++ CJ= 1.01574e-03
++ MJ= 0.4490538
++ CJSW= 2.0405e-10
++ MJSW= 0.2931001
++ JS= 4e-7
++ NSS= 0.0
++ TPG= 1.0
++ LD= 10e-9
++ KF= 0.0
++ AF= 1.0
++ FC= 0.5
++ TNOM= 27
++ )

@@ -1,0 +1,22 @@
+{
+  "outcome": "candidate_invalid",
+  "artifact_evaluable": false,
+  "production_pass": false,
+  "final_reward": 0.0,
+  "failure_codes": [
+    "S112B-CANDIDATE-INVALID"
+  ],
+  "error": "required differential pair, PMOS mirror, second stage, and NMOS bias mirrors are missing",
+  "measurements": {},
+  "structural_rewards": {
+    "exact_interface": 0.0,
+    "accepted_bounded_netlist": 0.0,
+    "required_two_stage_cmos_topology_and_open_feedback_network": 0.0,
+    "allowed_elements_and_models": 0.0,
+    "exact_reference_current": 0.0,
+    "no_hidden_dependencies": 0.0,
+    "ngspice_completed": 0.0,
+    "finite_required_measurements": 0.0
+  },
+  "metric_rewards": {}
+}

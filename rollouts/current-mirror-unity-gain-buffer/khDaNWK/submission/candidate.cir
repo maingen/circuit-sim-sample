@@ -1,0 +1,19 @@
+* Current-mirror op-amp (symmetrical OTA), K=2
+* 1.8 V, L=0.4 um, Iss=155 uA, designed for 2.5 pF load
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Bias: IBIAS is the differential-pair tail current
+IBIAS ntail vss 155u
+* NMOS input pair
+M1 d1 vinp ntail vss nmos w=100u l=0.4u
+M2 d2 vinn ntail vss nmos w=100u l=0.4u
+* PMOS diode loads
+M3 d1 d1 vdd vdd pmos w=6.5u l=0.4u
+M4 d2 d2 vdd vdd pmos w=6.5u l=0.4u
+* PMOS mirror to output (K=2)
+M5 vout d1 vdd vdd pmos w=13u l=0.4u
+* PMOS 1:1 into NMOS diode branch
+M6 d3 d2 vdd vdd pmos w=6.5u l=0.4u
+* NMOS mirror to output (K=2)
+M7 d3 d3 vss vss nmos w=3.2u l=0.4u
+M8 vout d3 vss vss nmos w=6.4u l=0.4u
+.ends candidate

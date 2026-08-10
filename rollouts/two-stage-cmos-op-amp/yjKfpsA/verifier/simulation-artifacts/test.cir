@@ -1,0 +1,40 @@
+S.9.2 two-stage CMOS op amp private fixture
+.include cmos018.lib
+.subckt candidate inp inn out vdd vss
+* Two-stage CMOS op amp
+* Stage 1: NMOS differential pair with PMOS active current-mirror load (100 uA/side)
+* Stage 2: PMOS common-source amplifier with NMOS active load (200 uA)
+* Bias: 200 uA IREF mirrored into 100 uA and 200 uA branches
+IREF vdd nbias 200u
+M8 nbias nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+M5 tail nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+M1 d1 inp tail vss NMOS4 W=2.258e-6 L=0.18e-6
+M2 d2 inn tail vss NMOS4 W=2.258e-6 L=0.18e-6
+M3 d1 d1 vdd vdd PMOS4 W=8.5e-6 L=0.18e-6
+M4 d2 d1 vdd vdd PMOS4 W=8.5e-6 L=0.18e-6
+M6 n6 d2 vdd vdd PMOS4 W=15.985e-6 L=0.18e-6
+Rs6 n6 out 385
+M7 n7 nbias vss vss NMOS4 W=4e-6 L=0.18e-6
+Rs7 n7 out 355
+Cc out d2 0.915f
+.ends candidate
+
+VDD vdd 0 1
+VSS vss 0 -1
+VCM vcm 0 0
+VINP inp vcm DC 0 AC 1 SIN(0 0.001 1000.0)
+VINN inn vcm DC 0 AC -1 SIN(0 -0.001 1000.0)
+XDUT inp inn out vdd vss candidate
+.temp 27
+.control
+set wr_vecnames
+set wr_singlescale
+dc VCM -1 1 0.001
+wrdata cm.dat v(out)
+ac dec 400 1.0 100000000.0
+wrdata ac.dat v(out)
+tran 1e-06 0.02 0.015
+wrdata tran.dat v(inp) v(inn) v(out)
+quit
+.endc
+.end

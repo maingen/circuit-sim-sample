@@ -1,0 +1,13 @@
+services:
+  main:
+    platform: linux/amd64
+    image: public.ecr.aws/r9r0c2u2/eesimbench/s11-2-b-open-feedback-two-stage-cmos-op-amp-verifier@sha256:d4afbace74c5fe4332b8f24cb5bb98d49a3f8a065419fba5fb1e431df026bdd2
+    pull_policy: always
+    user: root
+    command: ["sleep", "infinity"]
+    tmpfs:
+      - /tmp:mode=1777
+      - /logs:mode=1777
+      - /artifacts:mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,20 @@
+{
+    "task": {
+        "path": "testing/tia-agc-controller-harbor"
+    },
+    "trial_name": "tia-agc-controller-harbor__9TPnnpP",
+    "trials_dir": "testing/results/tia-agc-v110-disclosed-grok45-eight-orbstack-20260810-112438/tia-agc-v110-disclosed-grok45-eight-orbstack-20260810-112438",
+    "agent_setup_timeout_multiplier": 1.0,
+    "agent": {
+        "import_path": "eesimbench_testing.preinstalled_grok_build:PreinstalledGrokBuild",
+        "model_name": "grok-4.5",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "job_id": "8316e87d-b6b6-4d2f-84d3-2cd02939af55"
+}

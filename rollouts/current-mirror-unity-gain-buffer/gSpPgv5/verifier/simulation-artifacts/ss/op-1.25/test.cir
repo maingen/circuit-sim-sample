@@ -1,0 +1,49 @@
+Current-mirror op-amp private fixture
+.include p18_cmos_models_ss.inc
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Symmetric current-mirror OTA (K=2)
+*   Gm = K * gm_M1/M2
+*   SR ~= K * Iss / CL
+*   IQ ~= Iss * (1+K)
+* Weak cross-coupled PMOS helpers speed inactive-branch cut-off
+* during large-signal slew without spoiling phase margin.
+
+* Tail bias current
+IBIAS ntail vss 141u
+
+* NMOS differential pair
+M1 d1 vinp ntail vss nmos w=46u l=0.4u
+M2 d2 vinn ntail vss nmos w=46u l=0.4u
+
+* PMOS diode-connected loads
+M3 d1 d1 vdd vdd pmos w=10.5u l=0.4u
+M4 d2 d2 vdd vdd pmos w=10.5u l=0.4u
+
+* Weak cross-coupled slew helpers
+Mh12 d2 d1 vdd vdd pmos w=2.4u l=0.4u
+Mh21 d1 d2 vdd vdd pmos w=2.4u l=0.4u
+
+* PMOS current mirrors, ratio K=2
+M5 vout d1 vdd vdd pmos w=21u l=0.4u
+M6 d3  d2 vdd vdd pmos w=21u l=0.4u
+
+* NMOS fold mirror, ratio 1:1
+M7 d3  d3 vss vss nmos w=14.5u l=0.4u
+M8 vout d3 vss vss nmos w=14.5u l=0.4u
+
+.ends candidate
+
+VDD vdd 0 1.8
+VB1 vb1 0 1.4
+VB2 vb2 0 0.6
+XDUT vinp vinn vout vdd vb1 vb2 0 candidate
+CLOAD vout 0 2.5p
+.temp 27
+VIN vinp 0 1.25
+RFB vout vinn 1m
+.control
+op
+print v(vout) i(VDD) @m.xdut.m1[vds] @m.xdut.m1[vdsat] @m.xdut.m2[vds] @m.xdut.m2[vdsat] @m.xdut.m3[vds] @m.xdut.m3[vdsat] @m.xdut.m4[vds] @m.xdut.m4[vdsat] @m.xdut.mh12[vds] @m.xdut.mh12[vdsat] @m.xdut.mh21[vds] @m.xdut.mh21[vdsat] @m.xdut.m5[vds] @m.xdut.m5[vdsat] @m.xdut.m6[vds] @m.xdut.m6[vdsat] @m.xdut.m7[vds] @m.xdut.m7[vdsat] @m.xdut.m8[vds] @m.xdut.m8[vdsat]
+quit
+.endc
+.end

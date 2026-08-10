@@ -1,0 +1,4 @@
+* Complete the transistor-level candidate below.
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* Add the physical circuit here.
+.ends candidate

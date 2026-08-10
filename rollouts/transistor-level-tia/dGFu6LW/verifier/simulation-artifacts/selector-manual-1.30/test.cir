@@ -1,0 +1,402 @@
+Transistor-level TIA private fixture
+* =============================================================================
+* Differential Transimpedance Amplifier (complete transistor-level netlist)
+* LTspice / Ngspice-46 compatible, flattened (no X-devices, no controlled sources)
+* =============================================================================
+
+* External: vcc mc mgc oa inp inn
+* Probes: finalp finaln gc agc vc1 vc1b vc2 vc2b tia_p tia_n
+*         v1p v1n vga1p vga1n v2p v2n vga2p vga2n
+*         bufinp bufinn outp outn pkdinp pkdinn detp detn pkd
+* Named sinks: M_CANCEL_P M_CANCEL_N
+
+* =============================================================================
+* Bias generation
+* =============================================================================
+R_BIAS_MASTER vcc n_bias_npn 1.5k
+Q_BIAS_N1 n_bias_npn n_bias_npn 0 QN
+Q_BIAS_N2 n_bias_mir n_bias_npn 0 QN
+
+* NMOS gate bias for sinks
+M_BIAS_NDIODE n_bias_nmos n_bias_nmos 0 0 NMOS W=50u L=1u
+R_BIAS_NMOS vcc n_bias_nmos 3.35k
+
+* PMOS gate bias
+M_BIAS_PDIODE n_bias_pmos n_bias_pmos vcc vcc PMOS W=50u L=1u
+M_BIAS_PN n_bias_pmos n_bias_nmos 0 0 NMOS W=20u L=1u
+
+* Cancel / input reference = Vbe diode ~0.759 V
+Q_VBE_REF n_vbe_raw n_vbe_raw 0 QN
+R_VBE_REF vcc n_vbe_raw 3.3k
+R_CREF_UP n_vbe_raw n_cancel_vref 180
+R_CREF_DN n_cancel_vref 0 8.2k
+R_CREF_BIAS vcc n_cancel_vref 20k
+
+* Strong interstage CM source ~1.85 V, buffered by EF
+R_CM_A vcc n_cm_div 400
+R_CM_B n_cm_div 0 2.2k
+Q_CM_BUF vcc n_cm_div n_cm18 QN
+R_CM_BUF n_cm18 0 900
+M_CM_BUF n_cm18 n_bias_nmos 0 0 NMOS W=80u L=0.5u
+* Secondary CM ~2.0 V for optional use
+R_CM2_A vcc n_cm20 750
+R_CM2_B n_cm20 0 1.3k
+
+* GC steering common-mode ~2.10 V
+R_GCCM_A vcc n_gc_cm 900
+R_GCCM_B n_gc_cm 0 1.5k
+
+
+* =============================================================================
+* Local TIA rail regulators (EF) ~2.20 V
+* =============================================================================
+R_REGP_A vcc n_regp_b 350
+R_REGP_B n_regp_b 0 2.7k
+Q_REGP vcc n_regp_b vreg_p QN
+R_REGP_L vreg_p 0 1.2k
+C_REGP vreg_p 0 0.5p
+
+R_REGN_A vcc n_regn_b 350
+R_REGN_B n_regn_b 0 2.7k
+Q_REGN vcc n_regn_b vreg_n QN
+R_REGN_L vreg_n 0 1.2k
+C_REGN vreg_n 0 0.5p
+
+* =============================================================================
+* Input TIA - positive half (CE + shunt FB through follower)
+* =============================================================================
+Q_TIA_IN_P n_tia_col_p inp n_tia_ee_p QN
+R_TIA_EE_P n_tia_ee_p 0 4
+R_TIA_C_P vreg_p n_tia_m_p 780
+L_TIA_PK_P n_tia_m_p n_tia_col_p 0.03n
+R_TIA_PKD_P n_tia_m_p n_tia_col_p 200
+Q_TIA_F_P vreg_p n_tia_col_p tia_p QN
+M_TIA_IE_P tia_p n_bias_nmos 0 0 NMOS W=120u L=0.5u
+R_TIA_FB_P tia_p n_tia_fb_p 210
+C_TIA_FBAC_P n_tia_fb_p inp 3n
+R_TIA_FBDC_P tia_p inp 8.2k
+C_TIA_FB_P tia_p inp 10f
+
+* =============================================================================
+* Input TIA - negative half (matched)
+* =============================================================================
+Q_TIA_IN_N n_tia_col_n inn n_tia_ee_n QN
+R_TIA_EE_N n_tia_ee_n 0 4
+R_TIA_C_N vreg_n n_tia_m_n 780
+L_TIA_PK_N n_tia_m_n n_tia_col_n 0.03n
+R_TIA_PKD_N n_tia_m_n n_tia_col_n 200
+Q_TIA_F_N vreg_n n_tia_col_n tia_n QN
+M_TIA_IE_N tia_n n_bias_nmos 0 0 NMOS W=120u L=0.5u
+R_TIA_FB_N tia_n n_tia_fb_n 210
+C_TIA_FBAC_N n_tia_fb_n inn 3n
+R_TIA_FBDC_N tia_n inn 8.2k
+C_TIA_FB_N tia_n inn 10f
+
+* =============================================================================
+* DC-overload cancellation (slow MOS sinks)
+* NMOS pair + PMOS mirror; gate rises when Vin > Vref; M_CANCEL_P/N
+* =============================================================================
+* Positive
+M_DC_TAIL_P n_dc_tail_p n_bias_nmos 0 0 NMOS W=25u L=1u
+M_DC_IN_P n_dc_diode_p inp n_dc_tail_p 0 NMOS W=30u L=1u
+M_DC_RF_P n_dc_gate_p n_cancel_vref n_dc_tail_p 0 NMOS W=30u L=1u
+M_DC_LD_P n_dc_diode_p n_dc_diode_p vcc vcc PMOS W=40u L=1u
+M_DC_LM_P n_dc_gate_p n_dc_diode_p vcc vcc PMOS W=40u L=1u
+R_DC_HD_P n_dc_gate_p 0 85k
+C_DC_INT_P n_dc_gate_p 0 250p
+R_DC_SER_P n_dc_gate_p n_dc_gdrv_p 15k
+C_DC_G_P n_dc_gdrv_p 0 150p
+M_CANCEL_P inp n_dc_gdrv_p 0 0 NMOS W=2200u L=0.5u
+
+* Negative (matched)
+M_DC_TAIL_N n_dc_tail_n n_bias_nmos 0 0 NMOS W=25u L=1u
+M_DC_IN_N n_dc_diode_n inn n_dc_tail_n 0 NMOS W=30u L=1u
+M_DC_RF_N n_dc_gate_n n_cancel_vref n_dc_tail_n 0 NMOS W=30u L=1u
+M_DC_LD_N n_dc_diode_n n_dc_diode_n vcc vcc PMOS W=40u L=1u
+M_DC_LM_N n_dc_gate_n n_dc_diode_n vcc vcc PMOS W=40u L=1u
+R_DC_HD_N n_dc_gate_n 0 85k
+C_DC_INT_N n_dc_gate_n 0 250p
+R_DC_SER_N n_dc_gate_n n_dc_gdrv_n 15k
+C_DC_G_N n_dc_gdrv_n 0 150p
+M_CANCEL_N inn n_dc_gdrv_n 0 0 NMOS W=2200u L=0.5u
+
+
+* =============================================================================
+* Interface 1: AC-couple TIA to EF (VGA1 drive)
+* =============================================================================
+C_I1_P tia_p n_i1b_p 200p
+C_I1_N tia_n n_i1b_n 200p
+R_I1_BP n_cm18 n_i1b_p 1.5k
+R_I1_BN n_cm18 n_i1b_n 1.5k
+R_I1_RP n_i1b_p 0 30k
+R_I1_RN n_i1b_n 0 30k
+Q_I1_P vcc n_i1b_p v1p QN
+Q_I1_N vcc n_i1b_n v1n QN
+M_I1_P v1p n_bias_nmos 0 0 NMOS W=140u L=0.5u
+M_I1_N v1n n_bias_nmos 0 0 NMOS W=140u L=0.5u
+
+* =============================================================================
+* VGA1
+* =============================================================================
+M_V1_TAIL n_v1_tail n_bias_nmos 0 0 NMOS W=250u L=0.5u
+Q_V1_IP n_v1_cp0 v1p n_v1_ep QN
+Q_V1_IN n_v1_cn0 v1n n_v1_en QN
+R_V1_EP n_v1_ep n_v1_tail 47
+R_V1_EN n_v1_en n_v1_tail 47
+Q_V1_SP n_v1_cp vc1 n_v1_cp0 QN
+Q_V1_SN n_v1_cn vc1 n_v1_cn0 QN
+Q_V1_DP n_v1_dump vc1b n_v1_cp0 QN
+Q_V1_DN n_v1_dump vc1b n_v1_cn0 QN
+R_V1_DUMP vcc n_v1_dump 120
+R_V1_CP vcc n_v1_cp 255
+R_V1_CN vcc n_v1_cn 255
+Q_V1_FP vcc n_v1_cp vga1p QN
+Q_V1_FN vcc n_v1_cn vga1n QN
+M_V1_FP vga1p n_bias_nmos 0 0 NMOS W=140u L=0.5u
+M_V1_FN vga1n n_bias_nmos 0 0 NMOS W=140u L=0.5u
+C_V1_PKP n_v1_cp n_v1_cp0 1f
+C_V1_PKN n_v1_cn n_v1_cn0 1f
+C_V1_L_P n_v1_cp 0 4f
+C_V1_L_N n_v1_cn 0 4f
+
+* =============================================================================
+* Interface 2
+* =============================================================================
+C_I2_P vga1p n_i2b_p 200p
+C_I2_N vga1n n_i2b_n 200p
+R_I2_BP n_cm18 n_i2b_p 1.5k
+R_I2_BN n_cm18 n_i2b_n 1.5k
+R_I2_RP n_i2b_p 0 30k
+R_I2_RN n_i2b_n 0 30k
+Q_I2_P vcc n_i2b_p v2p QN
+Q_I2_N vcc n_i2b_n v2n QN
+M_I2_P v2p n_bias_nmos 0 0 NMOS W=140u L=0.5u
+M_I2_N v2n n_bias_nmos 0 0 NMOS W=140u L=0.5u
+
+* =============================================================================
+* VGA2 with degeneration capacitance compensation
+* =============================================================================
+M_V2_TAIL n_v2_tail n_bias_nmos 0 0 NMOS W=300u L=0.5u
+Q_V2_IP n_v2_cp0 v2p n_v2_ep QN
+Q_V2_IN n_v2_cn0 v2n n_v2_en QN
+R_V2_EP n_v2_ep n_v2_mid 43
+R_V2_EN n_v2_en n_v2_mid 43
+R_V2_MID n_v2_mid n_v2_tail 5
+C_V2_DEG n_v2_ep n_v2_en 80f
+Q_V2_SP n_v2_cp vc2 n_v2_cp0 QN
+Q_V2_SN n_v2_cn vc2 n_v2_cn0 QN
+Q_V2_DP n_v2_dump vc2b n_v2_cp0 QN
+Q_V2_DN n_v2_dump vc2b n_v2_cn0 QN
+R_V2_DUMP vcc n_v2_dump 100
+R_V2_CP vcc n_v2_cp 275
+R_V2_CN vcc n_v2_cn 275
+Q_V2_FP vcc n_v2_cp vga2p QN
+Q_V2_FN vcc n_v2_cn vga2n QN
+M_V2_FP vga2p n_bias_nmos 0 0 NMOS W=150u L=0.5u
+M_V2_FN vga2n n_bias_nmos 0 0 NMOS W=150u L=0.5u
+C_V2_PKP n_v2_cp n_v2_cp0 1f
+C_V2_PKN n_v2_cn n_v2_cn0 1f
+C_V2_L_P n_v2_cp 0 3.5f
+C_V2_L_N n_v2_cn 0 3.5f
+
+* =============================================================================
+* Buffer input interface
+* =============================================================================
+C_BI_P vga2p n_bib_p 200p
+C_BI_N vga2n n_bib_n 200p
+R_BI_BP n_cm18 n_bib_p 1.2k
+R_BI_BN n_cm18 n_bib_n 1.2k
+R_BI_RP n_bib_p 0 30k
+R_BI_RN n_bib_n 0 30k
+Q_BI_P vcc n_bib_p bufinp QBUF
+Q_BI_N vcc n_bib_n bufinn QBUF
+M_BI_P bufinp n_bias_nmos 0 0 NMOS W=160u L=0.5u
+M_BI_N bufinn n_bias_nmos 0 0 NMOS W=160u L=0.5u
+
+* =============================================================================
+* Output buffer: degenerated pair, collector outputs, 100 ohm load, pole
+* Target Vcm ~ 2.706 V: Ic*Rc ~= 0.594 V per side
+* =============================================================================
+M_BUF_TAIL n_buf_tail n_bias_nmos 0 0 NMOS W=360u L=0.5u
+Q_BUF_IP outp bufinp n_buf_ep QBUF
+Q_BUF_IN outn bufinn n_buf_en QBUF
+R_BUF_EP n_buf_ep n_buf_tail 18
+R_BUF_EN n_buf_en n_buf_tail 18
+R_BUF_CP vcc outp 160
+R_BUF_CN vcc outn 160
+R_BUF_LOAD outp outn 100
+* Passive pole to final outputs (~33 GHz region)
+R_POLE_P outp finalp 15
+R_POLE_N outn finaln 15
+C_POLE_P finalp 0 58f
+C_POLE_N finaln 0 58f
+C_POLE_D finalp finaln 42f
+
+* =============================================================================
+* Mode selector: mc=0 => gc=mgc ; else gc=agc
+* =============================================================================
+M_MC_INVN mc_b mc 0 0 NMOS W=8u L=0.5u
+M_MC_INVP mc_b mc vcc vcc PMOS W=16u L=0.5u
+M_TG_MG_N mgc mc_b gc 0 NMOS W=50u L=0.5u
+M_TG_MG_P mgc mc gc vcc PMOS W=100u L=0.5u
+M_TG_AG_N agc mc gc 0 NMOS W=50u L=0.5u
+M_TG_AG_P agc mc_b gc vcc PMOS W=100u L=0.5u
+R_GC_BLEED gc 0 1meg
+
+* =============================================================================
+* Gain-control generator
+* Low-Z resistive blend of gc with mid-ref; fixed offsets set 8 mV / 33 mV
+* Shallow slope keeps ~3.5 dB gain span across MGC=1.25..1.40
+* =============================================================================
+R_GCMID_A vcc n_gc_mid 900
+R_GCMID_B n_gc_mid 0 600
+* Low-Z blend (Ib drop negligible)
+R_GCLIN_A gc n_gc_lin 2.7k
+R_GCLIN_B n_gc_lin n_gc_mid 4.7k
+
+* VGA1 shallow
+M_GC1_TAIL n_gc1_t n_bias_nmos 0 0 NMOS W=14u L=1u
+Q_GC1_P n_gc1_cp n_gc_lin n_gc1_e1 QN
+Q_GC1_N n_gc1_cn n_gc_mid n_gc1_e2 QN
+R_GC1_E1 n_gc1_e1 n_gc1_t 4.7k
+R_GC1_E2 n_gc1_e2 n_gc1_t 4.7k
+R_GC1_CP vcc n_gc1_cp 8.2k
+R_GC1_CN vcc n_gc1_cn 8.2k
+R_GC1_OFF vcc n_gc1_cn 65k
+Q_GC1_FP vcc n_gc1_cn n_vc1r QN
+Q_GC1_FN vcc n_gc1_cp n_vc1br QN
+M_GC1_EP n_vc1r n_bias_nmos 0 0 NMOS W=8u L=1u
+M_GC1_EN n_vc1br n_bias_nmos 0 0 NMOS W=8u L=1u
+R_VC1_A n_vc1r vc1 6.8k
+R_VC1_B n_vc1br vc1b 6.8k
+R_VC1_C1 vc1 n_gc_cm 450
+R_VC1_C2 vc1b n_gc_cm 450
+R_VC1_D vc1 vc1b 68k
+
+* VGA2 slightly steeper
+M_GC2_TAIL n_gc2_t n_bias_nmos 0 0 NMOS W=14u L=1u
+Q_GC2_P n_gc2_cp n_gc_lin n_gc2_e1 QN
+Q_GC2_N n_gc2_cn n_gc_mid n_gc2_e2 QN
+R_GC2_E1 n_gc2_e1 n_gc2_t 1.8k
+R_GC2_E2 n_gc2_e2 n_gc2_t 1.8k
+R_GC2_CP vcc n_gc2_cp 5.6k
+R_GC2_CN vcc n_gc2_cn 5.6k
+R_GC2_OFF vcc n_gc2_cn 16k
+Q_GC2_FP vcc n_gc2_cn n_vc2r QN
+Q_GC2_FN vcc n_gc2_cp n_vc2br QN
+M_GC2_EP n_vc2r n_bias_nmos 0 0 NMOS W=8u L=1u
+M_GC2_EN n_vc2br n_bias_nmos 0 0 NMOS W=8u L=1u
+R_VC2_A n_vc2r vc2 2.2k
+R_VC2_B n_vc2br vc2b 2.2k
+R_VC2_C1 vc2 n_gc_cm 450
+R_VC2_C2 vc2b n_gc_cm 450
+R_VC2_D vc2 vc2b 15k
+
+
+* =============================================================================
+* Peak detector: high-Z tap + 8-BJT Gilbert full-wave rectifier
+* =============================================================================
+R_PKD_TP finalp pkdinp 12k
+R_PKD_TN finaln pkdinn 12k
+C_PKD_TP finalp pkdinp 15f
+C_PKD_TN finaln pkdinn 15f
+
+* Bias CM for detector followers (~1.8 V)
+R_PKDCM_A vcc n_pkd_cm 1.5k
+R_PKDCM_B n_pkd_cm 0 1.8k
+R_PKD_B1 pkdinp n_pkd_cm 8k
+R_PKD_B2 pkdinn n_pkd_cm 8k
+
+Q_PKD_IFP vcc pkdinp n_pkd_ifp QN
+Q_PKD_IFN vcc pkdinn n_pkd_ifn QN
+M_PKD_IFP n_pkd_ifp n_bias_nmos 0 0 NMOS W=50u L=0.5u
+M_PKD_IFN n_pkd_ifn n_bias_nmos 0 0 NMOS W=50u L=0.5u
+
+* Lower degenerated pair
+M_PKD_TAIL n_pkd_tail n_bias_nmos 0 0 NMOS W=75u L=0.5u
+Q_PKD_IP n_pkd_ep n_pkd_ifp n_pkd_ee_p QN
+Q_PKD_IN n_pkd_en n_pkd_ifn n_pkd_ee_n QN
+R_PKD_EEP n_pkd_ee_p n_pkd_tail 18
+R_PKD_EEN n_pkd_ee_n n_pkd_tail 18
+
+* Gilbert switching core (cross-coupled for rectification)
+Q_PKD_G1 detn n_pkd_ifp n_pkd_ep QN
+Q_PKD_G2 detp n_pkd_ifn n_pkd_ep QN
+Q_PKD_G3 detp n_pkd_ifp n_pkd_en QN
+Q_PKD_G4 detn n_pkd_ifn n_pkd_en QN
+R_PKD_LP vcc detp 3.3k
+R_PKD_LN vcc detn 3.3k
+* Single-ended pkd average and filter
+R_PKD_S1 detp pkd 4k
+R_PKD_S2 detn pkd 4k
+C_PKD_O pkd 0 2p
+C_PKD_D detp detn 0.3p
+* Keep residual offset path
+R_PKD_OS detp detn 50k
+
+
+* =============================================================================
+* AGC: filter + CMOS error OTA + CMOS control OTA -> agc
+* =============================================================================
+* Attenuate/level-shift detector toward oa~1.2 V at quiescence
+R_AGC_R1 pkd n_agc_f1 30k
+R_AGC_R1B n_agc_f1 0 18k
+C_AGC_C1 n_agc_f1 0 5p
+R_AGC_R2 n_agc_f1 n_agc_f2 20k
+C_AGC_C2 n_agc_f2 0 5p
+Q_AGC_BUF vcc n_agc_f2 n_agc_bf QN
+R_AGC_BE n_agc_bf 0 15k
+M_AGC_BE n_agc_bf n_bias_nmos 0 0 NMOS W=15u L=1u
+
+* Error amp (det vs oa)
+M_EA_TAIL n_ea_t n_bias_nmos 0 0 NMOS W=14u L=1u
+M_EA_IP n_ea_lp n_agc_bf n_ea_t 0 NMOS W=60u L=0.8u
+M_EA_IN n_ea_ln oa n_ea_t 0 NMOS W=60u L=0.8u
+M_EA_LP n_ea_lp n_ea_lp vcc vcc PMOS W=45u L=0.8u
+M_EA_LN n_ea_ln n_ea_lp vcc vcc PMOS W=45u L=0.8u
+M_EA_P n_ea_out n_ea_ln vcc vcc PMOS W=70u L=0.5u
+M_EA_N n_ea_out n_bias_nmos 0 0 NMOS W=20u L=0.5u
+C_EA_C n_ea_ln n_ea_out 300f
+R_EA_C n_ea_ln n_ea_z 1k
+C_EA_C2 n_ea_z n_ea_out 100f
+
+* Control amp -> agc
+R_AGC_MIDA vcc n_agc_mid 2.0k
+R_AGC_MIDB n_agc_mid 0 2.0k
+M_CA_TAIL n_ca_t n_bias_nmos 0 0 NMOS W=14u L=1u
+M_CA_IP n_ca_lp n_ea_out n_ca_t 0 NMOS W=60u L=0.8u
+M_CA_IN n_ca_ln n_agc_mid n_ca_t 0 NMOS W=60u L=0.8u
+M_CA_LP n_ca_lp n_ca_lp vcc vcc PMOS W=45u L=0.8u
+M_CA_LN n_ca_ln n_ca_lp vcc vcc PMOS W=45u L=0.8u
+M_CA_P n_ca_drv n_ca_ln vcc vcc PMOS W=30u L=1u
+M_CA_N n_ca_drv n_bias_nmos 0 0 NMOS W=10u L=1u
+C_CA_C n_ca_ln n_ca_drv 400f
+R_CA_C n_ca_ln n_ca_z 800
+C_CA_C2 n_ca_z n_ca_drv 100f
+* Soft couple control amp to agc; divider sets ~1.40 V idle
+R_CA_OUT n_ca_drv agc 68k
+R_AGC_PU vcc agc 14k
+R_AGC_PD agc 0 11k
+C_AGC_H agc 0 15p
+
+* =============================================================================
+* Models
+* =============================================================================
+.model NMOS NMOS(VTO=.55 KP=220u LAMBDA=.02)
+.model PMOS PMOS(VTO=-.55 KP=100u LAMBDA=.02)
+.model QN NPN(IS=1e-16 BF=200 VAF=100 IKF=50m RB=5 RC=1 RE=.2 CJE=2f CJC=1f TF=.45p TR=5p)
+.model QP PNP(IS=1e-16 BF=100 VAF=60 IKF=20m RB=8 RC=1 RE=.3 CJE=3f CJC=1.5f TF=.7p TR=8p)
+.model QBUF NPN(IS=1e-16 BF=200 VAF=100 IKF=100m RB=3 RC=.5 RE=.15 CJE=3f CJC=1.5f TF=.45p TR=5p)
+
+V_TB_VCC vcc 0 3.3
+V_TB_MC mc 0 0
+V_TB_MGC mgc 0 1.3
+V_TB_OA oa 0 1.2
+I_TB_P 0 inp DC 0
+I_TB_N inn 0 DC 0
+.control
+op
+print v(gc)
+quit
+.endc
+.end

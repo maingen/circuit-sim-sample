@@ -1,0 +1,13 @@
+{
+  "artifact_evaluable": false,
+  "error": "AGC requires physical follower, mirror, and CMOS amplifier devices",
+  "failure_codes": [
+    "CANDIDATE_INVALID"
+  ],
+  "final_reward": 0.0,
+  "measurements": {},
+  "metric_rewards": {},
+  "outcome": "candidate_invalid",
+  "production_pass": false,
+  "task": "agc_controller_tl_run_01"
+}

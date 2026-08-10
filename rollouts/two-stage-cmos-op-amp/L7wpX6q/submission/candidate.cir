@@ -1,0 +1,16 @@
+.subckt candidate inp inn out vdd vss
+* Two-stage CMOS op amp
+* IREF=200uA; bias branches sized for 100uA (tail) and 200uA (stage 2)
+IREF vdd nref 200u
+MNref nref nref vss vss NMOS4 W=10.1e-6 L=1e-6
+MN5 tail nref vss vss NMOS4 W=5.05e-6 L=1e-6
+MN8 pbias nref vss vss NMOS4 W=10.1e-6 L=1e-6
+MPref pbias pbias vdd vdd PMOS4 W=22.1e-6 L=1e-6
+MP7 out pbias vdd vdd PMOS4 W=22.1e-6 L=1e-6
+MN1 d1 inn tail vss NMOS4 W=38.2e-6 L=1e-6
+MN2 d2 inp tail vss NMOS4 W=38.2e-6 L=1e-6
+MP3 d1 d1 vdd vdd PMOS4 W=3e-6 L=1e-6
+MP4 d2 d1 vdd vdd PMOS4 W=3e-6 L=1e-6
+MN6 out d2 vss vss NMOS4 W=8e-6 L=1e-6
+Cc out d2 2.35f
+.ends candidate

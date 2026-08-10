@@ -1,0 +1,20 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 1
+v(inp) = 7.804607e-01
+v(inn) = 7.804570e-01
+v(finalp) = 2.692312e+00
+v(finaln) = 2.692312e+00
+@m_cancel_p[id] = 5.043172e-03
+@m_cancel_n[id] = 3.793551e-03
+ngspice-46 done

@@ -1,0 +1,54 @@
+* Transistor-level AGC controller
+* Local CMOS two-stage Miller-compensated operational amplifier
+.subckt opamp_cmos inp inn out vcc vss
+* Bias network
+Mbp biasp biasp vcc vcc PMOS_SYS W=40u L=2u
+Rbias biasp vss 60k
+Mcn1 biasn biasp vcc vcc PMOS_SYS W=40u L=2u
+Mcn2 biasn biasn vss vss NMOS_SYS W=20u L=2u
+* Tail current source
+Mtail tcom biasn vss vss NMOS_SYS W=40u L=2u
+* NMOS differential pair (diode load on inn => non-inverting)
+M1 d1 inn tcom vss NMOS_SYS W=100u L=1u
+M2 d2 inp tcom vss NMOS_SYS W=100u L=1u
+* PMOS active mirror load
+M3 d1 d1 vcc vcc PMOS_SYS W=40u L=2u
+M4 d2 d1 vcc vcc PMOS_SYS W=40u L=2u
+* Second gain / output stage
+M5 out d2 vcc vcc PMOS_SYS W=80u L=1u
+M6 out biasn vss vss NMOS_SYS W=40u L=2u
+* Physical Miller compensation
+Cm d2 ncm 800f
+Rm ncm out 1k
+.ends opamp_cmos
+
+.subckt candidate detp detn oa pkd agc agc_pkd_ref agc_ref vcc vss
+* Differential detector input filter: 600 ohm each leg, 150 fF diff
+Rf1 detp nfp 600
+Rf2 detn nfn 600
+Cf nfp nfn 150f
+
+* NPN emitter-follower isolation
+Qefp vcc nfp bufp QN_SYS
+Qefn vcc nfn bufn QN_SYS
+
+* Transistor current-mirror sinks
+Mis_ref vsink_ref vsink_ref vss vss NMOS_SYS W=10u L=2u
+Rs_ref vcc vsink_ref 40k
+Mis_p bufp vsink_ref vss vss NMOS_SYS W=10u L=2u
+Mis_n bufn vsink_ref vss vss NMOS_SYS W=10u L=2u
+
+* Stage 1: pkd = agc_pkd_ref + 13.97*(detp-detn) (ratio trimmed)
+R1a bufn n1_inn 10k
+R2a n1_inn pkd 144.8k
+R1b bufp n1_inp 10k
+R2b n1_inp agc_pkd_ref 144.8k
+Xamp1 n1_inp n1_inn pkd vcc vss opamp_cmos
+
+* Stage 2: compare pkd with oa to generate agc
+Rin_pkd pkd n2_inn 100k
+Rf_agc n2_inn agc 47.5k
+Ra_oa oa n2_inp 100k
+Rb_ref n2_inp agc_ref 9.7k
+Xamp2 n2_inp n2_inn agc vcc vss opamp_cmos
+.ends candidate

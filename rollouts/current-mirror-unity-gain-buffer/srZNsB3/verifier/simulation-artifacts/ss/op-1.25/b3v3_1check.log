@@ -1,0 +1,5 @@
+BSIM3V3.1 Parameter Check
+Model = nmos
+W = 0.0001, L = 4e-07
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.

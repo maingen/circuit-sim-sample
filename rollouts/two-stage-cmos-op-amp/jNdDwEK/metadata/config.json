@@ -1,0 +1,20 @@
+{
+    "task": {
+        "path": "testing/s9-2-two-stage-cmos-op-amp-harbor"
+    },
+    "trial_name": "s9-2-two-stage-cmos-op-amp-harbo__jNdDwEK",
+    "trials_dir": "testing/results/s9-2-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-233417/s9-2-two-stage-cmos-op-amp-grok45-eight-orbstack-20260809-233417",
+    "agent_setup_timeout_multiplier": 4.0,
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.5",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "job_id": "65813999-dbe2-423c-89ca-f9b7428485b8"
+}

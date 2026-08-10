@@ -1,0 +1,46 @@
+{
+  "artifact_evaluable": true,
+  "error": null,
+  "failure_codes": [
+    "AGC-R04-agc-20mv",
+    "AGC-R05-agc-50mv",
+    "AGC-R06-command-range"
+  ],
+  "final_reward": 0.0,
+  "measurements": {
+    "oa_1_2_agc_20mv_v": 1.39937836,
+    "oa_1_2_agc_50mv_v": 1.20004523,
+    "oa_1_2_agc_max_v": 1.53226723,
+    "oa_1_2_agc_min_v": 1.20004523,
+    "oa_1_2_agc_zero_v": 1.53226723,
+    "oa_1_2_pkd_20mv_v": 1.08007215,
+    "oa_1_2_pkd_50mv_v": 1.49974124,
+    "oa_1_2_pkd_zero_v": 0.800292589,
+    "oa_1_2_settling_20mv_s": 3.3499999999999976e-08,
+    "oa_1_2_settling_50mv_s": 4.350000000000009e-08,
+    "oa_1_4_agc_20mv_v": 1.49512982,
+    "oa_1_4_agc_50mv_v": 1.2957967599999998,
+    "oa_1_4_agc_max_v": 1.62801864,
+    "oa_1_4_agc_min_v": 1.29579676,
+    "oa_1_4_agc_zero_v": 1.6280186399999999,
+    "oa_1_4_pkd_20mv_v": 1.08008342,
+    "oa_1_4_pkd_50mv_v": 1.49975238,
+    "oa_1_4_pkd_zero_v": 0.8003039470000001,
+    "oa_1_4_settling_20mv_s": 3.24999999999999e-08,
+    "oa_1_4_settling_50mv_s": 4.149999999999994e-08,
+    "pkd_closed_loop_gain_v_per_v": 13.988969666666671
+  },
+  "metric_rewards": {
+    "AGC-R01-closed-loop-gain": 1.0,
+    "AGC-R02-pkd-20mv": 1.0,
+    "AGC-R03-pkd-50mv": 1.0,
+    "AGC-R04-agc-20mv": 0.05004767466666559,
+    "AGC-R05-agc-50mv": 0.07625843333333714,
+    "AGC-R06-command-range": 0.0,
+    "AGC-R07-required-polarity": 1.0,
+    "AGC-R08-settling": 1.0
+  },
+  "outcome": "requirements_failed",
+  "production_pass": false,
+  "task": "agc_controller_tl_run_01"
+}

@@ -1,0 +1,25 @@
+# Task explanations
+
+| Task | Circuit and verification | Package | Final Grok 4.5 sample |
+| --- | --- | --- | --- |
+| Cascoded current-mirror OTA | Build a transistor-level cascoded current-mirror OTA as a unity-gain buffer, with a fixed two-to-one mirror ratio. Ngspice 46 checks slew rate, unity-gain frequency, phase margin, quiescent current, and transient behavior with TT, FF, and SS transistor models. | Harbor version 0.3.0 is at `harbor/current-mirror-unity-gain-buffer`. | The eight runs include six evaluable circuits and two production passes. Mean reward is 0.576312, and population variance is 0.202794. |
+| Two-stage CMOS op amp | Build a dual-supply, two-stage operational amplifier from the supplied 0.18 micrometer NMOS4 and PMOS4 models. The active load and bias branches have prescribed topologies. The grader measures common-mode output behavior, differential gain, bandwidth, overload output swing, and transient distortion. | Harbor version 0.2.0 is at `harbor/two-stage-cmos-op-amp`. | Three of the eight circuits were evaluable, and one passed production. Mean reward is 0.369038, and population variance is 0.227029. |
+| Loaded source follower | Combine an NMOS differential input, PMOS current-mirror load, and NMOS source-follower output. A 92 kilohm and 8 kilohm divider loads the output while the feedback loop remains open. Ngspice 46 uses the supplied 0.18 micrometer models to measure gain, bandwidth, distortion, bias currents, and loading in AC and transient analyses. | Harbor version 0.1.1 is at `harbor/open-feedback-cmos-amplifier`. | Two of the eight circuits were evaluable, and one passed production. Mean reward is 0.240385, and population variance is 0.173724. |
+| Automatic gain controller | Filter a differential detector signal, buffer it with NPN emitter followers and mirror sinks, and use one locally designed CMOS operational amplifier in both feedback stages. Ngspice 46 applies two detector levels at two operating-point inputs and checks peak-detector voltage, gain-command voltage, closed-loop gain, polarity, command range, and settling. | Harbor version 1.1.0 is at `harbor/automatic-gain-controller`. | Six of the eight circuits were evaluable, and none passed production. Mean reward is 0.449366, and population variance is 0.202049. |
+| Transistor-level PAM4 TIA | Build a complete 3.3 V differential transimpedance amplifier from transistors and passive elements. The signal chain contains a regulated TIA front end, two variable-gain stages, an output buffer, a Gilbert peak detector, automatic gain control, mode selection, and overload cancellation. Ngspice 46 checks 68 operating-point, gain, bandwidth, distortion, detector, selector, cancellation, and PAM4-eye criteria against the bundled reference calibration. | Harbor version 0.1.1 is at `harbor/transistor-level-tia`. | Seven of the eight circuits were evaluable, and none passed production. Mean reward is 0.525935, and population variance is 0.046290. |
+
+## What failed
+
+- OTA at SS: unity-gain frequency missed on every evaluable failing run. Breakdown: 3 over the FF current limit, 3 short on positive slew rate at SS, 1 short on negative slew rate at SS. 2 more had structural errors, no measurement possible.
+- Op amp: 5 of 8 submissions changed or dropped part of the required topology (differential pair, active load, second stage, bias network). Of the 2 evaluable failures, both missed 1 kHz differential gain.
+- Source follower: 6 of 8 missing a transistor stage or bias mirror. Verifier rejected these pre-simulation. 1 evaluable failure went over the transient-distortion limit.
+- AGC: 6 of 8 measurable. All 6 hit gain, peak-detector, polarity, settling. All 6 failed the disclosed two-corner command behavior. 2 more omitted required physical follower, mirror, and CMOS amplifier devices, so the verifier rejected them pre-simulation. 4 gross failures received zero reward.
+- Transistor-level TIA: 7 out of the 8 submissions produced the complete measurement set, but none met every strict reference-calibrated criterion. Moreover, one of the rollouts  received zero because it used internal ideal current sources in place of allowed transistor-level circuitry - basically; it tried to cheat by spamming current sources.
+
+## Evidence and acceptance
+
+Definitions. `artifact_evaluable`: netlist simulated, measurements trustworthy. `production_pass`: all mandatory requirements pass, `final_reward` = 1.0. Partial reward does not satisfy production_pass regardless of margin.
+
+Retained per rollout: submitted circuit, full trajectory, verifier final output, immutable image provenance, Harbor metadata. Index at `rollouts/rollouts.jsonl`. Checksums at `rollouts/SHA256SUMS`.
+
+The transistor-level TIA rollouts use `cached-reference-calibrated-strict` grade provenance. Their final verifier files contain only the latest calibrated grades. Their simulation artifacts are the measurement evidence reused by that cached regrade, so the export does not claim that Ngspice ran a second time.

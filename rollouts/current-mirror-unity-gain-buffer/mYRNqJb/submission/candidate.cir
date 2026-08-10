@@ -1,0 +1,31 @@
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Current-mirror OTA, K=2, L=0.4um all MOSFETs
+* 1.8V CMOS, designed for CL=2.5pF unity-gain buffer
+*
+* IBIAS sets tail current Iss
+* M1,M2  NMOS diff pair
+* M3,M4  PMOS diode loads (unit)
+* M6,M7  PMOS mirrors K=2 (m=2)
+* M9,M10 NMOS 1:1 fold mirror -> single-ended vout
+*
+* Iq ~= Iss*(1+K) from vdd
+* SR  ~= K*Iss/CL
+* fu  ~= K*gm1/(2*pi*CL)
+
+IBIAS ntail vss 130u
+
+* ---- input pair ----
+M1 d1 vinp ntail vss nmos w=50u l=0.4u
+M2 d2 vinn ntail vss nmos w=50u l=0.4u
+
+* ---- PMOS loads / K=2 mirrors ----
+M3 d1 d1 vdd vdd pmos w=4u l=0.4u m=1
+M4 d2 d2 vdd vdd pmos w=4u l=0.4u m=1
+M6 vout d1 vdd vdd pmos w=4u l=0.4u m=2
+M7 n3   d2 vdd vdd pmos w=4u l=0.4u m=2
+
+* ---- NMOS fold mirror ----
+M9  n3   n3  vss vss nmos w=8u l=0.4u
+M10 vout n3  vss vss nmos w=8u l=0.4u
+
+.ends candidate

@@ -1,0 +1,53 @@
+Current-mirror op-amp private fixture
+.include p18_cmos_models_ff.inc
+.subckt candidate vinp vinn vout vdd vb1 vb2 vss
+* Current-mirror OTA (K=2), L=0.4um all MOSFETs
+* Topology: NMOS diff pair, PMOS diode loads, K=2 PMOS to output,
+*           unit intermediate PMOS into NMOS diode, K=2 NMOS to output.
+* Source-degeneration resistors on PMOS branches improve mirror matching
+* (lower IQ under FF) while preserving slew and unity-gain bandwidth.
+*
+* Ports: vinp vinn vout vdd vb1 vb2 vss
+*   vb1/vb2 unused (may only connect to gates; left open)
+*   IBIAS is the differential-pair tail current (neg. terminal = vss)
+
+IBIAS ntail vss 153.4u
+
+* ----- NMOS differential pair -----
+M1   d1   vinp  ntail vss nmos w=100u l=0.4u
+M2   d2   vinn  ntail vss nmos w=100u l=0.4u
+
+* ----- PMOS source degeneration -----
+R3   vdd  s3    130
+R4   vdd  s4    130
+R5   vdd  s5    65
+R6   vdd  s6    130
+
+* ----- PMOS diode-connected loads (unit) -----
+M3   d1   d1    s3    vdd pmos w=11u  l=0.4u
+M4   d2   d2    s4    vdd pmos w=11u  l=0.4u
+
+* ----- PMOS K=2 to output; unit intermediate branch -----
+M5   vout d1    s5    vdd pmos w=22u  l=0.4u
+M6   mid  d2    s6    vdd pmos w=11u  l=0.4u
+
+* ----- NMOS mirror K=2 -----
+M7   mid  mid   vss   vss nmos w=5.5u l=0.4u
+M8   vout mid   vss   vss nmos w=11u  l=0.4u
+
+.ends candidate
+
+VDD vdd 0 1.8
+VB1 vb1 0 1.4
+VB2 vb2 0 0.6
+XDUT vinp vinn vout vdd vb1 vb2 0 candidate
+CLOAD vout 0 2.5p
+.temp 27
+VIN vinp 0 0.75
+RFB vout vinn 1m
+.control
+op
+print v(vout) i(VDD) @m.xdut.m1[vds] @m.xdut.m1[vdsat] @m.xdut.m2[vds] @m.xdut.m2[vdsat] @m.xdut.m3[vds] @m.xdut.m3[vdsat] @m.xdut.m4[vds] @m.xdut.m4[vdsat] @m.xdut.m5[vds] @m.xdut.m5[vdsat] @m.xdut.m6[vds] @m.xdut.m6[vdsat] @m.xdut.m7[vds] @m.xdut.m7[vdsat] @m.xdut.m8[vds] @m.xdut.m8[vdsat]
+quit
+.endc
+.end

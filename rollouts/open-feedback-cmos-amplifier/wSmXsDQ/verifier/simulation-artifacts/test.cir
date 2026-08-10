@@ -1,0 +1,43 @@
+S.11.2.B private open-feedback op-amp fixture
+.include cmos018-s112b.lib
+* Two-stage CMOS op amp with open feedback network
+.subckt candidate in out vdd vss
+M1 d1 in tail vss NMOS4 L=0.18u W=59u
+M2 d2 0 tail vss NMOS4 L=0.18u W=59u
+M3 d1 d1 vdd vdd PMOS4 L=0.18u W=118u
+M4 d2 d1 vdd vdd PMOS4 L=0.18u W=118u
+M5 tail nbias vss vss NMOS4 L=0.18u W=24u
+M6 vdd d2 out vss NMOS4 L=0.18u W=100u
+M7 out nbias vss vss NMOS4 L=0.18u W=30u
+M8 nbias nbias vss vss NMOS4 L=0.18u W=4u
+IREF vdd nbias DC 200u
+R1 d2 mid 9700
+C1 mid 0 137n
+RF1 out feedback_open 92k
+RF2 feedback_open 0 8k
+.ends candidate
+
+VDD vdd 0 1
+VSS vss 0 -1
+VIN in 0 DC 0 AC 1 SIN(0 0.001 1000.0)
+XDUT in out vdd vss candidate
+.temp 27
+.options method=gear reltol=1e-5 abstol=1e-12 vntol=1e-8 trtol=7
+.control
+set wr_vecnames
+set wr_singlescale
+op
+let first_branch_a = abs(@m.xdut.m1[id])
+let first_branch_b = abs(@m.xdut.m2[id])
+let tail_branch = abs(@m.xdut.m5[id])
+let second_branch_a = abs(@m.xdut.m6[id])
+let second_branch_b = abs(@m.xdut.m7[id])
+let bias_branch = abs(@m.xdut.m8[id])
+wrdata bias.dat first_branch_a first_branch_b tail_branch second_branch_a second_branch_b bias_branch
+ac dec 400 1000000.0 5000000000.0
+wrdata ac.dat v(out)
+tran 1e-06 0.02 0.015
+wrdata tran.dat v(in) v(out)
+quit
+.endc
+.end

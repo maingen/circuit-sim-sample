@@ -1,0 +1,11 @@
+{
+  "outcome": "candidate_invalid",
+  "artifact_evaluable": false,
+  "production_pass": false,
+  "final_reward": 0.0,
+  "failure_codes": [
+    "CMOA-CANDIDATE-INVALID"
+  ],
+  "error": "submission must contain a K=2 MOS mirror pair sharing gate, body, and model",
+  "corners": []
+}

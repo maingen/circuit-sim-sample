@@ -1,0 +1,166 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vcc                                        3.3
+bref                                  0.737574
+vcm                                    1.77345
+vtref                                 0.771051
+vpkcm                                  1.75792
+nbias                                 0.726424
+nbias2                                0.761405
+nbias3                                0.764761
+vcc_tia                                 3.0838
+rdrive                                 2.56833
+rgs                                    1.36581
+vtreg_s                                1.35608
+cea                                   0.735848
+te                                    0.656358
+ceb                                   0.747063
+efd                                     2.1628
+ctp                                    1.46713
+inp                                   0.755047
+etp                                 0.00869825
+ctp2                                   1.46713
+tia_p                                 0.753568
+ctn                                    1.49221
+inn                                   0.754495
+etn                                 0.00856273
+ctn2                                   1.49221
+tia_n                                 0.776511
+isp1                                  0.745317
+isp                                   0.735587
+itp1                                  0.744152
+itp                                   0.734737
+isn1                                  0.745092
+isn                                   0.735689
+itn1                                  0.761847
+itn                                   0.747183
+ccp1                                   2.77036
+cte_p                                 0.081175
+ccp2                                   2.75559
+ccp_x                                0.0166337
+cancel_gp                            0.0156922
+ccn1                                   2.50226
+cte_n                                0.0821605
+ccn2                                   2.74992
+ccn_x                                0.0207076
+cancel_gn                            0.0195355
+i1bp                                   1.75356
+i1bn                                   1.75356
+v1p                                      1.039
+v1n                                      1.039
+v1cp                                   1.24663
+v1ep                                  0.277918
+v1cn                                   1.24663
+v1en                                  0.277918
+c1p                                     2.7982
+vc1                                    2.00043
+dmp1                                    2.8984
+vc1b                                   1.99256
+c1n                                     2.7982
+c1p2                                    2.7982
+c1n2                                    2.7982
+vga1p                                  2.08221
+vga1n                                  2.08221
+i2bp                                   1.75341
+i2bn                                   1.75341
+v2p                                    1.03866
+v2n                                    1.03866
+v2cp                                   1.25502
+v2ep                                  0.277586
+v2cn                                   1.25502
+v2en                                  0.277586
+c2p                                    2.50083
+vc2                                    2.01502
+dmp2                                   3.08658
+vc2b                                   1.98276
+c2n                                    2.50083
+c2p2                                   2.50083
+c2n2                                   2.50083
+vga2p                                  1.78194
+vga2n                                  1.78194
+bufinp                                 1.61068
+bufinn                                 1.61068
+outp                                   2.72067
+bep                                    0.85964
+outn                                   2.72067
+ben                                    0.85964
+fin_a                                  2.71954
+fin_b                                  2.71954
+finalp                                 2.71954
+finaln                                 2.71954
+gcref                                  1.09993
+gcxp                                    2.3876
+gc                                     1.39992
+gcep                                  0.674635
+gcxn                                   3.26646
+gcen                                    0.4676
+vcm_vc                                 1.99761
+vc1r                                   2.53964
+vc1s                                   1.67829
+vc2r                                   2.53353
+vc2s                                    1.6871
+mcb                                        3.3
+mc                                           0
+mgc                                        1.4
+agc                                    3.28479
+pkdinp                                 2.47735
+pkdinn                                 2.47735
+pke1                                    1.7243
+pke2                                    1.7243
+pq1                                    1.01407
+ple1                                   0.95499
+pq2                                    1.01407
+ple2                                   0.95499
+detp                                    2.8383
+detn                                    2.8383
+dfa                                    2.79083
+dfb                                    2.79083
+dfe1                                   2.05953
+dfe2                                   2.05953
+pkd                                    1.54465
+afp                                     2.7752
+afn                                     2.7752
+afe1                                    2.0487
+afe2                                    2.0487
+anb                                   0.745293
+apb                                        3.3
+a1c1                                   0.55007
+a1t                                    2.59872
+a1c2                                   0.55007
+a1o                                    3.29106
+a2c1                                  0.600364
+a2t                                    2.14146
+a2c2                                   2.14434
+oa                                         1.2
+pad1                                   3.17573
+pad2                                   3.17573
+pad3                                   3.18164
+lpn#branch                         8.07293e-05
+lpp#branch                         8.07293e-05
+lv2ln#branch                       4.70346e-06
+lv2lp#branch                       4.70346e-06
+lv1ln#branch                       3.15342e-06
+lv1lp#branch                       3.15342e-06
+lctn#branch                         4.1574e-06
+lctp#branch                        3.82885e-06
+v_tb_oa#branch                               0
+v_tb_mgc#branch                   -3.01028e-06
+v_tb_mc#branch                               0
+v_tb_vcc#branch                     -0.0921396
+
+
+No. of Data Rows : 34993
+ngspice-46 done
