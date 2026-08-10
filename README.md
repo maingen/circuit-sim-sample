@@ -1,4 +1,4 @@
-# Maingen Circuit Sim Env. Sample
+# Circuit Simulation Sample Environments
 
 This repository contains five EESimBench electrical-engineering tasks as self-contained Harbor environments. It also contains eight final Grok 4.5 rollouts for each task, including the submitted circuit, complete trajectory, and production verifier result.
 
