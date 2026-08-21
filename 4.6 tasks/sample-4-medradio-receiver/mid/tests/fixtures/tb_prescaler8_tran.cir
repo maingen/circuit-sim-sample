@@ -1,0 +1,21 @@
+Dual-modulus prescaler divide-by-eight test
+.include "build/sky130_tt.inc"
+.include "netlists/primitives.spice"
+.include "netlists/qvco.spice"
+.include "netlists/synth.spice"
+VDD vdd 0 1
+VCLK clk 0 pulse(0 1 20n 0.2n 0.2n 6.05n 12.5n)
+VM mode 0 0
+VR reset 0 pulse(1 0 0 1n 1n 10u 20u)
+XPRE clk mode reset out q0 q1 q2 q3 vdd 0 prescaler_8_9
+.control
+set wr_singlescale
+tran 0.2n 3u
+meas tran tp5 when v(out)=0.5 rise=5
+meas tran tp15 when v(out)=0.5 rise=15
+let prescaler_out_hz=10/(tp15-tp5)
+print prescaler_out_hz
+wrdata results/raw/prescaler8_tran.dat v(clk) v(out) v(q0) v(q1) v(q2) v(q3)
+quit
+.endc
+.end

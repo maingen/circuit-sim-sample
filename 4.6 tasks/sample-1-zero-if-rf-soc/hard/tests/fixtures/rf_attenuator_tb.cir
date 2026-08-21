@@ -1,0 +1,33 @@
+* RF attenuator high/low-state AC verification.
+.title RF attenuator AC
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/primitives.spice
+.include ../netlists/blocks/rf_frontend.spice
+VDD vdd 0 1.8
+VCM vcm 0 0.9
+VIP inp 0 DC 0.9 AC 0.5
+VIN inn 0 DC 0.9 AC 0.5 180
+VHI hi 0 1.8
+VLO lo 0 0
+XH inp inn hp hn hi lo vdd 0 rf_attenuator
+XL inp inn lp ln lo hi vdd 0 rf_attenuator
+* A differential RF port is terminated about its 0.9 V common-mode point.
+* Ground-referenced 50 ohm loads would draw an artificial 18 mA DC current
+* from each output and would measure DC-induced switch compression as RF loss.
+RHLP hp vcm 50
+RHLN hn vcm 50
+RLLP lp vcm 50
+RLLN ln vcm 50
+.control
+set noaskquit
+op
+ac dec 50 10meg 10g
+let hg=db(v(hp)-v(hn))
+let lg=db(v(lp)-v(ln))
+meas ac HIGH_2G6 find hg at=2.6g
+meas ac LOW_2G6 find lg at=2.6g
+wrdata ../results/raw/rf_attenuator_ac.dat frequency hg lg
+print HIGH_2G6 LOW_2G6
+quit
+.endc
+.end

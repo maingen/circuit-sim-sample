@@ -1,0 +1,41 @@
+* Digital support integration verification.
+.title digital support transistor logic
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/primitives.spice
+.include ../netlists/blocks/data_converters.spice
+.include ../netlists/blocks/digital_support.spice
+.temp 27
+
+VDD vdd 0 1.8
+VBN vbn 0 1.0
+VCLK clk 0 PULSE(0 1.8 1n 50p 50p 2.45n 5n)
+VCLKB clkb 0 PULSE(1.8 0 1n 50p 50p 2.45n 5n)
+VRST rst 0 PULSE(1.8 0 0 50p 50p 1.5n 100n)
+VHI hi 0 1.8
+VLO lo 0 0
+
+XDEC hi lo hi clk clkb rst dq2 dq1 dq0 dclk dclkb vdd 0 decimation_filter
+XINT hi lo hi lo clk clkb rst iq3 iq2 iq1 iq0 vdd 0 interpolation_filter
+XCAL hi lo hi lo hi lo gain gainb dcflag qmcflag vdd 0 rx_calibration_control
+XTXCAL hi hi hi hi lo hi lo hi oi3 oi2 oi1 oi0 oq3 oq2 oq1 oq0 clip vdd 0 tx_calibration_control
+XSPI hi clk clkb lo sq7 sq6 sq5 sq4 sq3 sq2 sq1 sq0 miso vdd 0 spi_shift_register
+XSEQ clk clkb rst calen bist loopback s0 s1 vdd 0 control_sequencer
+XGPIO gdin hi hi lo gpad vdd 0 gpio_pad
+XHKA hi hb2 hb1 hb0 vdd 0 vbn housekeeping_adc
+XHKD hi lo hi lo hdac vdd vdd 0 housekeeping_dac
+.ic v(dclk)=0 v(dclkb)=1.8 v(dq2)=0 v(xdec.q2b)=1.8 v(dq1)=0 v(xdec.q1b)=1.8 v(dq0)=0 v(xdec.q0b)=1.8
+
+.control
+set noaskquit
+tran 10p 60n 0 10p uic
+meas tran GAIN_HIGH max v(gain) from=10n to=60n
+meas tran CLIP_HIGH max v(clip) from=10n to=60n
+meas tran GPIO_HIGH max v(gpad) from=10n to=60n
+meas tran HKDAC_AVG avg v(hdac) from=40n to=60n
+meas tran DEC_HIGH max v(dq2) from=20n to=60n
+meas tran SPI_HIGH max v(sq7) from=40n to=60n
+wrdata ../results/raw/digital_support_tran.dat time v(dq2) v(iq3) v(gain) v(clip) v(sq7) v(calen) v(bist) v(loopback) v(gpad) v(hdac)
+print GAIN_HIGH CLIP_HIGH GPIO_HIGH HKDAC_AVG DEC_HIGH SPI_HIGH
+quit
+.endc
+.end

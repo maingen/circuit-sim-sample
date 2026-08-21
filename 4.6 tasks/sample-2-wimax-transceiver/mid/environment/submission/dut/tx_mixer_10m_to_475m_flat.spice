@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for tx_mixer_10m_to_475m
+* Required named nodes: inp inm lop lom outp outm tailbias vdd1 0

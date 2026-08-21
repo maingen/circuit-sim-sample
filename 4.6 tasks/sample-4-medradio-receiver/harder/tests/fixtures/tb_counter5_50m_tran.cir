@@ -1,0 +1,20 @@
+Five-bit programmable counter P=9 test at the prescaler output rate
+.include "build/sky130_tt.inc"
+.include "netlists/primitives.spice"
+.include "netlists/qvco.spice"
+.include "netlists/synth.spice"
+VDD vdd 0 1
+VCLK clk 0 pulse(0 1 10n 0.1n 0.1n 9.8n 20n)
+VR reset 0 pulse(1 0 0 0.1n 0.1n 10u 20u)
+XP clk reset vdd 0 0 vdd 0 terminal q0 q1 q2 q3 q4 vdd 0 programmable_counter5
+.control
+set wr_singlescale
+tran 0.1n 4u
+meas tran tc2 when v(terminal)=0.5 rise=2
+meas tran tc12 when v(terminal)=0.5 rise=12
+let counter_50m_out_hz=10/(tc12-tc2)
+print counter_50m_out_hz
+wrdata results/raw/counter5_50m_tran.dat v(clk) v(terminal) v(q0) v(q1) v(q2) v(q3) v(q4)
+quit
+.endc
+.end

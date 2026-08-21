@@ -1,0 +1,11 @@
+services:
+  main:
+    platform: linux/amd64
+    image: eesimbench/sample3-bluetooth-mid-agent:local
+    build:
+      context: ..
+      dockerfile: environment/Dockerfile
+    command: ["sleep", "infinity"]
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

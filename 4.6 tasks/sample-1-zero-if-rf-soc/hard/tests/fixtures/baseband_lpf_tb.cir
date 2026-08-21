@@ -1,0 +1,23 @@
+* Differential baseband LPF AC verification.
+.title baseband_lpf AC
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/baseband.spice
+
+VINP inp 0 DC 0 AC 0.5
+VINN inn 0 DC 0 AC 0.5 180
+XLPF inp inn outp outn 0 baseband_lpf
+
+.control
+set noaskquit
+ac dec 100 10k 1g
+let vdiff = v(outp)-v(outn)
+let gain_db = db(vdiff)
+let phase_deg = ph(vdiff)
+meas ac GAIN_10K find gain_db at=10k
+meas ac F3DB when gain_db=-3 fall=1
+meas ac GAIN_100M find gain_db at=100meg
+wrdata ../results/raw/baseband_lpf_ac.dat frequency gain_db phase_deg
+print GAIN_10K F3DB GAIN_100M
+quit
+.endc
+.end

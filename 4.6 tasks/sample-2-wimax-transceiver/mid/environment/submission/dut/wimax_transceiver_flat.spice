@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for wimax_transceiver
+* Required named nodes: bbtxp bbtxm rxoutp rxoutm antenna ref_tx ref_rx ref_if div_reset pfd_reset vdd1 vdd5 0 probe_tx_lo_p probe_tx_lo_m probe_rx_lo_p probe_rx_lo_m probe_if_lo_p probe_if_lo_m probe_tx_feedback probe_rx_feedback probe_if_feedback probe_tx_vctrl probe_rx_vctrl probe_if_vctrl probe_pa_drain

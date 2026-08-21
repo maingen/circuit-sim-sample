@@ -1,0 +1,31 @@
+* Passive I/Q downmixer conversion verification at the paper's 2.6 GHz condition.
+.title passive_iq_downmixer transient
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/mixer.spice
+.temp 27
+
+VVCM vcm 0 0.9
+VRFP rfp 0 SIN(0.9 20m 2.605g 0 0 0)
+VRFN rfn 0 SIN(0.9 20m 2.605g 0 0 180)
+VLO0 lo0 0 PULSE(0 1.8 0 2p 2p 94p 384.615p)
+VLO90 lo90 0 PULSE(0 1.8 96.154p 2p 2p 94p 384.615p)
+VLO180 lo180 0 PULSE(0 1.8 192.308p 2p 2p 94p 384.615p)
+VLO270 lo270 0 PULSE(0 1.8 288.462p 2p 2p 94p 384.615p)
+
+XMIX rfp rfn ip in qp qn lo0 lo90 lo180 lo270 vcm 0 passive_iq_downmixer
+
+.control
+set noaskquit
+tran 2p 240n 0 2p
+let rfdiff = v(rfp)-v(rfn)
+let idiff = v(ip)-v(in)
+let qdiff = v(qp)-v(qn)
+let icm = (v(ip)+v(in))/2
+meas tran I_DIFF_PP pp idiff from=80n to=240n
+meas tran Q_DIFF_PP pp qdiff from=80n to=240n
+meas tran I_CM_AVG avg icm from=80n to=240n
+wrdata ../results/raw/mixer_down_tran.dat time rfdiff idiff qdiff
+print I_DIFF_PP Q_DIFF_PP I_CM_AVG
+quit
+.endc
+.end

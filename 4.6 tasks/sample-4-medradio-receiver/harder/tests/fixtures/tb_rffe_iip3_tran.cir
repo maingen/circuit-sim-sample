@@ -1,0 +1,22 @@
+RF front-end two-tone linearity test around the 403-MHz LO
+.include "build/sky130_tt.inc"
+.include "netlists/bias.spice"
+.include "netlists/lna.spice"
+.include "netlists/mixer.spice"
+VDD vdd 0 1
+VT1 src1 0 sin(0 5m 403.65meg)
+VT2 src src1 sin(0 5m 403.85meg)
+RSRC src rfin 50
+VLOP lop 0 sin(0.5 0.5 403meg 0 0 0)
+VLON lon 0 sin(0.5 0.5 403meg 0 0 180)
+XBIAS vdd 0 vbn vbp constant_gm_bias
+XLNA rfin rfout vdd 0 vbn vbp complementary_lna
+XMIX rfout lop lon outp outn vdd 0 vbn vbp folded_mixer
+.control
+set wr_singlescale
+tran 0.2n 30u 5u 0.2n
+let vif=v(outp)-v(outn)
+wrdata results/raw/rffe_iip3_tran.dat vif
+quit
+.endc
+.end

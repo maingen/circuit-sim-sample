@@ -1,0 +1,15 @@
+Bias operating-point test
+.include "build/sky130_tt.inc"
+.include "netlists/bias.spice"
+
+VDD vdd 0 1
+XBIAS vdd 0 vbn vbp constant_gm_bias
+
+.control
+set noaskquit
+op
+print v(vbn) v(vbp) i(VDD)
+write results/raw/bias_op.raw all
+quit
+.endc
+.end

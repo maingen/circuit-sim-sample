@@ -1,0 +1,18 @@
+SKY130 model smoke test
+.include "build/sky130_tt.inc"
+
+VGS gate 0 0
+VDS drain 0 1
+XMN drain gate 0 0 sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1
+
+.control
+set noaskquit
+set wr_singlescale
+dc VGS 0 1 0.025
+let idrain = -i(VDS)
+meas dc id_1v find idrain at=1
+wrdata results/raw/smoke_nmos_dc.dat v(gate) idrain
+print id_1v
+quit
+.endc
+.end

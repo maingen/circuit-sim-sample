@@ -1,0 +1,2141 @@
+{
+  "calibration_gate": {
+    "analysis_deck": "sky130_smoke.sp",
+    "criterion": "finite and greater than 1 uA",
+    "id": "sky130_model_smoke_current_a",
+    "provenance": "results/logs/sky130_smoke.log:id",
+    "unit": "A",
+    "value": 6.340895e-05
+  },
+  "criteria": [
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "vdac code0",
+      "essential": false,
+      "id": "control_vdac_code0",
+      "measurement_expression": "log measure vdac_code0",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:vdac_code0"
+      },
+      "reference_measurement": 1.8,
+      "scale_floor": 0.01,
+      "target": 1.8,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "vdac code1",
+      "essential": false,
+      "id": "control_vdac_code1",
+      "measurement_expression": "log measure vdac_code1",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:vdac_code1"
+      },
+      "reference_measurement": 0.185953,
+      "scale_floor": 0.01,
+      "target": 0.185953,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "vdac code3",
+      "essential": false,
+      "id": "control_vdac_code3",
+      "measurement_expression": "log measure vdac_code3",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:vdac_code3"
+      },
+      "reference_measurement": 0.0598807,
+      "scale_floor": 0.01,
+      "target": 0.0598807,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "vdac code7",
+      "essential": false,
+      "id": "control_vdac_code7",
+      "measurement_expression": "log measure vdac_code7",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:vdac_code7"
+      },
+      "reference_measurement": 0.0217056,
+      "scale_floor": 0.01,
+      "target": 0.0217056,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "drive enabled",
+      "essential": true,
+      "id": "control_drive_enabled",
+      "measurement_expression": "log measure drive_enabled",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:drive_enabled"
+      },
+      "reference_measurement": 1.8,
+      "scale_floor": 0.01,
+      "target": 1.8,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "drive limited",
+      "essential": true,
+      "id": "control_drive_limited",
+      "measurement_expression": "log measure drive_limited",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:drive_limited"
+      },
+      "reference_measurement": 1.78106e-06,
+      "scale_floor": 0.01,
+      "target": 1.78106e-06,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "bias_control_tb.sp",
+      "block": "bias_and_control",
+      "criterion_type": "central_fixed_point",
+      "description": "env avg",
+      "essential": false,
+      "id": "control_env_avg",
+      "measurement_expression": "log measure env_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/bias_control_tb.log:env_avg"
+      },
+      "reference_measurement": 0.00770277,
+      "scale_floor": 0.01,
+      "target": 0.00770277,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "up case up_avg",
+      "essential": true,
+      "id": "pfd_up_up_avg",
+      "measurement_expression": "log measure up_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_tb.log:up_avg"
+      },
+      "reference_measurement": 0.8808,
+      "scale_floor": 0.01,
+      "target": 0.8808,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "up case dn_avg",
+      "essential": true,
+      "id": "pfd_up_dn_avg",
+      "measurement_expression": "log measure dn_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_tb.log:dn_avg"
+      },
+      "reference_measurement": 0.0192032,
+      "scale_floor": 0.01,
+      "target": 0.0192032,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "up case control-voltage change",
+      "essential": true,
+      "id": "pfd_up_vctrl_delta",
+      "measurement_expression": "vctrl_stop - vctrl_start",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_tb.log:vctrl_start,vctrl_stop"
+      },
+      "reference_measurement": 0.01835,
+      "scale_floor": 0.01,
+      "target": 0.01835,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_down_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "down case up_avg",
+      "essential": true,
+      "id": "pfd_down_up_avg",
+      "measurement_expression": "log measure up_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_down_tb.log:up_avg"
+      },
+      "reference_measurement": 0.019542,
+      "scale_floor": 0.01,
+      "target": 0.019542,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_down_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "down case dn_avg",
+      "essential": true,
+      "id": "pfd_down_dn_avg",
+      "measurement_expression": "log measure dn_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_down_tb.log:dn_avg"
+      },
+      "reference_measurement": 0.881845,
+      "scale_floor": 0.01,
+      "target": 0.881845,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pfd_charge_pump_down_tb.sp",
+      "block": "pfd_charge_pump",
+      "criterion_type": "central_fixed_point",
+      "description": "down case control-voltage change",
+      "essential": true,
+      "id": "pfd_down_vctrl_delta",
+      "measurement_expression": "vctrl_stop - vctrl_start",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pfd_charge_pump_down_tb.log:vctrl_start,vctrl_stop"
+      },
+      "reference_measurement": -0.18426,
+      "scale_floor": 0.01,
+      "target": -0.18426,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "divider_3040m_tb.sp",
+      "block": "divider_chain_64",
+      "criterion_type": "central_fixed_point",
+      "description": "divide-by-2 output period",
+      "essential": true,
+      "id": "divider_q2_period",
+      "measurement_expression": "log measure q2_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/divider_3040m_tb.log:q2_period"
+      },
+      "reference_measurement": 6.571e-10,
+      "scale_floor": 1e-12,
+      "target": 6.571e-10,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "divider_3040m_tb.sp",
+      "block": "divider_chain_64",
+      "criterion_type": "central_fixed_point",
+      "description": "divide-by-4 output period",
+      "essential": true,
+      "id": "divider_q4_period",
+      "measurement_expression": "log measure q4_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/divider_3040m_tb.log:q4_period"
+      },
+      "reference_measurement": 1.31501e-09,
+      "scale_floor": 1e-12,
+      "target": 1.31501e-09,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "divider_3040m_tb.sp",
+      "block": "divider_chain_64",
+      "criterion_type": "central_fixed_point",
+      "description": "divide-by-64 output period",
+      "essential": true,
+      "id": "divider_q64_period",
+      "measurement_expression": "log measure q64_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/divider_3040m_tb.log:q64_period"
+      },
+      "reference_measurement": 2.10528e-08,
+      "scale_floor": 1e-12,
+      "target": 2.10528e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "tx_if_saw1_equiv",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "tx_if_saw1_center_hz",
+      "measurement_expression": "frequency at argmax raw column 4",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 478630092.0,
+      "scale_floor": 100000.0,
+      "target": 478630092.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "tx_if_saw2_equiv",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "tx_if_saw2_center_hz",
+      "measurement_expression": "frequency at argmax raw column 6",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 478630092.0,
+      "scale_floor": 100000.0,
+      "target": 478630092.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "rx_if1_bpf",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "rx_if1_center_hz",
+      "measurement_expression": "frequency at argmax raw column 8",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 478630092.0,
+      "scale_floor": 100000.0,
+      "target": 478630092.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "rx_if2_bpf",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "rx_if2_center_hz",
+      "measurement_expression": "frequency at argmax raw column 10",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 10000000.0,
+      "scale_floor": 100000.0,
+      "target": 10000000.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "tx_rf_bpf",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "tx_rf_center_hz",
+      "measurement_expression": "frequency at argmax raw column 12",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 3548133890.0,
+      "scale_floor": 100000.0,
+      "target": 3548133890.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "filters_tb.sp",
+      "block": "rx_rf_bpf",
+      "criterion_type": "central_fixed_point",
+      "description": "peak-response frequency",
+      "essential": true,
+      "id": "rx_rf_center_hz",
+      "measurement_expression": "frequency at argmax raw column 14",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/filters_ac.dat"
+      },
+      "reference_measurement": 3388441560.0,
+      "scale_floor": 100000.0,
+      "target": 3388441560.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "if_vga_tb.sp",
+      "block": "if_vga",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "differential gain at 10 MHz",
+      "essential": true,
+      "id": "if_vga_gain_10mhz_db",
+      "measurement_expression": "raw differential gain nearest 10000000 Hz",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/if_vga_ac.dat"
+      },
+      "reference_measurement": 10.6164793,
+      "scale_floor": 1.0,
+      "target": 10.6164793,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "if_vga_tb.sp",
+      "block": "if_vga",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "differential gain at 475 MHz",
+      "essential": true,
+      "id": "if_vga_gain_475mhz_db",
+      "measurement_expression": "raw differential gain nearest 475000000 Hz",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/if_vga_ac.dat"
+      },
+      "reference_measurement": 9.74772345,
+      "scale_floor": 1.0,
+      "target": 9.74772345,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "rx_lna_tb.sp",
+      "block": "rx_lna",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "gain at 3.415 GHz",
+      "essential": true,
+      "id": "lna_gain_db",
+      "measurement_expression": "raw differential gain nearest 3.415 GHz",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 50 ohm source",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/rx_lna_ac.dat"
+      },
+      "reference_measurement": 10.0470602,
+      "scale_floor": 1.0,
+      "target": 10.0470602,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "rx_lna_tb.sp",
+      "block": "rx_lna",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "standalone noise figure at 3.415 GHz",
+      "essential": true,
+      "id": "lna_noise_figure_db",
+      "measurement_expression": "10*log10(inoise^2/(4*k*300*50))",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 50 ohm source",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/rx_lna_noise.dat"
+      },
+      "reference_measurement": 3.87642005,
+      "scale_floor": 0.5,
+      "target": 3.87642005,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_mixer_10m_to_475m_tb.sp",
+      "block": "tx_mixer_10m_to_475m",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "conversion gain",
+      "essential": true,
+      "id": "tx_mix1_conversion_gain_db",
+      "measurement_expression": "tone amplitude at 475000000 Hz divided by differential input peak",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/tx_mixer_10m_to_475m_tran.dat"
+      },
+      "reference_measurement": -6.77733461,
+      "scale_floor": 1.0,
+      "target": -6.77733461,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_mixer_10m_to_475m_tb.sp",
+      "block": "tx_mixer_10m_to_475m",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "average supply current",
+      "essential": false,
+      "id": "tx_mix1_supply_current_a",
+      "measurement_expression": "log measure idd_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_mixer_10m_to_475m_tb.log:idd_avg"
+      },
+      "reference_measurement": 0.000334598,
+      "scale_floor": 1e-05,
+      "target": 0.000334598,
+      "unit": "A",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "tx_mixer_475m_to_rf_tb.sp",
+      "block": "tx_mixer_475m_to_rf",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "conversion gain",
+      "essential": true,
+      "id": "tx_mix2_conversion_gain_db",
+      "measurement_expression": "tone amplitude at 3515000000 Hz divided by differential input peak",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/tx_mixer_475m_to_rf_tran.dat"
+      },
+      "reference_measurement": -7.42992679,
+      "scale_floor": 1.0,
+      "target": -7.42992679,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_mixer_475m_to_rf_tb.sp",
+      "block": "tx_mixer_475m_to_rf",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "average supply current",
+      "essential": false,
+      "id": "tx_mix2_supply_current_a",
+      "measurement_expression": "log measure idd_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_mixer_475m_to_rf_tb.log:idd_avg"
+      },
+      "reference_measurement": 0.000335646,
+      "scale_floor": 1e-05,
+      "target": 0.000335646,
+      "unit": "A",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "rx_mixer_rf_to_if1_tb.sp",
+      "block": "rx_mixer_rf_to_if1",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "conversion gain",
+      "essential": true,
+      "id": "rx_mix1_conversion_gain_db",
+      "measurement_expression": "tone amplitude at 475000000 Hz divided by differential input peak",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/rx_mixer_rf_to_if1_tran.dat"
+      },
+      "reference_measurement": -7.78915467,
+      "scale_floor": 1.0,
+      "target": -7.78915467,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "rx_mixer_rf_to_if1_tb.sp",
+      "block": "rx_mixer_rf_to_if1",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "average supply current",
+      "essential": false,
+      "id": "rx_mix1_supply_current_a",
+      "measurement_expression": "log measure idd_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/rx_mixer_rf_to_if1_tb.log:idd_avg"
+      },
+      "reference_measurement": 0.000335418,
+      "scale_floor": 1e-05,
+      "target": 0.000335418,
+      "unit": "A",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "rx_mixer_if1_to_10m_tb.sp",
+      "block": "rx_mixer_if1_to_10m",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "conversion gain",
+      "essential": true,
+      "id": "rx_mix2_conversion_gain_db",
+      "measurement_expression": "tone amplitude at 10000000 Hz divided by differential input peak",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/rx_mixer_if1_to_10m_tran.dat"
+      },
+      "reference_measurement": -11.1392158,
+      "scale_floor": 1.0,
+      "target": -11.1392158,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "rx_mixer_if1_to_10m_tb.sp",
+      "block": "rx_mixer_if1_to_10m",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "average supply current",
+      "essential": false,
+      "id": "rx_mix2_supply_current_a",
+      "measurement_expression": "log measure idd_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/rx_mixer_if1_to_10m_tb.log:idd_avg"
+      },
+      "reference_measurement": 0.000334548,
+      "scale_floor": 1e-05,
+      "target": 0.000334548,
+      "unit": "A",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "vco_465m_tb.sp",
+      "block": "vco_465m",
+      "criterion_type": "central_fixed_point",
+      "description": "open-loop oscillation frequency",
+      "essential": true,
+      "id": "vco_if_frequency_hz",
+      "measurement_expression": "1 / log measure vco_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_465m_tb.log:vco_period"
+      },
+      "reference_measurement": 464997326.0,
+      "scale_floor": 100000.0,
+      "target": 464997326.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_465m_tb.sp",
+      "block": "vco_465m",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "sustained differential tank amplitude",
+      "essential": true,
+      "id": "vco_if_vpp_v",
+      "measurement_expression": "log measure vco_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_465m_tb.log:vco_pp"
+      },
+      "reference_measurement": 0.997611,
+      "scale_floor": 0.1,
+      "target": 0.997611,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_3040m_tb.sp",
+      "block": "vco_3040m",
+      "criterion_type": "central_fixed_point",
+      "description": "open-loop oscillation frequency",
+      "essential": true,
+      "id": "vco_tx_frequency_hz",
+      "measurement_expression": "1 / log measure vco_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_3040m_tb.log:vco_period"
+      },
+      "reference_measurement": 3053789450.0,
+      "scale_floor": 100000.0,
+      "target": 3053789450.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_3040m_tb.sp",
+      "block": "vco_3040m",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "sustained differential tank amplitude",
+      "essential": true,
+      "id": "vco_tx_vpp_v",
+      "measurement_expression": "log measure vco_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_3040m_tb.log:vco_pp"
+      },
+      "reference_measurement": 2.02167,
+      "scale_floor": 0.1,
+      "target": 2.02167,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_2940m_tb.sp",
+      "block": "vco_2940m",
+      "criterion_type": "central_fixed_point",
+      "description": "open-loop oscillation frequency",
+      "essential": true,
+      "id": "vco_rx_frequency_hz",
+      "measurement_expression": "1 / log measure vco_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_2940m_tb.log:vco_period"
+      },
+      "reference_measurement": 2963542500.0,
+      "scale_floor": 100000.0,
+      "target": 2963542500.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_2940m_tb.sp",
+      "block": "vco_2940m",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "sustained differential tank amplitude",
+      "essential": true,
+      "id": "vco_rx_vpp_v",
+      "measurement_expression": "log measure vco_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_2940m_tb.log:vco_pp"
+      },
+      "reference_measurement": 2.02829,
+      "scale_floor": 0.1,
+      "target": 2.02829,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "vco_3040m_tuning_tb.sp",
+      "block": "vco_3040m",
+      "criterion_type": "central_fixed_point",
+      "description": "frequency change from 0.70 V to 1.30 V control",
+      "essential": false,
+      "id": "vco_tx_tuning_delta_hz",
+      "measurement_expression": "1/period_vctrl_130 - 1/period_vctrl_070",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/vco_3040m_tuning_tb.log:period_vctrl_070,period_vctrl_130"
+      },
+      "reference_measurement": 4530625.92,
+      "scale_floor": 100000.0,
+      "target": 4530625.92,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "central_fixed_point",
+      "description": "buffered TX LO frequency",
+      "essential": true,
+      "id": "lo_buffer_tx_frequency_hz",
+      "measurement_expression": "1 / log measure tx_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:tx_period"
+      },
+      "reference_measurement": 3050891930.0,
+      "scale_floor": 100000.0,
+      "target": 3050891930.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "buffered TX LO amplitude",
+      "essential": true,
+      "id": "lo_buffer_tx_vpp_v",
+      "measurement_expression": "log measure txbuf_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:txbuf_pp"
+      },
+      "reference_measurement": 0.494183,
+      "scale_floor": 0.1,
+      "target": 0.494183,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "central_fixed_point",
+      "description": "buffered RX LO frequency",
+      "essential": true,
+      "id": "lo_buffer_rx_frequency_hz",
+      "measurement_expression": "1 / log measure rx_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:rx_period"
+      },
+      "reference_measurement": 2960918830.0,
+      "scale_floor": 100000.0,
+      "target": 2960918830.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "buffered RX LO amplitude",
+      "essential": true,
+      "id": "lo_buffer_rx_vpp_v",
+      "measurement_expression": "log measure rxbuf_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:rxbuf_pp"
+      },
+      "reference_measurement": 0.368931,
+      "scale_floor": 0.1,
+      "target": 0.368931,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "central_fixed_point",
+      "description": "buffered IF LO frequency",
+      "essential": true,
+      "id": "lo_buffer_if_frequency_hz",
+      "measurement_expression": "1 / log measure if_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:if_period"
+      },
+      "reference_measurement": 465649068.0,
+      "scale_floor": 100000.0,
+      "target": 465649068.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "lo_distribution_tb.sp",
+      "block": "lo_distribution",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "buffered IF LO amplitude",
+      "essential": true,
+      "id": "lo_buffer_if_vpp_v",
+      "measurement_expression": "log measure ifbuf_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/lo_distribution_tb.log:ifbuf_pp"
+      },
+      "reference_measurement": 3.74625,
+      "scale_floor": 0.1,
+      "target": 3.74625,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_tx_tb.sp",
+      "block": "pll_synth_tx",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated loaded LO frequency",
+      "essential": true,
+      "id": "pll_tx_lo_frequency_hz",
+      "measurement_expression": "1 / log measure lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_tx_tb.log:lo_period"
+      },
+      "reference_measurement": 2898500320.0,
+      "scale_floor": 100000.0,
+      "target": 2898500320.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_tx_tb.sp",
+      "block": "pll_synth_tx",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated divider feedback period",
+      "essential": true,
+      "id": "pll_tx_feedback_period_s",
+      "measurement_expression": "log measure q64_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_tx_tb.log:q64_period"
+      },
+      "reference_measurement": 2.2064e-08,
+      "scale_floor": 1e-12,
+      "target": 2.2064e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_tx_tb.sp",
+      "block": "pll_synth_tx",
+      "criterion_type": "central_fixed_point",
+      "description": "late loop-control voltage",
+      "essential": false,
+      "id": "pll_tx_control_v",
+      "measurement_expression": "log measure vctrl_late",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_tx_tb.log:vctrl_late"
+      },
+      "reference_measurement": 0.623628,
+      "scale_floor": 0.01,
+      "target": 0.623628,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_tx_tb.sp",
+      "block": "pll_synth_tx",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "late loaded LO amplitude",
+      "essential": true,
+      "id": "pll_tx_lo_vpp_v",
+      "measurement_expression": "log measure lo_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_tx_tb.log:lo_pp"
+      },
+      "reference_measurement": 0.976961,
+      "scale_floor": 0.1,
+      "target": 0.976961,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_rx_tb.sp",
+      "block": "pll_synth_rx",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated loaded LO frequency",
+      "essential": true,
+      "id": "pll_rx_lo_frequency_hz",
+      "measurement_expression": "1 / log measure lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_rx_tb.log:lo_period"
+      },
+      "reference_measurement": 2865937190.0,
+      "scale_floor": 100000.0,
+      "target": 2865937190.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_rx_tb.sp",
+      "block": "pll_synth_rx",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated divider feedback period",
+      "essential": true,
+      "id": "pll_rx_feedback_period_s",
+      "measurement_expression": "log measure q64_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_rx_tb.log:q64_period"
+      },
+      "reference_measurement": 2.26739e-08,
+      "scale_floor": 1e-12,
+      "target": 2.26739e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_rx_tb.sp",
+      "block": "pll_synth_rx",
+      "criterion_type": "central_fixed_point",
+      "description": "late loop-control voltage",
+      "essential": false,
+      "id": "pll_rx_control_v",
+      "measurement_expression": "log measure vctrl_late",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_rx_tb.log:vctrl_late"
+      },
+      "reference_measurement": 0.626506,
+      "scale_floor": 0.01,
+      "target": 0.626506,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_rx_tb.sp",
+      "block": "pll_synth_rx",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "late loaded LO amplitude",
+      "essential": true,
+      "id": "pll_rx_lo_vpp_v",
+      "measurement_expression": "log measure lo_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_rx_tb.log:lo_pp"
+      },
+      "reference_measurement": 0.99431,
+      "scale_floor": 0.1,
+      "target": 0.99431,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_if_tb.sp",
+      "block": "pll_synth_if",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated loaded LO frequency",
+      "essential": true,
+      "id": "pll_if_lo_frequency_hz",
+      "measurement_expression": "1 / log measure lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_if_tb.log:lo_period"
+      },
+      "reference_measurement": 464338782.0,
+      "scale_floor": 100000.0,
+      "target": 464338782.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_if_tb.sp",
+      "block": "pll_synth_if",
+      "criterion_type": "central_fixed_point",
+      "description": "isolated divider feedback period",
+      "essential": true,
+      "id": "pll_if_feedback_period_s",
+      "measurement_expression": "log measure q32_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_if_tb.log:q32_period"
+      },
+      "reference_measurement": 6.89176e-08,
+      "scale_floor": 1e-12,
+      "target": 6.89176e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_if_tb.sp",
+      "block": "pll_synth_if",
+      "criterion_type": "central_fixed_point",
+      "description": "late loop-control voltage",
+      "essential": false,
+      "id": "pll_if_control_v",
+      "measurement_expression": "log measure vctrl_late",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_if_tb.log:vctrl_late"
+      },
+      "reference_measurement": 0.616729,
+      "scale_floor": 0.01,
+      "target": 0.616729,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "pll_synth_if_tb.sp",
+      "block": "pll_synth_if",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "late loaded LO amplitude",
+      "essential": true,
+      "id": "pll_if_lo_vpp_v",
+      "measurement_expression": "log measure lo_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/pll_synth_if_tb.log:lo_pp"
+      },
+      "reference_measurement": 0.993793,
+      "scale_floor": 0.1,
+      "target": 0.993793,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_driver_tb.sp",
+      "block": "tx_driver",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "four-stage voltage gain",
+      "essential": true,
+      "id": "tx_driver_gain_db",
+      "measurement_expression": "20*log10(vout_pp/vin_pp)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_driver_tb.log:vin_pp,vout_pp"
+      },
+      "reference_measurement": 54.3629172,
+      "scale_floor": 1.0,
+      "target": 54.3629172,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_driver_tb.sp",
+      "block": "tx_driver",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "average supply current",
+      "essential": false,
+      "id": "tx_driver_current_a",
+      "measurement_expression": "log measure idd_avg",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_driver_tb.log:idd_avg"
+      },
+      "reference_measurement": 0.028148,
+      "scale_floor": 0.001,
+      "target": 0.028148,
+      "unit": "A",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "50 ohm output power",
+      "essential": true,
+      "id": "pa_output_power_dbm",
+      "measurement_expression": "10*log10(pout_w/1mW)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_pa_tb.log:pout_w"
+      },
+      "reference_measurement": 22.0894362,
+      "scale_floor": 1.0,
+      "target": 22.0894362,
+      "unit": "dBm",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "DC power",
+      "essential": false,
+      "id": "pa_dc_power_w",
+      "measurement_expression": "log measure pdc_w",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_pa_tb.log:pdc_w"
+      },
+      "reference_measurement": 1.74822,
+      "scale_floor": 0.1,
+      "target": 1.74822,
+      "unit": "W",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "drain efficiency proxy",
+      "essential": false,
+      "id": "pa_efficiency_ratio",
+      "measurement_expression": "pout_w / pdc_w",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_pa_tb.log:pout_w,pdc_w"
+      },
+      "reference_measurement": 0.0925438446,
+      "scale_floor": 0.01,
+      "target": 0.0925438446,
+      "unit": "ratio",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "maximum extended-drain node voltage",
+      "essential": true,
+      "id": "pa_extended_drain_max_v",
+      "measurement_expression": "log measure drain_max",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_pa_tb.log:drain_max"
+      },
+      "reference_measurement": 9.22412,
+      "scale_floor": 0.1,
+      "target": 9.22412,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "maximum thin-oxide predriver drain voltage",
+      "essential": true,
+      "id": "pa_thin_oxide_drain_max_v",
+      "measurement_expression": "log measure driver_drain_max",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/tx_pa_tb.log:driver_drain_max"
+      },
+      "reference_measurement": 3.6142,
+      "scale_floor": 0.1,
+      "target": 3.6142,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_twotone_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "worst third-order intermodulation level",
+      "essential": true,
+      "id": "pa_imd3_dbc",
+      "measurement_expression": "max(IMD3 tones) relative to min(fundamental tones)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, two tones at 3.5115 and 3.5185 GHz",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/tx_pa_twotone_tran.dat"
+      },
+      "reference_measurement": -5.49333775,
+      "scale_floor": 1.0,
+      "target": -5.49333775,
+      "unit": "dBc",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "tx_pa_twotone_tb.sp",
+      "block": "tx_pa",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "worst IMD3 spur power",
+      "essential": true,
+      "id": "pa_imd3_spur_dbm",
+      "measurement_expression": "10*log10(imd_peak^2/(2*50)/1mW)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, two tones at 3.5115 and 3.5185 GHz",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/tx_pa_twotone_tran.dat"
+      },
+      "reference_measurement": 12.0504611,
+      "scale_floor": 1.0,
+      "target": 12.0504611,
+      "unit": "dBm",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_tx_core_tb.sp",
+      "block": "wimax_tx_core",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "complete TX path output power",
+      "essential": true,
+      "id": "tx_core_output_power_dbm",
+      "measurement_expression": "10*log10(pout_w/1mW)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 10 MHz differential input, 465 MHz and 3.040 GHz LOs",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_tx_core_tb.log:pout_w"
+      },
+      "reference_measurement": 22.8456157,
+      "scale_floor": 1.0,
+      "target": 22.8456157,
+      "unit": "dBm",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_tx_core_tb.sp",
+      "block": "wimax_tx_core",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "complete TX path output swing",
+      "essential": false,
+      "id": "tx_core_output_vpp_v",
+      "measurement_expression": "log measure vout_pp",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 10 MHz differential input, 465 MHz and 3.040 GHz LOs",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_tx_core_tb.log:vout_pp"
+      },
+      "reference_measurement": 8.8787,
+      "scale_floor": 0.1,
+      "target": 8.8787,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 1.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_tx_core_tb.sp",
+      "block": "wimax_tx_core",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "complete TX maximum PA drain voltage",
+      "essential": true,
+      "id": "tx_core_pa_drain_max_v",
+      "measurement_expression": "log measure pa_drain_max",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA supply",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_tx_core_tb.log:pa_drain_max"
+      },
+      "reference_measurement": 10.014,
+      "scale_floor": 0.1,
+      "target": 10.014,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_rx_core_tb.sp",
+      "block": "wimax_rx_core",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "10 MHz differential output amplitude",
+      "essential": true,
+      "id": "rx_core_10mhz_peak_v",
+      "measurement_expression": "tone amplitude at 10 MHz",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 3.415 GHz input, 2.940 GHz and 465 MHz LOs",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/wimax_rx_core_tran.dat"
+      },
+      "reference_measurement": 1.19197819e-05,
+      "scale_floor": 1e-06,
+      "target": 1.19197819e-05,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_rx_core_tb.sp",
+      "block": "wimax_rx_core",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "end-to-end conversion gain",
+      "essential": true,
+      "id": "rx_core_conversion_gain_db",
+      "measurement_expression": "20*log10(10 MHz peak / 1 mV)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 3.415 GHz input, 2.940 GHz and 465 MHz LOs",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/wimax_rx_core_tran.dat"
+      },
+      "reference_measurement": -38.4746338,
+      "scale_floor": 1.0,
+      "target": -38.4746338,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_rx_core_tb.sp",
+      "block": "wimax_rx_core",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "10 MHz desired tone over 940 MHz sum product",
+      "essential": true,
+      "id": "rx_core_sum_rejection_db",
+      "measurement_expression": "20*log10(A10MHz/A940MHz)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 3.415 GHz input, 2.940 GHz and 465 MHz LOs",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/raw/wimax_rx_core_tran.dat"
+      },
+      "reference_measurement": 13.0159906,
+      "scale_floor": 1.0,
+      "target": 13.0159906,
+      "unit": "dB",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "simultaneous-system antenna power",
+      "essential": true,
+      "id": "system_antenna_power_dbm",
+      "measurement_expression": "10*log10(antenna_power/1mW)",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA, all three PLLs active, TX and RX loaded",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:antenna_power"
+      },
+      "reference_measurement": 22.7865759,
+      "scale_floor": 1.0,
+      "target": 22.7865759,
+      "unit": "dBm",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "higher_is_better_fixed_point",
+      "description": "simultaneous-system RX differential RMS output",
+      "essential": true,
+      "id": "system_rx_rms_v",
+      "measurement_expression": "log measure rxout_rms",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, all three PLLs active, TX and RX loaded",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:rxout_rms"
+      },
+      "reference_measurement": 0.00323862,
+      "scale_floor": 0.0001,
+      "target": 0.00323862,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded TX LO frequency",
+      "essential": true,
+      "id": "system_tx_lo_frequency_hz",
+      "measurement_expression": "1 / log measure tx_lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:tx_lo_period"
+      },
+      "reference_measurement": 3031506450.0,
+      "scale_floor": 100000.0,
+      "target": 3031506450.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded TX PLL feedback period",
+      "essential": true,
+      "id": "system_tx_feedback_period_s",
+      "measurement_expression": "log measure tx_q64_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:tx_q64_period"
+      },
+      "reference_measurement": 2.11381e-08,
+      "scale_floor": 1e-12,
+      "target": 2.11381e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "absolute TX control change from 600 to 800 ns",
+      "essential": true,
+      "id": "system_tx_settling_delta_mv",
+      "measurement_expression": "abs(tx_vctrl_800 - tx_vctrl_600)*1000",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:tx_vctrl_600,tx_vctrl_800"
+      },
+      "reference_measurement": 3.14,
+      "scale_floor": 1.0,
+      "target": 3.14,
+      "unit": "mV",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded RX LO frequency",
+      "essential": true,
+      "id": "system_rx_lo_frequency_hz",
+      "measurement_expression": "1 / log measure rx_lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:rx_lo_period"
+      },
+      "reference_measurement": 2935590220.0,
+      "scale_floor": 100000.0,
+      "target": 2935590220.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded RX PLL feedback period",
+      "essential": true,
+      "id": "system_rx_feedback_period_s",
+      "measurement_expression": "log measure rx_q64_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:rx_q64_period"
+      },
+      "reference_measurement": 2.1775e-08,
+      "scale_floor": 1e-12,
+      "target": 2.1775e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "absolute RX control change from 600 to 800 ns",
+      "essential": true,
+      "id": "system_rx_settling_delta_mv",
+      "measurement_expression": "abs(rx_vctrl_800 - rx_vctrl_600)*1000",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:rx_vctrl_600,rx_vctrl_800"
+      },
+      "reference_measurement": 4.773,
+      "scale_floor": 1.0,
+      "target": 4.773,
+      "unit": "mV",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded IF LO frequency",
+      "essential": true,
+      "id": "system_if_lo_frequency_hz",
+      "measurement_expression": "1 / log measure if_lo_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:if_lo_period"
+      },
+      "reference_measurement": 464990840.0,
+      "scale_floor": 100000.0,
+      "target": 464990840.0,
+      "unit": "Hz",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "central_fixed_point",
+      "description": "loaded IF PLL feedback period",
+      "essential": true,
+      "id": "system_if_feedback_period_s",
+      "measurement_expression": "log measure if_q32_period",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:if_q32_period"
+      },
+      "reference_measurement": 6.88128e-08,
+      "scale_floor": 1e-12,
+      "target": 6.88128e-08,
+      "unit": "s",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "absolute IF control change from 600 to 800 ns",
+      "essential": true,
+      "id": "system_if_settling_delta_mv",
+      "measurement_expression": "abs(if_vctrl_800 - if_vctrl_600)*1000",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:if_vctrl_600,if_vctrl_800"
+      },
+      "reference_measurement": 5.435,
+      "scale_floor": 1.0,
+      "target": 5.435,
+      "unit": "mV",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    },
+    {
+      "analysis_deck": "wimax_transceiver_tb.sp",
+      "block": "wimax_transceiver",
+      "criterion_type": "lower_is_better_fixed_point",
+      "description": "maximum PA drain voltage under simultaneous load",
+      "essential": true,
+      "id": "system_pa_drain_max_v",
+      "measurement_expression": "log measure pa_drain_max",
+      "operating_condition": "SKY130 TT, 27 C, 1.8 V core supply, 6.5 V PA, simultaneous full-system load",
+      "provenance": {
+        "kind": "fresh_reference_replay",
+        "simulator": "ngspice-46",
+        "source": "results/logs/wimax_transceiver_tb.log:pa_drain_max"
+      },
+      "reference_measurement": 10.4772,
+      "scale_floor": 0.1,
+      "target": 10.4772,
+      "unit": "V",
+      "weights": {
+        "hard": 1.0,
+        "harder": 1.0,
+        "mid": 2.0
+      }
+    }
+  ],
+  "criteria_count": 86,
+  "normalization": "targets and measurements are rounded to nine significant digits before scoring",
+  "reference_exceptions": [
+    {
+      "actual_v": 3.6142,
+      "allowed_v": 1.98,
+      "candidate_policy": "mandatory candidate safety gate remains active; no candidate waiver",
+      "item": "PA thin-oxide predriver drain stress",
+      "status": "genuine reference safety failure"
+    }
+  ],
+  "reference_run": {
+    "core_supply_v": 1.8,
+    "corner": "TT",
+    "model_wrapper": "models/sky130_tt_1v8.spice",
+    "ngspice_options": [
+      "scale=1e-6",
+      "method=gear",
+      "reltol=5e-3 for integrated decks"
+    ],
+    "pa_supply_v": 6.5,
+    "pdk_commit": "f62031a1be9aefe902d6d54cddd6f59b57627436",
+    "pdk_repository": "google/skywater-pdk-libs-sky130_fd_pr",
+    "random_seed": "no stochastic source; deterministic initial conditions are recorded in each deck",
+    "root": "private/reference_replay/workdir",
+    "simulator": "ngspice-46",
+    "temperature_c": 27.0
+  },
+  "schema_version": 1,
+  "score_bands": {
+    "hard": {
+      "full_reward_error": 0.05,
+      "zero_reward_error": 0.25
+    },
+    "harder": {
+      "full_reward_error": 0.01,
+      "zero_reward_error": 0.1
+    },
+    "mid": {
+      "full_reward_error": 0.25,
+      "zero_reward_error": 0.5
+    }
+  },
+  "unresolved_reference_items": [
+    {
+      "handling": "architecture and oscillator-startup review only; no numerical score",
+      "item": "LO phase noise",
+      "reason": "NGspice 46 has no autonomous-oscillator PSS/PNOISE analysis."
+    },
+    {
+      "handling": "external-reference interface review only; no numerical score",
+      "item": "OCXO frequency stability",
+      "reason": "The paper omits the OCXO part, model, aging, and temperature profile."
+    },
+    {
+      "handling": "RFIC supply behavior is scored; no board-power target",
+      "item": "Whole-board 30 W power",
+      "reason": "The paper includes unidentified DC-DC converters outside the reconstructed DUT."
+    },
+    {
+      "handling": "PA output and two-tone behavior are scored; no P1dB target",
+      "item": "Transmitter P1dB",
+      "reason": "The reference does not contain a calibrated compression sweep."
+    }
+  ]
+}

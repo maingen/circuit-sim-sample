@@ -1,0 +1,16 @@
+* Bias network operating-point verification.
+.title bias_core operating point
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/bias.spice
+.temp 27
+
+VDD vdd 0 1.8
+XBIAS vdd 0 vbn vbp vcm vbcas bias_core
+
+.control
+set noaskquit
+op
+print v(vbn) v(vbp) v(vcm) v(vbcas) i(vdd)
+quit
+.endc
+.end

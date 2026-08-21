@@ -1,0 +1,30 @@
+Complementary LNA AC and noise test
+.include "build/sky130_tt.inc"
+.include "netlists/bias.spice"
+.include "netlists/lna.spice"
+
+VDD vdd 0 1
+VRF src 0 dc 0 ac 1
+RSRC src rfin 50
+XBIAS vdd 0 vbn vbp constant_gm_bias
+XLNA rfin rfout vdd 0 vbn vbp complementary_lna
+RLOAD rfout 0 20k
+CLOAD rfout 0 300f
+
+.control
+set noaskquit
+set wr_singlescale
+op
+print v(vbn) v(vbp) v(XLNA.scom) v(XLNA.dn) v(XLNA.dp) i(VDD)
+ac dec 120 100meg 800meg
+let gain_db = db(v(rfout)/v(src))
+let s11_db = db(2*v(rfin)/v(src)-1)
+meas ac lna_gain_403_db find gain_db at=403meg
+meas ac lna_s11_403_db find s11_db at=403meg
+wrdata results/raw/lna_ac.dat gain_db s11_db
+noise v(rfout) VRF dec 30 100meg 800meg 1
+setplot noise1
+wrdata results/raw/lna_noise.dat onoise_spectrum inoise_spectrum
+quit
+.endc
+.end

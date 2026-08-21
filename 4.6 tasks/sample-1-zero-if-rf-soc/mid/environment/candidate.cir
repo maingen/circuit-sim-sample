@@ -1,0 +1,285 @@
+* Sample 1 SKY130 zero-IF RF SoC reconstruction starter.
+* Fill every entry point with an internally flat physical implementation.
+* X instances may call only sky130_fd_pr__nfet_01v8 or sky130_fd_pr__pfet_01v8.
+
+.subckt active_balun in outp outn vdd vss vbn vcm
+* TODO: implement active_balun with physical SKY130 devices and passives.
+.ends active_balun
+
+.subckt analog_comparator vin vref out vdd vss vbn
+* TODO: implement analog_comparator with physical SKY130 devices and passives.
+.ends analog_comparator
+
+.subckt baseband_lpf inp inn outp outn vss
+* TODO: implement baseband_lpf with physical SKY130 devices and passives.
+.ends baseband_lpf
+
+.subckt bias_core vdd vss vbn vbp vcm vbcas
+* TODO: implement bias_core with physical SKY130 devices and passives.
+.ends bias_core
+
+.subckt clock_generator ref refb slow slowb vdd vss
+* TODO: implement clock_generator with physical SKY130 devices and passives.
+.ends clock_generator
+
+.subckt cmos_and2 a b y vdd vss
+* TODO: implement cmos_and2 with physical SKY130 devices and passives.
+.ends cmos_and2
+
+.subckt cmos_dff d clk clkb q qb vdd vss
+* TODO: implement cmos_dff with physical SKY130 devices and passives.
+.ends cmos_dff
+
+.subckt cmos_dff_reset d clk clkb rst q qb vdd vss
+* TODO: implement cmos_dff_reset with physical SKY130 devices and passives.
+.ends cmos_dff_reset
+
+.subckt cmos_full_adder a b cin sum cout vdd vss
+* TODO: implement cmos_full_adder with physical SKY130 devices and passives.
+.ends cmos_full_adder
+
+.subckt cmos_inv a y vdd vss
+* TODO: implement cmos_inv with physical SKY130 devices and passives.
+.ends cmos_inv
+
+.subckt cmos_inv_lo a y vdd vss
+* TODO: implement cmos_inv_lo with physical SKY130 devices and passives.
+.ends cmos_inv_lo
+
+.subckt cmos_inv_lo_min a y vdd vss
+* TODO: implement cmos_inv_lo_min with physical SKY130 devices and passives.
+.ends cmos_inv_lo_min
+
+.subckt cmos_inv_lowtrip a y vdd vss
+* TODO: implement cmos_inv_lowtrip with physical SKY130 devices and passives.
+.ends cmos_inv_lowtrip
+
+.subckt cmos_inv_x4 a y vdd vss
+* TODO: implement cmos_inv_x4 with physical SKY130 devices and passives.
+.ends cmos_inv_x4
+
+.subckt cmos_latch d clk clkb q qb vdd vss
+* TODO: implement cmos_latch with physical SKY130 devices and passives.
+.ends cmos_latch
+
+.subckt cmos_mux2 a b sel y vdd vss
+* TODO: implement cmos_mux2 with physical SKY130 devices and passives.
+.ends cmos_mux2
+
+.subckt cmos_nand2 a b y vdd vss
+* TODO: implement cmos_nand2 with physical SKY130 devices and passives.
+.ends cmos_nand2
+
+.subckt cmos_nor2 a b y vdd vss
+* TODO: implement cmos_nor2 with physical SKY130 devices and passives.
+.ends cmos_nor2
+
+.subckt cmos_or2 a b y vdd vss
+* TODO: implement cmos_or2 with physical SKY130 devices and passives.
+.ends cmos_or2
+
+.subckt cmos_tff clk clkb q qb vdd vss
+* TODO: implement cmos_tff with physical SKY130 devices and passives.
+.ends cmos_tff
+
+.subckt cmos_tg a y en enb vdd vss
+* TODO: implement cmos_tg with physical SKY130 devices and passives.
+.ends cmos_tg
+
+.subckt cmos_xor2 a b y vdd vss
+* TODO: implement cmos_xor2 with physical SKY130 devices and passives.
+.ends cmos_xor2
+
+.subckt control_sequencer clk clkb rst calen bist loopback s0 s1 vdd vss
+* TODO: implement control_sequencer with physical SKY130 devices and passives.
+.ends control_sequencer
+
+.subckt decimation_filter d2 d1 d0 clk clkb rst q2 q1 q0 dclk dclkb vdd vss
+* TODO: implement decimation_filter with physical SKY130 devices and passives.
+.ends decimation_filter
+
+.subckt divider16 clk clkb div divb vdd vss
+* TODO: implement divider16 with physical SKY130 devices and passives.
+.ends divider16
+
+.subckt fb_input_mux a_p a_n b_p b_n c_p c_n d_p d_n s1 s0 outp outn vdd vss
+* TODO: implement fb_input_mux with physical SKY130 devices and passives.
+.ends fb_input_mux
+
+.subckt fb_rx_chain a_p a_n b_p b_n c_p c_n d_p d_n s1 s0 lo0 lo90 lo180 lo270 adcclk adcclkb rst att attb i2 i1 i0 q2 q1 q0 gain dcflag qmcflag vdd vss vbn vcm vbcas
+* TODO: implement fb_rx_chain with physical SKY130 devices and passives.
+.ends fb_rx_chain
+
+.subckt flash_adc3 vin b2 b1 b0 vdd vss vbn
+* TODO: implement flash_adc3 with physical SKY130 devices and passives.
+.ends flash_adc3
+
+.subckt gpio_pad din dout oe oeb pad vdd vss
+* TODO: implement gpio_pad with physical SKY130 devices and passives.
+.ends gpio_pad
+
+.subckt housekeeping_adc vin b2 b1 b0 vdd vss vbn
+* TODO: implement housekeeping_adc with physical SKY130 devices and passives.
+.ends housekeeping_adc
+
+.subckt housekeeping_dac b3 b2 b1 b0 out vref vdd vss
+* TODO: implement housekeeping_dac with physical SKY130 devices and passives.
+.ends housekeeping_dac
+
+.subckt interpolation_filter d3 d2 d1 d0 clk clkb rst q3 q2 q1 q0 vdd vss
+* TODO: implement interpolation_filter with physical SKY130 devices and passives.
+.ends interpolation_filter
+
+.subckt interpolation_filter8 d7 d6 d5 d4 d3 d2 d1 d0 clk clkb rst q7 q6 q5 q4 q3 q2 q1 q0 vdd vss
+* TODO: implement interpolation_filter8 with physical SKY130 devices and passives.
+.ends interpolation_filter8
+
+.subckt lc_vco vctrl op on vdd vss
+* TODO: implement lc_vco with physical SKY130 devices and passives.
+.ends lc_vco
+
+.subckt lo_ac_limiter vip vin bop bon vdd vss
+* TODO: implement lo_ac_limiter with physical SKY130 devices and passives.
+.ends lo_ac_limiter
+
+.subckt lo_isolation_buffer vip vin bop bon vdd vss vbn
+* TODO: implement lo_isolation_buffer with physical SKY130 devices and passives.
+.ends lo_isolation_buffer
+
+.subckt nm_current_sink d vb vss
+* TODO: implement nm_current_sink with physical SKY130 devices and passives.
+.ends nm_current_sink
+
+.subckt output_match inp inn outp outn vss
+* TODO: implement output_match with physical SKY130 devices and passives.
+.ends output_match
+
+.subckt package_port pad die vss
+* TODO: implement package_port with physical SKY130 devices and passives.
+.ends package_port
+
+.subckt passive_iq_downmixer rfp rfn ip in qp qn lo0 lo90 lo180 lo270 vcm vss
+* TODO: implement passive_iq_downmixer with physical SKY130 devices and passives.
+.ends passive_iq_downmixer
+
+.subckt passive_iq_upmixer ip in qp qn rfp rfn lo0 lo90 lo180 lo270 vcm vss
+* TODO: implement passive_iq_upmixer with physical SKY130 devices and passives.
+.ends passive_iq_upmixer
+
+.subckt pll_charge_pump up dn vbp vbn vctrl vdd vss
+* TODO: implement pll_charge_pump with physical SKY130 devices and passives.
+.ends pll_charge_pump
+
+.subckt pll_phase_detector ref refb fb fbb up dn vdd vss
+* TODO: implement pll_phase_detector with physical SKY130 devices and passives.
+.ends pll_phase_detector
+
+.subckt pm_current_source d vb vdd
+* TODO: implement pm_current_source with physical SKY130 devices and passives.
+.ends pm_current_source
+
+.subckt pre_power_amp inp inn outp outn vdd vss vbn
+* TODO: implement pre_power_amp with physical SKY130 devices and passives.
+.ends pre_power_amp
+
+.subckt pre_power_amp_slice inp inn outp outn vss vbn
+* TODO: implement pre_power_amp_slice with physical SKY130 devices and passives.
+.ends pre_power_amp_slice
+
+.subckt quadrature_lo vip vin lo0 lo90 lo180 lo270 vdd vss
+* TODO: implement quadrature_lo with physical SKY130 devices and passives.
+.ends quadrature_lo
+
+.subckt r2r_dac4 b3 b2 b1 b0 out vref vdd vss
+* TODO: implement r2r_dac4 with physical SKY130 devices and passives.
+.ends r2r_dac4
+
+.subckt r2r_dac8 b7 b6 b5 b4 b3 b2 b1 b0 out vref vdd vss
+* TODO: implement r2r_dac8 with physical SKY130 devices and passives.
+.ends r2r_dac8
+
+.subckt rf_attenuator inp inn outp outn high highb vdd vss
+* TODO: implement rf_attenuator with physical SKY130 devices and passives.
+.ends rf_attenuator
+
+.subckt rf_lna in out vdd vss vbn vbcas
+* TODO: implement rf_lna with physical SKY130 devices and passives.
+.ends rf_lna
+
+.subckt rf_pll ref refb lo0 lo90 lo180 lo270 vctrl lockmon vdd vss vbn vbp
+* TODO: implement rf_pll with physical SKY130 devices and passives.
+.ends rf_pll
+
+.subckt rf_power_amp inp inn outp outn vdd vss vbn
+* TODO: implement rf_power_amp with physical SKY130 devices and passives.
+.ends rf_power_amp
+
+.subckt rf_power_amp_slice inp inn outp outn vss vbn
+* TODO: implement rf_power_amp_slice with physical SKY130 devices and passives.
+.ends rf_power_amp_slice
+
+.subckt rf_tg_bank10 a b en enb vdd vss
+* TODO: implement rf_tg_bank10 with physical SKY130 devices and passives.
+.ends rf_tg_bank10
+
+.subckt rf_tg_w56 a b en enb vdd vss
+* TODO: implement rf_tg_w56 with physical SKY130 devices and passives.
+.ends rf_tg_w56
+
+.subckt ring_oscillator5 out outb vdd vss
+* TODO: implement ring_oscillator5 with physical SKY130 devices and passives.
+.ends ring_oscillator5
+
+.subckt rx_calibration_control i2 i1 i0 q2 q1 q0 gain gainb dcflag qmcflag vdd vss
+* TODO: implement rx_calibration_control with physical SKY130 devices and passives.
+.ends rx_calibration_control
+
+.subckt rx_chain rfpad lo0 lo90 lo180 lo270 adcclk adcclkb rst att attb i2 i1 i0 q2 q1 q0 gain dcflag qmcflag vdd vss vbn vcm vbcas
+* TODO: implement rx_chain with physical SKY130 devices and passives.
+.ends rx_chain
+
+.subckt serdes_lane d3 d2 d1 d0 clk clkb rst txp txn rxp rxn qrx qrxb vdd vss vbn
+* TODO: implement serdes_lane with physical SKY130 devices and passives.
+.ends serdes_lane
+
+.subckt serdes_rx inp inn out vdd vss vbn
+* TODO: implement serdes_rx with physical SKY130 devices and passives.
+.ends serdes_rx
+
+.subckt spi_shift_register mosi sclk sclkb csb q7 q6 q5 q4 q3 q2 q1 q0 miso vdd vss
+* TODO: implement spi_shift_register with physical SKY130 devices and passives.
+.ends spi_shift_register
+
+.subckt sram6t bl blb wl q qb vdd vss
+* TODO: implement sram6t with physical SKY130 devices and passives.
+.ends sram6t
+
+.subckt sram6t_bank4 bl3 bl3b bl2 bl2b bl1 bl1b bl0 bl0b wl q3 q2 q1 q0 vdd vss
+* TODO: implement sram6t_bank4 with physical SKY130 devices and passives.
+.ends sram6t_bank4
+
+.subckt tx_calibration_control i3 i2 i1 i0 q3 q2 q1 q0 oi3 oi2 oi1 oi0 oq3 oq2 oq1 oq0 clip vdd vss
+* TODO: implement tx_calibration_control with physical SKY130 devices and passives.
+.ends tx_calibration_control
+
+.subckt tx_calibration_control8 i7 i6 i5 i4 i3 i2 i1 i0 q7 q6 q5 q4 q3 q2 q1 q0 oi7 oi6 oi5 oi4 oi3 oi2 oi1 oi0 oq7 oq6 oq5 oq4 oq3 oq2 oq1 oq0 clip vdd vss
+* TODO: implement tx_calibration_control8 with physical SKY130 devices and passives.
+.ends tx_calibration_control8
+
+.subckt tx_chain i7 i6 i5 i4 i3 i2 i1 i0 q7 q6 q5 q4 q3 q2 q1 q0 dacclk dacclkb rst lo0 lo90 lo180 lo270 rfpadp rfpadn clip vdd vss vbn vcm
+* TODO: implement tx_chain with physical SKY130 devices and passives.
+.ends tx_chain
+
+.subckt tx_reconstruction_lpf inp inn outp outn vss
+* TODO: implement tx_reconstruction_lpf with physical SKY130 devices and passives.
+.ends tx_reconstruction_lpf
+
+.subckt vga_adc_driver inp inn outp outn gain gainb vdd vss vbn
+* TODO: implement vga_adc_driver with physical SKY130 devices and passives.
+.ends vga_adc_driver
+
+.subckt zero_if_rf_soc rx1pad rx2pad fba_p fba_n fbb_p fbb_n fbc_p fbc_n fbd_p fbd_n tx1p tx1n tx2p tx2n ref refb serclk serclkb rst att attb spi_mosi spi_clk spi_clkb spi_csb gpio hk_in sd0txp sd0txn sd0rxp sd0rxn sd1txp sd1txn sd1rxp sd1rxn sd2txp sd2txn sd2rxp sd2rxn sd3txp sd3txn sd3rxp sd3rxn vdd vss
+* TODO: implement zero_if_rf_soc with physical SKY130 devices and passives.
+.ends zero_if_rf_soc
+
+.end

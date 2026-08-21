@@ -1,0 +1,29 @@
+* Public-port modulated TX spectral test.
+.temp 27
+.include "@@FIXTURE_DIR@@/tx_modulation_sources.inc"
+VDD vdd 0 1.8
+VBN vbn 0 1.0
+VVCM vcm 0 0.9
+VCLK clk 0 PULSE(0 1.8 0.8n 20p 20p 1.5425n 3.125n)
+VCLKB clkb 0 PULSE(1.8 0 0.8n 20p 20p 1.5425n 3.125n)
+VRST rst 0 0
+VLO0 lo0 0 PULSE(0 1.8 0 2p 2p 94p 384.615p)
+VLO90 lo90 0 PULSE(0 1.8 96.154p 2p 2p 94p 384.615p)
+VLO180 lo180 0 PULSE(0 1.8 192.308p 2p 2p 94p 384.615p)
+VLO270 lo270 0 PULSE(0 1.8 288.462p 2p 2p 94p 384.615p)
+XTX i7 i6 i5 i4 i3 i2 i1 i0 q7 q6 q5 q4 q3 q2 q1 q0 clk clkb rst lo0 lo90 lo180 lo270 txp txn clip vdd 0 vbn vcm tx_chain
+RDIFF txp txn 100
+
+.control
+set noaskquit
+tran 20p 800n 0 20p uic
+let rfdiff=v(txp)-v(txn)
+meas tran SINGLE_RF_PP pp rfdiff from=80n to=280n
+meas tran MULTI_RF_PP pp rfdiff from=400n to=780n
+meas tran SUPPLY_I_AVG avg i(VDD) from=80n to=780n
+let SUPPLY_POWER=-SUPPLY_I_AVG*1.8
+wrdata @@RAW_PATH@@ rfdiff
+print SINGLE_RF_PP MULTI_RF_PP SUPPLY_I_AVG SUPPLY_POWER
+quit
+.endc
+.end

@@ -1,0 +1,30 @@
+* artifact: rfsd_core.spice
+.option temp=27 method=gear maxord=2 reltol=4e-3 gmin=1e-10
+VDD vdd 0 1.8
+VRF src 0 SIN(0 0.4 2.413g)
+RSRC src in 50
+RTERM in 0 50
+VLOP lop 0 SIN(0.9 0.25 1.072g 0 0 0)
+VLON lon 0 SIN(0.9 0.25 1.072g 0 0 180)
+VRESET reset 0 PULSE(0 1.8 0 50p 50p 1.5n 10u)
+XDUT in lop lon reset vdd 0 iop ion qop qon adcclk adcclkb RFSD_CORE
+VLOADCM loadcm 0 0.55
+RIP iop loadcm 50
+RIN ion loadcm 50
+RQP qop loadcm 50
+RQN qon loadcm 50
+.control
+set noaskquit
+tran 20p 1.2u
+let idiff=v(iop)-v(ion)
+let qdiff=v(qop)-v(qon)
+meas tran adc_period trig v(adcclk) val=0.9 rise=10 targ v(adcclk) val=0.9 rise=11
+meas tran supply_i_avg avg i(VDD) from=200n to=1.2u
+let rfsd_adc_frequency_hz=1/adc_period
+let rfsd_power_mw=-supply_i_avg*1.8*1e3
+print rfsd_adc_frequency_hz rfsd_power_mw
+wrdata iq.dat time idiff qdiff v(adcclk)
+echo FIXTURE_COMPLETE
+quit
+.endc
+.end

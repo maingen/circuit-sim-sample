@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for bias_reference
+* Required named nodes: vdd1 0 vbiasn vbiasp

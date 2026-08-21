@@ -1,0 +1,3 @@
+* Complete flattened SKY130 MedRadio receiver, mid starter.
+.include "/opt/pdk/sky130_tt.inc"
+.end

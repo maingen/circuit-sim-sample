@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for tx_rf_bpf
+* Required named nodes: in out 0

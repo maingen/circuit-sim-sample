@@ -1,0 +1,55 @@
+* Complete transmit-chain RF output test at 2.6 GHz.
+.title tx chain end to end
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/primitives.spice
+.include ../netlists/blocks/rf_frontend.spice
+.include ../netlists/blocks/mixer.spice
+.include ../netlists/blocks/baseband.spice
+.include ../netlists/blocks/data_converters.spice
+.include ../netlists/blocks/digital_support.spice
+.include ../netlists/blocks/chains.spice
+.temp 27
+
+VDD vdd 0 1.8
+VBN vbn 0 1.0
+VVCM vcm 0 0.9
+VCLK clk 0 PULSE(0 1.8 1n 20p 20p 3.056923n 6.153846n)
+VCLKB clkb 0 PULSE(1.8 0 1n 20p 20p 3.056923n 6.153846n)
+VRST rst 0 0
+VI7 i7 0 1.8
+VI6 i6 0 0
+VI5 i5 0 1.8
+VI4 i4 0 0
+VI3 i3 0 0
+VI2 i2 0 0
+VI1 i1 0 0
+VI0 i0 0 0
+VQ7 q7 0 0
+VQ6 q6 0 1.8
+VQ5 q5 0 0
+VQ4 q4 0 1.8
+VQ3 q3 0 0
+VQ2 q2 0 0
+VQ1 q1 0 0
+VQ0 q0 0 0
+VLO0 lo0 0 PULSE(0 1.8 0 2p 2p 94p 384.615p)
+VLO90 lo90 0 PULSE(0 1.8 96.154p 2p 2p 94p 384.615p)
+VLO180 lo180 0 PULSE(0 1.8 192.308p 2p 2p 94p 384.615p)
+VLO270 lo270 0 PULSE(0 1.8 288.462p 2p 2p 94p 384.615p)
+XTX i7 i6 i5 i4 i3 i2 i1 i0 q7 q6 q5 q4 q3 q2 q1 q0 clk clkb rst lo0 lo90 lo180 lo270 txp txn clip vdd 0 vbn vcm tx_chain
+RDIFF txp txn 100
+
+.control
+set noaskquit
+tran 2p 50n 0 2p uic
+let rfdiff=v(txp)-v(txn)
+meas tran RF_DIFF_PP pp rfdiff from=20n to=50n
+meas tran RF_PERIOD trig rfdiff val=0 rise=60 targ rfdiff val=0 rise=61
+meas tran CLIP_HIGH max v(clip) from=20n to=50n
+meas tran SUPPLY_I_AVG avg i(VDD) from=20n to=50n
+let SUPPLY_POWER=-SUPPLY_I_AVG*1.8
+wrdata ../results/raw/tx_chain_tran.dat time v(xtx.dip) v(xtx.din) v(xtx.dqp) v(xtx.dqn) v(xtx.mrp) v(xtx.mrn) v(xtx.ppap) v(xtx.ppan) v(xtx.pap) v(xtx.pan) v(xtx.mp) v(xtx.mn) rfdiff
+print RF_DIFF_PP RF_PERIOD CLIP_HIGH SUPPLY_I_AVG SUPPLY_POWER
+quit
+.endc
+.end

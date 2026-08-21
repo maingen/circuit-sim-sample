@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "submission_directory": "/app/submission",
+  "artifacts": {
+    "clock_bias.spice": {"subckt": "CLOCK_BIAS_3MA", "ports": ["VDD", "VSS", "NBIAS"]},
+    "clock_slicer.spice": {"subckt": "CLOCK_SLICER", "ports": ["INP", "INN", "NBIAS", "VDD", "VSS", "OUT"]},
+    "phase24.spice": {"subckt": "PHASE24", "ports": ["CLK", "CLKB", "RESET", "VDD", "VSS", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21", "P22", "P23", "P24"]},
+    "dtg.spice": {"subckt": "DTG", "ports": ["CLKB", "CLKC", "EDGE_PREV", "EDGE", "VDD", "VSS", "OUT"]},
+    "clock_path.spice": {"subckt": "CLOCK_PATH", "ports": ["LOP", "LON", "RESET", "VDD", "VSS", "CLK", "CLKB", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21", "P22", "P23", "P24", "ADCCLK", "ADCCLKB"]},
+    "sh_mixer.spice": {"subckt": "SH_MIXER", "ports": ["IN", "CLK", "VBSH", "VDD", "VSS", "OUT"]},
+    "fir23.spice": {"subckt": "FIR23", "ports": ["IN", "P2", "P4", "P6", "P8", "P10", "P12", "P14", "P16", "P18", "P20", "P22", "P24", "OUTP", "OUTN", "VSS"]},
+    "output_buffer.spice": {"subckt": "OUTBUF", "ports": ["IN", "VBTAIL", "VBSF", "VDD", "VSS", "OUT"]},
+    "rf_frontend.spice": {"subckt": "RF_FRONTEND", "ports": ["ANT", "VDD", "VSS", "OUT"]},
+    "adc1bit.spice": {"subckt": "ADC1BIT", "ports": ["INP", "INN", "CLK", "CLKB", "VDD", "VSS", "BIT", "BITB"]},
+    "rfsd_core.spice": {"subckt": "RFSD_CORE", "ports": ["IN", "LOP", "LON", "RESET", "VDD", "VSS", "IOUTP", "IOUTN", "QOUTP", "QOUTN", "ADCCLK", "ADCCLKB"]},
+    "full_receiver.spice": {"subckt": "FULL_RECEIVER", "ports": ["ANT", "LOP", "LON", "RESET", "VDD", "VSS", "IOUTP", "IOUTN", "QOUTP", "QOUTN", "IBIT", "IBITB", "QBIT", "QBITB", "ADCCLK"]}
+  },
+  "allowed_sky130_wrappers": [
+    "sky130_fd_pr__nfet_01v8",
+    "sky130_fd_pr__pfet_01v8",
+    "sky130_fd_pr__npn_05v5_W1p00L1p00",
+    "sky130_fd_pr__pnp_05v5_W3p40L3p40"
+  ],
+  "final_artifact_rules": {
+    "one_top_subckt_per_file": true,
+    "candidate_defined_x_instances": false,
+    "independent_sources": false,
+    "analysis_directives": false,
+    "candidate_includes": false,
+    "maximum_file_bytes": 2000000
+  }
+}

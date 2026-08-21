@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for lo_buffer_if
+* Required named nodes: inp inm outp outm vdd1 0

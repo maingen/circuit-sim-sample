@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for lo_slicer
+* Required named nodes: inp inm clkout bias vdd1 0

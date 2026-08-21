@@ -1,0 +1,4 @@
+* Replace this starter with a complete flattened physical circuit.
+.subckt FIR23 IN P2 P4 P6 P8 P10 P12 P14 P16 P18 P20 P22 P24 OUTP OUTN VSS
+* No devices are provided.
+.ends FIR23

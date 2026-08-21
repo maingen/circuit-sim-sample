@@ -1,0 +1,15 @@
+Bias-device current characterization for limiter reconstruction
+.include "build/sky130_tt.inc"
+.include "netlists/bias.spice"
+VDD vdd 0 1
+XBIAS vdd 0 vbn vbp constant_gm_bias
+VDN dn 0 0.5
+VDP dp 0 0.5
+XN dn vbn 0 0 sky130_fd_pr__nfet_01v8 l=1 w=1 nf=1
+XP dp vbp vdd vdd sky130_fd_pr__pfet_01v8 l=1 w=1 nf=1
+.control
+op
+print v(vbn) v(vbp) i(VDN) i(VDP)
+quit
+.endc
+.end

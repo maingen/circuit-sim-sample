@@ -1,0 +1,3 @@
+* Flattened counter block starter.
+.include "/opt/pdk/sky130_tt.inc"
+.end

@@ -1,0 +1,16 @@
+QVCO high-control tuning endpoint
+.include "build/sky130_tt.inc"
+.include "netlists/qvco.spice"
+VDD vdd 0 1
+VCTRL vctrl 0 0.8
+XVCO ip in qp qn vctrl vdd 0 quadrature_vco
+.ic v(ip)=0.51 v(in)=0.49 v(qp)=0.5 v(qn)=0.5
+.control
+tran 25p 1.5u 0 25p uic
+meas tran t50 when v(ip)=0.47 rise=50
+meas tran t150 when v(ip)=0.47 rise=150
+let tune_high_hz=100/(t150-t50)
+print tune_high_hz
+quit
+.endc
+.end

@@ -1,0 +1,4 @@
+* Replace this starter with a complete flattened physical circuit.
+.subckt DTG CLKB CLKC EDGE_PREV EDGE VDD VSS OUT
+* No devices are provided.
+.ends DTG

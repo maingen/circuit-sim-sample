@@ -1,0 +1,64 @@
+* Complete SoC public-port simultaneous-activity test without internal source injection.
+.temp 27
+VDD vdd 0 1.8
+VRX1 rx1src 0 SIN(0 30m 2.65g)
+RRX1 rx1src rx1pad 50
+VRX2 rx2src 0 SIN(0 20m 2.65g 0 0 45)
+RRX2 rx2src rx2pad 50
+VFBA fba_p 0 SIN(0.9 10m 2.65g)
+VFBAN fba_n 0 SIN(0.9 10m 2.65g 0 0 180)
+VFBB fbb_p 0 0.9
+VFBBN fbb_n 0 0.9
+VFBC fbc_p 0 0.9
+VFBCN fbc_n 0 0.9
+VFBD fbd_p 0 0.9
+VFBDN fbd_n 0 0.9
+VREF ref 0 PULSE(0 1.8 0 20p 20p 3.056923n 6.153846n)
+VREFB refb 0 PULSE(1.8 0 0 20p 20p 3.056923n 6.153846n)
+VSER serclk 0 PULSE(0 1.8 0.6n 5p 5p 195p 400p)
+VSERB serclkb 0 PULSE(1.8 0 0.6n 5p 5p 195p 400p)
+VRST rst 0 PULSE(1.8 0 0 20p 20p 1n 100n)
+VATT att 0 1.8
+VATTB attb 0 0
+VMOSI spi_mosi 0 PULSE(0 1.8 0.5n 20p 20p 1.96n 4n)
+VSCLK spi_clk 0 PULSE(0 1.8 1n 20p 20p 0.96n 2n)
+VSCLKB spi_clkb 0 PULSE(1.8 0 1n 20p 20p 0.96n 2n)
+VCSB spi_csb 0 0
+VHK hk_in 0 0.8
+XDUT rx1pad rx2pad fba_p fba_n fbb_p fbb_n fbc_p fbc_n fbd_p fbd_n tx1p tx1n tx2p tx2n ref refb serclk serclkb rst att attb spi_mosi spi_clk spi_clkb spi_csb gpio hk_in sd0txp sd0txn sd0rxp sd0rxn sd1txp sd1txn sd1rxp sd1rxn sd2txp sd2txn sd2rxp sd2rxn sd3txp sd3txn sd3rxp sd3rxn vdd 0 zero_if_rf_soc
+RTX1 tx1p tx1n 100
+RTX2 tx2p tx2n 100
+RSD0P sd0txp sd0rxp 10
+RSD0N sd0txn sd0rxn 10
+RSD1P sd1txp sd1rxp 10
+RSD1N sd1txn sd1rxn 10
+RSD2P sd2txp sd2rxp 10
+RSD2N sd2txn sd2rxn 10
+RSD3P sd3txp sd3rxp 10
+RSD3N sd3txn sd3rxn 10
+CSD0P sd0rxp 0 50f
+CSD0N sd0rxn 0 50f
+CSD1P sd1rxp 0 50f
+CSD1N sd1rxn 0 50f
+CSD2P sd2rxp 0 50f
+CSD2N sd2rxn 0 50f
+CSD3P sd3rxp 0 50f
+CSD3N sd3rxn 0 50f
+.ic v(tx1p)=0.95 v(tx1n)=0.85 v(tx2p)=0.85 v(tx2n)=0.95 v(sd0txp)=0.1 v(sd0txn)=1.7
+
+.control
+set noaskquit
+tran 2p 30n 0 2p uic
+let tx1diff=v(tx1p)-v(tx1n)
+meas tran TX1_DIFF_PP pp tx1diff from=20n to=30n
+meas tran TX1_PERIOD trig tx1diff val=0 rise=40 targ tx1diff val=0 rise=41
+meas tran SER0_HIGH max v(sd0txp) from=20n to=30n
+meas tran SER0_LOW min v(sd0txp) from=20n to=30n
+meas tran GPIO_HIGH max v(gpio) from=20n to=30n
+meas tran GPIO_LOW min v(gpio) from=20n to=30n
+meas tran SUPPLY_I_AVG avg i(VDD) from=20n to=30n
+let SUPPLY_POWER=-SUPPLY_I_AVG*1.8
+print TX1_DIFF_PP TX1_PERIOD SER0_HIGH SER0_LOW GPIO_HIGH GPIO_LOW SUPPLY_I_AVG SUPPLY_POWER
+quit
+.endc
+.end

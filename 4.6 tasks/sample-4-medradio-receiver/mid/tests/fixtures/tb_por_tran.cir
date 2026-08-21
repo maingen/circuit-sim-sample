@@ -1,0 +1,17 @@
+Transistor-level power-on-reset test
+.include "build/sky130_tt.inc"
+.include "netlists/primitives.spice"
+.include "netlists/qvco.spice"
+.include "netlists/synth.spice"
+VDD vdd 0 pulse(0 1 1n 1n 1n 10u 20u)
+XPOR reset vdd 0 power_on_reset
+.control
+set wr_singlescale
+tran 5n 5u
+meas tran por_max max v(reset) from=1n to=500n
+meas tran por_min min v(reset) from=2u to=5u
+meas tran por_fall when v(reset)=0.5 fall=1
+wrdata results/raw/por_tran.dat v(vdd) v(reset)
+quit
+.endc
+.end

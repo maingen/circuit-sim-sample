@@ -1,0 +1,4 @@
+* Replace this starter with a complete flattened physical circuit.
+.subckt FULL_RECEIVER ANT LOP LON RESET VDD VSS IOUTP IOUTN QOUTP QOUTN IBIT IBITB QBIT QBITB ADCCLK
+* No devices are provided.
+.ends FULL_RECEIVER

@@ -1,0 +1,42 @@
+schema_version = "1.3"
+artifacts = ["/app/submission"]
+
+[task]
+name = "maingen/sample2-wimax-transceiver-mid"
+version = "1.0.0"
+description = "Reconstruct the complete SKY130 WiMAX transceiver at MID difficulty."
+keywords = ["electrical-engineering", "rf", "spice", "ngspice", "sky130", "transistor-level", "circuit-reconstruction"]
+
+[[task.authors]]
+name = "Maingen"
+email = "david@maingen.ai"
+
+[metadata]
+category = "electrical-engineering"
+difficulty = "mid"
+harness = "harbor-0.21.0"
+simulator = "ngspice-46"
+source_identifier = "sample2-wimax-transceiver"
+status = "fresh-reference-calibrated"
+
+[verifier]
+timeout_sec = 86400.0
+environment_mode = "separate"
+user = "verifier"
+network_mode = "no-network"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+os = "linux"
+
+[agent]
+timeout_sec = 86400.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 86400.0
+os = "linux"
+cpus = 4
+memory_mb = 8192
+storage_mb = 16384

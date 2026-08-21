@@ -1,0 +1,17 @@
+Transistor-level logic and resettable DFF test
+.include "build/sky130_tt.inc"
+.include "netlists/primitives.spice"
+VDD vdd 0 1
+VCLK clk 0 pulse(0 1 100n 2n 2n 98n 200n)
+VD d 0 pulse(0 1 50n 2n 2n 300n 600n)
+VR reset 0 pulse(1 0 0 2n 2n 10u 20u)
+XDFF d clk reset q qb vdd 0 cmos_dff_reset
+.control
+set wr_singlescale
+tran 1n 2u
+meas tran q_max max v(q) from=0.5u to=2u
+meas tran q_min min v(q) from=0.5u to=2u
+wrdata results/raw/logic_tran.dat v(clk) v(d) v(reset) v(xdff.xd.qm) v(xdff.xd.qmb) v(q) v(qb)
+quit
+.endc
+.end

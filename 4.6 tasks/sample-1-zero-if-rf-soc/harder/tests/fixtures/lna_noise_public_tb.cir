@@ -1,0 +1,18 @@
+* Public-port LNA noise test at the 2.6 GHz condition.
+.temp 27
+VDD vdd 0 1.8
+VIN src 0 DC 0 AC 1
+RSRC src in 50
+XBIAS vdd 0 vbn vbp vcm vbcas bias_core
+XLNA in out vdd 0 vbn vbcas rf_lna
+RLOAD out 0 50k
+CLOAD out 0 250f
+
+.control
+set noaskquit
+noise v(out) VIN dec 50 1g 5g
+setplot noise1
+wrdata @@RAW_PATH@@ frequency onoise_spectrum inoise_spectrum
+quit
+.endc
+.end

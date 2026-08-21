@@ -1,0 +1,21 @@
+Complex-filter desired-sideband AC test
+.include "build/sky130_tt.inc"
+.include "netlists/primitives.spice"
+.include "netlists/bias.spice"
+.include "netlists/cbpf.spice"
+VDD vdd 0 1
+VIP ip 0 dc 0.5 ac 0.5 0
+VIN in 0 dc 0.5 ac 0.5 180
+VQP qp 0 dc 0.5 ac 0.5 -90
+VQN qn 0 dc 0.5 ac 0.5 90
+XBIAS vdd 0 vbn vbp constant_gm_bias
+XFILT ip in qp qn iop ion qop qon vdd 0 vbn vbp complex_bpf8
+.control
+set wr_singlescale
+ac dec 160 10k 20meg
+let desired_db=db(v(iop)-v(ion))
+meas ac cbpf_desired_750_db find desired_db at=750k
+wrdata results/raw/cbpf_desired_ac.dat desired_db
+quit
+.endc
+.end

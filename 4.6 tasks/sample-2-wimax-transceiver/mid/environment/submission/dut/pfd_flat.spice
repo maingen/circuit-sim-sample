@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for pfd
+* Required named nodes: refclk fbclk ext_reset up dn vdd1 0

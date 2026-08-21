@@ -1,0 +1,17 @@
+* TX reconstruction-filter bandwidth verification.
+.title TX reconstruction LPF AC
+.include ../netlists/blocks/baseband.spice
+VIP inp 0 AC 0.5
+VIN inn 0 AC 0.5 180
+XF inp inn op on 0 tx_reconstruction_lpf
+.control
+set noaskquit
+ac dec 100 10k 1g
+let gain=db(v(op)-v(on))
+meas ac GAIN_10K find gain at=10k
+meas ac F3DB when gain=-3 fall=1
+wrdata ../results/raw/tx_reconstruction_lpf_ac.dat frequency gain
+print GAIN_10K F3DB
+quit
+.endc
+.end

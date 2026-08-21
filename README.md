@@ -1,11 +1,12 @@
 # Circuit Simulation Sample Environments
 
-This repository contains five EESimBench electrical-engineering tasks as self-contained Harbor environments. It also contains eight final Grok 4.5 rollouts for each task, including the submitted circuit, complete trajectory, and production verifier result.
+This repository contains five EESimBench electrical-engineering tasks as self-contained Harbor environments. It also contains eight final Grok 4.5 rollouts for each original task and five Grok 4.6 circuit-reconstruction task families.
 
 ## Repository contents
 
 - `harbor/` contains the five runnable task packages.
 - `rollouts/` contains 40 retained model runs and their final grades.
+- `4.6 tasks/` contains five Grok 4.6 task families, each with `mid`, `hard`, and `harder` Harbor packages.
 - `tasks.csv` is the machine-readable task catalog.
 - `tasks.md` explains the engineering work and the retained results.
 - `.env.example` lists the credential needed to run Grok Build.

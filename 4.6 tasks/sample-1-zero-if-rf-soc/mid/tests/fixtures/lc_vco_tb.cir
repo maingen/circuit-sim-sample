@@ -1,0 +1,23 @@
+* LC VCO startup and frequency verification.
+.title lc_vco transient
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/clock_pll.spice
+.temp 27
+
+VDD vdd 0 1.8
+VCTRL vctrl 0 0.9
+XVCO vctrl op on vdd 0 lc_vco
+.ic v(op)=1.0 v(on)=0.8
+
+.control
+set noaskquit
+tran 1p 30n 0 1p uic
+let vdiff = v(op)-v(on)
+meas tran PERIOD trig vdiff val=0 rise=40 targ vdiff val=0 rise=41
+let FREQ=1/PERIOD
+meas tran VCO_DIFF_PP pp vdiff from=15n to=30n
+wrdata ../results/raw/lc_vco_tran.dat time v(op) v(on)
+print PERIOD FREQ VCO_DIFF_PP
+quit
+.endc
+.end

@@ -1,0 +1,40 @@
+* 5 Gb/s serializer and receiver loopback verification.
+.title serdes lane 5 Gb/s loopback
+.include ../models/sky130_tt.inc
+.include ../netlists/blocks/primitives.spice
+.include ../netlists/blocks/digital_support.spice
+.temp 27
+
+VDD vdd 0 1.8
+VBN vbn 0 1.0
+VCLK clk 0 PULSE(0 1.8 0.6n 5p 5p 195p 400p)
+VCLKB clkb 0 PULSE(1.8 0 0.6n 5p 5p 195p 400p)
+VRST rst 0 PULSE(1.8 0 0 5p 5p 0.4n 20n)
+VD3 sd3 0 1.8
+VD2 sd2 0 0
+VD1 sd1 0 1.8
+VD0 sd0 0 0
+RD3 sd3 d3 10
+RD2 sd2 d2 10
+RD1 sd1 d1 10
+RD0 sd0 d0 10
+XLANE d3 d2 d1 d0 clk clkb rst txp txn rxp rxn qrx qrxb vdd 0 vbn serdes_lane
+RLP txp rxp 10
+RLN txn rxn 10
+CLP rxp 0 50f
+CLN rxn 0 50f
+.ic v(xlane.qsel1)=0 v(xlane.qsel1b)=1.8
+
+.control
+set noaskquit
+tran 1p 8n 0 1p uic
+meas tran TXP_HIGH max v(txp) from=2n to=8n
+meas tran TXP_LOW min v(txp) from=2n to=8n
+meas tran QRX_HIGH max v(qrx) from=2n to=8n
+meas tran QRX_LOW min v(qrx) from=2n to=8n
+meas tran BIT_PERIOD trig v(txp) val=0.9 rise=5 targ v(txp) val=0.9 rise=6
+wrdata ../results/raw/serdes_lane_tran.dat time v(clk) v(txp) v(txn) v(rxp) v(rxn) v(qrx) v(xlane.s0) v(xlane.s1) v(xlane.ser) v(xlane.serb) v(xlane.rxd) v(xlane.xrx.nr) v(xlane.xrx.nl)
+print TXP_HIGH TXP_LOW QRX_HIGH QRX_LOW BIT_PERIOD
+quit
+.endc
+.end

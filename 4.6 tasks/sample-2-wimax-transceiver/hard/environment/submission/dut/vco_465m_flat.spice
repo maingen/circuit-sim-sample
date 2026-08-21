@@ -1,0 +1,2 @@
+* TODO: flattened transistor-level implementation for vco_465m
+* Required named nodes: outp outm vctrl vdd1 0

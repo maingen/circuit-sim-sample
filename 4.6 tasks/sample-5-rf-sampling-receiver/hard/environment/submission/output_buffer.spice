@@ -1,0 +1,4 @@
+* Replace this starter with a complete flattened physical circuit.
+.subckt OUTBUF IN VBTAIL VBSF VDD VSS OUT
+* No devices are provided.
+.ends OUTBUF

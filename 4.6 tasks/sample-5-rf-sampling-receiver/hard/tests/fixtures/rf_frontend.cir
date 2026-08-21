@@ -1,0 +1,17 @@
+* artifact: rf_frontend.spice
+.option temp=27
+VDD vdd 0 1.8
+VIN src 0 DC 0 AC 1
+RS src ant 50
+XDUT ant vdd 0 out RF_FRONTEND
+CLOAD out 0 1p
+.control
+set noaskquit
+op
+ac lin 501 2.20g 2.70g
+meas ac rf_frontend_gain_2450_db find vdb(out) at=2.45g
+wrdata rf_frontend.dat frequency vdb(out)
+echo FIXTURE_COMPLETE
+quit
+.endc
+.end

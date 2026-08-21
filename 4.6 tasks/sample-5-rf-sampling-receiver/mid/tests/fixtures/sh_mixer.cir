@@ -1,0 +1,18 @@
+* artifact: sh_mixer.spice
+.option temp=27 method=gear reltol=2e-3
+.param T='1/1.072g'
+VDD vdd 0 1.8
+VBSH vbsh 0 0.9
+VIN in 0 SIN(0 0.219 2.413g)
+VCLK clk 0 PULSE(0 1.8 0 2p 2p '0.5*T-2p' T)
+XDUT in clk vbsh vdd 0 out SH_MIXER
+.control
+set noaskquit
+tran 2p 30n
+meas tran sh_output_pp_v pp v(out) from=10n to=30n
+let sh_total_voltage_gain_db=20*log10(sh_output_pp_v/0.438)
+print sh_total_voltage_gain_db
+echo FIXTURE_COMPLETE
+quit
+.endc
+.end
