@@ -2,28 +2,257 @@
   "sections": {
     "input_tia_dc_cancellation": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "XQ_XTIAP_AMP",
+            "XQ_XTIAP_CAS",
+            "XQ_XTIAP_BUF",
+            "R_XTIAP_F",
+            "XM_CANCEL_CAS_P",
+            "XM_CANCEL_P",
+            "XQ_XTIAN_AMP",
+            "XQ_XTIAN_CAS",
+            "XQ_XTIAN_BUF",
+            "R_XTIAN_F",
+            "XM_CANCEL_CAS_N",
+            "XM_CANCEL_N"
+          ],
+          "nodes": [
+            "inp",
+            "inn",
+            "tia_p",
+            "tia_n",
+            "XTIAP__fb",
+            "XTIAN__fb",
+            "XTIAP__cancel_gate",
+            "XTIAN__cancel_gate",
+            "XTIAP__cancel_d",
+            "XTIAN__cancel_d"
+          ],
+          "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+          "electrical_reason": "Each input drives an NPN common-emitter/cascode transimpedance branch from inp or inn to tia_p or tia_n, with an active buffer and resistive shunt-feedback path from the buffered branch node back to its input. Separate PMOS sensing pairs establish the slowly varying cancel-gate voltages; each gate controls a cascoded NMOS sink connected directly to its corresponding input, providing a DC cancellation path distinct from the RF TIA path. The matched branch topology and shared cascode bias support the measured matched nominal and overload input operating points."
+        }
+      ]
     },
     "rf_gain_stages": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "XQ_XVGA1_1",
+            "XQ_XVGA1_2",
+            "XQ_XVGA1_3",
+            "XQ_XVGA1_4",
+            "XQ_XVGA1_5",
+            "XQ_XVGA1_6",
+            "XQ_XVGA1_7",
+            "XQ_XVGA1_8",
+            "XM_XCMCTRL_1P",
+            "XM_XCMCTRL_1N",
+            "XQ_XVGA2_1",
+            "XQ_XVGA2_2",
+            "XQ_XVGA2_3",
+            "XQ_XVGA2_4",
+            "XQ_XVGA2_5",
+            "XQ_XVGA2_6",
+            "XQ_XVGA2_7",
+            "XQ_XVGA2_8",
+            "XM_XCMCTRL_2P",
+            "XM_XCMCTRL_2N"
+          ],
+          "nodes": [
+            "v1p",
+            "v1n",
+            "vga1p",
+            "vga1n",
+            "v2p",
+            "v2n",
+            "vga2p",
+            "vga2n",
+            "gc",
+            "vc1",
+            "vc1b",
+            "vc2",
+            "vc2b"
+          ],
+          "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+          "electrical_reason": "The first and second stages are distinct differential BJT RF amplifier chains: v1p/v1n feed XVGA1 and v2p/v2n feed XVGA2, with inductive/resistive collector loading, emitter degeneration, cross-coupled/cascode gain devices, and active output followers. gc drives one side of each CM-control differential pair while a fixed reference drives the other, generating complementary vc1/vc1b and vc2/vc2b bias voltages that directly control the gain-stage transistor bases. The measured monotonic nonzero gain span and broadband transimpedance are therefore associated with a continuous, active two-stage signal and control path."
+        }
+      ]
     },
     "output_buffer": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "XQ_XBUF_1",
+            "XQ_XBUF_2",
+            "XM_XBUF_BIAS1",
+            "XM_XBUF_BIAS2",
+            "R_XBUF_CP",
+            "R_XBUF_CN",
+            "R_XBUF_E",
+            "RLOWP",
+            "RLOWN"
+          ],
+          "nodes": [
+            "bufinp",
+            "bufinn",
+            "XBUF__e1",
+            "XBUF__e2",
+            "outp",
+            "outn",
+            "finalp",
+            "finaln"
+          ],
+          "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+          "electrical_reason": "bufinp and bufinn drive the bases of a matched NPN differential output pair. Their collectors are actively loaded from vcc by R_XBUF_CP/R_XBUF_CN, their emitters have a shared degeneration resistor and individual NMOS current sinks, and outp/outn then drive finalp/finaln through explicit output resistors. This is an active differential buffer rather than direct input-output feedthrough, consistent with the direct buffer tests showing finite differential gain and low distortion."
+        }
+      ]
     },
     "peak_detector": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "XQ_XPKD_7",
+            "XQ_XPKD_8",
+            "XQ_XPKD_1",
+            "XQ_XPKD_2",
+            "XQ_XPKD_3",
+            "XQ_XPKD_4",
+            "XQ_XPKD_5",
+            "XQ_XPKD_6",
+            "XM_XPKD_BIASL",
+            "XM_XPKD_BIAST",
+            "XM_XPKD_BIASR",
+            "R_XPKD_CL",
+            "R_XPKD_CR"
+          ],
+          "nodes": [
+            "pkdinp",
+            "pkdinn",
+            "XPKD__e7",
+            "XPKD__e8",
+            "XPKD__c1",
+            "XPKD__c2",
+            "XPKD__tail",
+            "detp",
+            "detn"
+          ],
+          "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+          "electrical_reason": "The detector has differential input emitter followers followed by two cross-connected BJT rectifying/current-steering paths. XQ_XPKD_3 through XQ_XPKD_6 steer the RF differential input into detp/detn through intermediate nodes c1/c2; collector resistors supply charge/discharge paths, while the three NMOS sinks establish input-side and tail bias currents. pkdinp/pkdinn are physically coupled from final outputs and also directly access the active detector. The measured strictly monotonic, nonzero detector differential response verifies that this topology is responsive rather than decorative."
+        }
+      ]
     },
     "agc_and_selector": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "R_XAGC_LP_P",
+            "R_XAGC_LP_N",
+            "C_XAGC_LP",
+            "XQ_XAGC_SFP",
+            "XQ_XAGC_SFN",
+            "XM_XAGC_XOP4_INP",
+            "XM_XAGC_XOP4_INN",
+            "XM_XAGC_XOP4_PVAS",
+            "XM_XAGC_XOP4_NVAS",
+            "XM_XAGC_XOP5_INP",
+            "XM_XAGC_XOP5_INN",
+            "XM_XAGC_XOP5_PVAS",
+            "XM_XAGC_XOP5_NVAS",
+            "R_XAGC_OP",
+            "XM_XMODE_NMGC",
+            "XM_XMODE_PMGC",
+            "XM_XMODE_NAGC",
+            "XM_XMODE_PAGC"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "XAGC__lp_p",
+            "XAGC__lp_n",
+            "pkd",
+            "XAGC__op5_raw",
+            "agc",
+            "mgc",
+            "mc",
+            "XMODE__mcb",
+            "gc"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "detp/detn feed a differential low-pass and active BJT followers into an NMOS-input op-amp whose output pkd closes a resistor feedback loop against the detector reference. A second transistor-level op-amp compares pkd to oa and drives op5_raw, which has a DC resistive path through R_XAGC_OP to agc and a reference/load path through R_XAGC_GCREF. The CMOS inverter driven by mc generates mcb; complementary transmission devices separately connect mgc or agc to gc without directly shorting those control sources. The independent AGC-gain and both manual/automatic selector measurements confirm active response on each required control path."
+        }
+      ]
     },
     "complete_receiver": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "XQ_XTIAP_CAS",
+            "XQ_XTIAN_CAS",
+            "C_XIF1P_IN",
+            "C_XIF1N_IN",
+            "XQ_XIF1P_EF",
+            "XQ_XIF1N_EF",
+            "XQ_XVGA1_1",
+            "XQ_XVGA1_2",
+            "C_XIF2P_IN",
+            "C_XIF2N_IN",
+            "XQ_XIF2P_EF",
+            "XQ_XIF2N_EF",
+            "XQ_XVGA2_1",
+            "XQ_XVGA2_2",
+            "C_XIF3P_IN",
+            "C_XIF3N_IN",
+            "XQ_XIF3P_EF",
+            "XQ_XIF3N_EF",
+            "XQ_XBUF_1",
+            "XQ_XBUF_2",
+            "RPKDTAPP",
+            "RPKDTAPN",
+            "CPKDINP",
+            "CPKDINN",
+            "XQ_XPKD_3",
+            "XQ_XPKD_6",
+            "XM_XMODE_NAGC",
+            "XM_XMODE_PAGC"
+          ],
+          "nodes": [
+            "inp",
+            "inn",
+            "tia_p",
+            "tia_n",
+            "v1p",
+            "v1n",
+            "vga1p",
+            "vga1n",
+            "v2p",
+            "v2n",
+            "vga2p",
+            "vga2n",
+            "bufinp",
+            "bufinn",
+            "outp",
+            "outn",
+            "finalp",
+            "finaln",
+            "pkdinp",
+            "pkdinn",
+            "detp",
+            "detn",
+            "agc",
+            "gc"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "A continuous differential physical signal route exists from inp/inn through the two TIA outputs, three AC-coupled biased emitter-follower interfaces, both active VGA stages, the output buffer, and RLOWP/RLOWN to finalp/finaln. finalp/finaln also feed pkdinp/pkdinn through explicit high-impedance detector taps; the detector and two-stage AGC generate agc, and the selector returns agc or mgc as gc to both VGA common-mode control sections. All active blocks have vcc and grounded bias/current-return paths. The nominal, overload, and PAM4 measurements are consistent with this connected receiver rather than a bypassed output path."
+        }
+      ]
     }
   },
-  "summary": "All six ledger sections are implemented as connected transistor-level circuitry using permitted SG13G2 devices and passive components. The submitted flat deck provides coherent differential signal, bias, control, detector, AGC, selector, and output paths, and the deterministic evidence confirms active operation for every associated block and complete-receiver test."
+  "summary": "All six ledger sections are genuinely present as transistor-level, electrically connected functions. The candidate is identical to the supplied valid frozen reference, and its local measurements corroborate the active signal, detector, AGC-control, and end-to-end receiver paths."
 }

@@ -1,37 +1,37 @@
 {
   "schema_version": "1.0",
-  "canonical_verifier_version": "1.0.1",
-  "trial_id": "reference-qa",
-  "started_at": "2026-08-21T16:54:14.350332+00:00",
-  "finished_at": "2026-08-21T16:54:14.351562+00:00",
+  "canonical_verifier_version": "1.0.3",
+  "trial_id": "reference__canonical_v1.0.3",
+  "started_at": "2026-08-21T18:13:30.709260+00:00",
+  "finished_at": "2026-08-21T18:13:55.398132+00:00",
   "requested_model": "gpt-5.6-terra",
   "reasoning_effort": "high",
   "api": {
-    "response_id": "resp_090a38a8b4de7798016a8881b74b5887d0b031ff972c1ff89f",
+    "response_id": "resp_00c045edca8e4a7c016a88954bd9f087d0826ed8de4a589242",
     "returned_model": "gpt-5.6-terra",
-    "created_at": 1787330999.0,
+    "created_at": 1787336011.0,
     "status": "completed",
     "usage": {
-      "input_tokens": 24522,
+      "input_tokens": 25050,
       "input_tokens_details": {
-        "cached_tokens": 0,
-        "cache_write_tokens": 24519
+        "cached_tokens": 1178,
+        "cache_write_tokens": 23869
       },
-      "output_tokens": 199,
+      "output_tokens": 2320,
       "output_tokens_details": {
-        "reasoning_tokens": 32
+        "reasoning_tokens": 73
       },
-      "total_tokens": 24721
+      "total_tokens": 27370
     }
   },
   "hashes": {
-    "candidate_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
-    "static_details_sha256": "160b005179aa0d6372377e8d7d4eae8ed8e485526f5e252730c00e5388a22c90",
+    "candidate_sha256": "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d",
+    "static_details_sha256": "b87f58a8c01b66819b721c48f936f5464ccfe25103745a78a5c955b3f13f847f",
     "instruction_sha256": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
-    "reference_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
+    "reference_sha256": "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d",
     "ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a",
-    "judge_prompt_sha256": "f6728fb219538344f03ecbccfba9fa0d450e2e0f7fe8be8dc340187ab1257eac",
-    "review_packet_sha256": "beab2bf931bead29ee14bbc94a411a5bd61213a0a175c9d128b63eb14f1bc4c9",
-    "canonical_verifier_sha256": "8b0fa28fc69d802144da420e10dc62d363a0a51ecc464fae443cfd2793276cbb"
+    "judge_prompt_sha256": "3aad37e8268e788ac5372eaefce57015984791503829904d668706b515c4ffb7",
+    "canonical_verifier_sha256": "6df28b7965c76504e5e8949edb77990589095fa043b03c99722ef20eb73b71a0",
+    "review_packet_sha256": "718f8cc92d1817384b89cc16c067f4beb81bc98a9edabcaa26d2750348fe0a94"
   }
 }

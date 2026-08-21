@@ -2,15 +2,100 @@
   "sections": {
     "input_tia_dc_cancellation": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "Xq_tia_p",
+            "Xq_tia_n",
+            "Xmn_in_p",
+            "Xmn_in_n",
+            "Xota_p_in",
+            "Xota_p_rf",
+            "Xota_n_in",
+            "Xota_n_rf",
+            "Cota_p",
+            "Cota_n"
+          ],
+          "nodes": [
+            "inp",
+            "inn",
+            "pkdinp",
+            "pkdinn",
+            "gdc_p",
+            "gdc_n",
+            "vref"
+          ],
+          "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+          "electrical_reason": "Each input drives the emitter of a common-base HBT TIA device whose collector feeds pkdinp/pkdinn and the RF chain. For each branch, the MOS differential sensing pair compares the input against vref and develops gdc_p/gdc_n, which drives Xmn_in_p/Xmn_in_n shunt-current devices; the 350 pF capacitors establish a slow control path without shorting the RF collector path. The symmetric topology is corroborated by the matched nominal and overload input voltages and small measured overload mismatch."
+        }
+      ]
     },
     "rf_gain_stages": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "Xq1p",
+            "Xq1n",
+            "Xm1fix",
+            "Xm1gc",
+            "Xq2p",
+            "Xq2n",
+            "Xm2fix",
+            "Xm2gc",
+            "Cc1p",
+            "Cc1n",
+            "Cc2p",
+            "Cc2n",
+            "Cc3p",
+            "Cc3n"
+          ],
+          "nodes": [
+            "tia_ef_p",
+            "tia_ef_n",
+            "vg1bp",
+            "vg1bn",
+            "midp",
+            "midn",
+            "t1",
+            "vg2bp",
+            "vg2bn",
+            "nvg2p",
+            "nvg2n",
+            "t2",
+            "gc"
+          ],
+          "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+          "electrical_reason": "The signal is AC-coupled from the TIA emitter followers into two successive differential common-emitter HBT stages. In each stage, a fixed NMOS tail path is paralleled by an NMOS path gated by gc, so gc physically changes stage tail current and transconductance rather than merely changing a named measurement node. The measured monotonic 1.706 dB gain span and finite wideband transimpedance support that both stages are connected and responsive; the residual target errors are sizing/performance deviations, not a missing stage."
+        }
+      ]
     },
     "output_buffer": {
       "verdict": "pass",
-      "findings": []
+      "findings": [
+        {
+          "elements": [
+            "Xqbp",
+            "Xqbn",
+            "Rebp",
+            "Rebn",
+            "Rbufft",
+            "Rbp",
+            "Rbn"
+          ],
+          "nodes": [
+            "bufinp",
+            "bufinn",
+            "ebp",
+            "ebn",
+            "tb",
+            "outp",
+            "outn"
+          ],
+          "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+          "electrical_reason": "Xqbp and Xqbn form an active differential HBT output stage with resistive collector loads to vcc and emitter degeneration feeding the shared tail resistor. Thus bufinp/bufinn modulate HBT collector currents at outp/outn rather than passing through a passive feedthrough. Both direct buffer amplitude tests and the distortion test are consistent with an operating active buffer."
+        }
+      ]
     },
     "peak_detector": {
       "verdict": "fail",
@@ -18,24 +103,28 @@
         {
           "elements": [
             "Xqpd_lp",
-            "Xqpd_ep",
             "Xqpd_ln",
+            "Xqpd_ep",
             "Xqpd_en",
-            "Cpd_lp",
-            "Cpd_ep",
-            "Cpd_ln",
-            "Cpd_en",
             "Rpd_cp",
-            "Rpd_cn"
+            "Rpd_cn",
+            "Cpd_lp",
+            "Cpd_ln",
+            "Cpd_ep",
+            "Cpd_en"
           ],
           "nodes": [
             "pkdinp",
             "pkdinn",
+            "pd_blp",
+            "pd_bln",
+            "pd_bep",
+            "pd_ben",
             "detp",
             "detn"
           ],
           "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
-          "electrical_reason": "The detector consists of two electrically symmetric, independent common-emitter rectifier banks: both detp collector devices are driven only from pkdinp and both detn collector devices only from pkdinn. Equal-amplitude opposite-phase differential inputs therefore produce equal rectified averages on detp and detn, which cancel in the required differential output. There is no cross-coupled rectification, differential comparison, or other mechanism to convert differential RF amplitude into a usable detp-minus-detn signal."
+          "electrical_reason": "Although active HBT rectifier branches are present, detp receives the low- and high-degeneration devices driven from the P input while detn receives the exactly corresponding devices driven from the N input. Under the required equal-amplitude opposite-polarity differential drive, this bilateral arrangement produces equal time-averaged collector currents on detp and detn rather than a steered differential detected quantity. There is no cross-coupled or differential combining path that converts input amplitude to detp-minus-detn. The effectively zero endpoint differential outputs and failed monotonicity directly reflect this structural output arrangement, not merely detector sizing."
         }
       ]
     },
@@ -50,34 +139,9 @@
             "Rag_cp",
             "Rag_cn",
             "Rag_rh",
-            "Rag_rl"
-          ],
-          "nodes": [
-            "detp",
-            "detn",
-            "oa",
-            "ag_ref",
-            "agc",
-            "agt",
-            "ncp"
-          ],
-          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
-          "electrical_reason": "The active AGC pair senses oa and ag_ref, with outputs ncp and agc; neither detp nor detn has any electrical connection to this amplifier or to an AGC error-summing network. Thus this stage cannot amplify detector error or close an amplitude-control loop. The transmission-gate selector is connected, but its automatic input is not a detector-derived AGC signal."
-        }
-      ]
-    },
-    "complete_receiver": {
-      "verdict": "fail",
-      "findings": [
-        {
-          "elements": [
-            "Xqpd_lp",
-            "Xqpd_ep",
-            "Xqpd_ln",
-            "Xqpd_en",
-            "Xagp",
-            "Xagn",
-            "Xagt",
+            "Rag_rl",
+            "Xman_n",
+            "Xman_p",
             "Xaut_n",
             "Xaut_p"
           ],
@@ -86,28 +150,58 @@
             "detn",
             "oa",
             "ag_ref",
+            "ncp",
+            "agt",
+            "agc",
+            "mc",
+            "mc_b",
+            "mgc",
+            "gc"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "The selector itself is a valid complementary transmission-gate arrangement: mc/mc_b enable the mgc devices in manual mode and the agc devices in automatic mode, consistent with the selector measurements. However, the claimed AGC amplifier Xagp/Xagn has inputs oa and ag_ref only; neither detp nor detn, nor any DC path derived from them, connects to its input network. Consequently agc is not an amplified detector-error control voltage, explaining the measured zero AGC gain. A functioning forced-agc selector cannot substitute for the absent detector-responsive AGC amplifier."
+        }
+      ]
+    },
+    "complete_receiver": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Xq_tia_p",
+            "Xq_tia_n",
+            "Xq1p",
+            "Xq1n",
+            "Xq2p",
+            "Xq2n",
+            "Xqbp",
+            "Xqbn",
+            "Ralias_p",
+            "Ralias_n",
+            "Xagp",
+            "Xagn"
+          ],
+          "nodes": [
+            "inp",
+            "inn",
+            "pkdinp",
+            "pkdinn",
+            "bufinp",
+            "bufinn",
+            "outp",
+            "outn",
+            "finalp",
+            "finaln",
+            "detp",
+            "detn",
             "agc",
             "gc"
           ],
           "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
-          "electrical_reason": "Although the forward TIA-to-buffer path is present and agc is routed through the automatic selector to gc, the detector outputs detp and detn are disconnected from the AGC amplifier. Consequently the required detector-to-AGC-to-gc feedback path does not exist; the automatic gain setting is instead determined by oa versus ag_ref."
-        },
-        {
-          "elements": [
-            "Ralias_p",
-            "Ralias_n"
-          ],
-          "nodes": [
-            "outp",
-            "outn",
-            "finalp",
-            "finaln"
-          ],
-          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
-          "electrical_reason": "finalp and finaln are attached to the actual buffer collector outputs only through 1 Mohm series resistors. This leaves the declared final outputs effectively floating and unable to drive a meaningful RF/output load; they act only as unloaded high-impedance aliases rather than as a physically usable buffered receiver output connection."
+          "electrical_reason": "A forward high-frequency signal chain exists from the input HBT collectors through emitter followers, both VGA stages, and the active output buffer. Nevertheless the required control functions are not coherently integrated: the detector has no valid differential amplitude output and the AGC input network is entirely disconnected from detp/detn. Therefore automatic gc cannot be detector-responsive. In addition, finalp/finaln are attached to the actual buffer outputs only through 1 Mohm series alias resistors, rather than a load-capable RF output connection; they can reproduce an unloaded voltage measurement but do not constitute a credible driven final-output interface. These are material integration defects despite the partial PAM4 measurement."
         }
       ]
     }
   },
-  "summary": "The input TIA branches, two gc-controlled RF stages, and active differential buffer are coherently implemented. The detector topology cannot generate a substantive differential envelope from a balanced differential RF signal, and its outputs are not connected to the AGC amplifier. The resulting detector-to-AGC feedback loop is absent, while final outputs are only weakly alias-connected to the buffer."
+  "summary": "The input TIA/cancellation, two gc-responsive RF gain stages, and active output buffer are structurally credible. The detector's symmetric rectifier assignment cannot generate the required differential detected signal, and the AGC amplifier is disconnected from detector outputs; consequently the required complete detector-responsive receiver/control loop is not implemented."
 }

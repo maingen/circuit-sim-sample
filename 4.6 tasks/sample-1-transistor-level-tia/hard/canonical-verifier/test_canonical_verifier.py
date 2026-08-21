@@ -6,6 +6,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 HERE = Path(__file__).resolve().parent
@@ -46,7 +47,7 @@ def static_details(reward: float = 1.0) -> dict:
 def judge(default: str = "pass") -> dict:
     return {
         "sections": {
-            section["section_id"]: {"verdict": default, "findings": []}
+            section["section_id"]: {"verdict": default, "findings": [finding()]}
             for section in ledger()["sections"]
         },
         "summary": "fixture",
@@ -101,6 +102,24 @@ class CanonicalVerifierTests(unittest.TestCase):
         result = MODULE.combine_results(static_details(0.5), ledger(), judge())
         self.assertEqual(0.5, result["final_reward"])
 
+    def test_complete_partial_record_receives_canonical_grade(self) -> None:
+        details = static_details()
+        details["outcome"] = "simulation_failed"
+        details["artifact_evaluable"] = False
+        details["production_pass"] = False
+        details["criteria"][-1].update({
+            "value": None,
+            "reward": 0.0,
+            "measurement_status": "simulation_failed",
+        })
+        details["final_reward"] = 27.0 / 28.0
+        result = MODULE.combine_results(details, ledger(), judge())
+        self.assertEqual("simulation_failed", result["outcome"])
+        self.assertFalse(result["artifact_evaluable"])
+        self.assertFalse(result["production_pass"])
+        self.assertEqual(27.0 / 28.0, result["final_reward"])
+        self.assertEqual(0.0, result["criteria"][-1]["canonical_reward"])
+
     def test_indeterminate_is_infrastructure_failure(self) -> None:
         review = judge()
         review["sections"]["peak_detector"] = {
@@ -110,11 +129,12 @@ class CanonicalVerifierTests(unittest.TestCase):
         with self.assertRaises(MODULE.JudgeInfrastructureError):
             MODULE.combine_results(static_details(), ledger(), review)
 
-    def test_fail_requires_concrete_evidence(self) -> None:
+    def test_every_verdict_requires_concrete_evidence(self) -> None:
         review = judge()
-        review["sections"]["peak_detector"] = {"verdict": "fail", "findings": []}
-        with self.assertRaises(MODULE.JudgeInfrastructureError):
-            MODULE.validate_judge_result(review, ledger())
+        for verdict in ("pass", "fail", "indeterminate"):
+            review["sections"]["peak_detector"] = {"verdict": verdict, "findings": []}
+            with self.assertRaises(MODULE.JudgeInfrastructureError):
+                MODULE.validate_judge_result(review, ledger())
 
     def test_api_metadata_requires_completed_requested_model(self) -> None:
         MODULE.validate_api_metadata({
@@ -158,6 +178,48 @@ class CanonicalVerifierTests(unittest.TestCase):
         self.assertIn("node names", prompt)
         self.assertIn("not as a circuit that must be copied exactly", prompt)
         self.assertIn("Do not fail a section merely because", prompt)
+        self.assertIn("reconcile each section's local deterministic measurements", prompt)
+        self.assertIn("capacitor-only connection", prompt)
+        self.assertIn("For every section verdict", prompt)
+
+    def test_incomplete_static_details_emit_infrastructure_record(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temp = Path(temporary)
+            candidate = temp / "candidate.cir"
+            instruction = temp / "instruction.md"
+            reference = temp / "reference.cir"
+            details = temp / "details.json"
+            output = temp / "canonical"
+            candidate.write_text(".end\n", encoding="utf-8")
+            instruction.write_text("public", encoding="utf-8")
+            reference.write_text(".end\n", encoding="utf-8")
+            details.write_text(
+                json.dumps({
+                    "outcome": "simulation_failed",
+                    "artifact_evaluable": False,
+                    "production_pass": False,
+                    "final_reward": 0.0,
+                    "criteria": static_details()["criteria"][:-1],
+                }),
+                encoding="utf-8",
+            )
+            arguments = [
+                "canonical_verifier.py",
+                "--candidate", str(candidate),
+                "--static-details", str(details),
+                "--instruction", str(instruction),
+                "--reference", str(reference),
+                "--output-dir", str(output),
+            ]
+            with mock.patch("sys.argv", arguments):
+                self.assertEqual(2, MODULE.main())
+            failure = json.loads(
+                (output / "infrastructure_failure.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual("canonical_infrastructure_failure", failure["outcome"])
+            self.assertEqual("canonical_verifier", failure["failure_stage"])
+            self.assertIn("exactly 28 criteria", failure["error"])
+            self.assertFalse((output / "canonical_details.json").exists())
 
 
 if __name__ == "__main__":

@@ -2,13 +2,20 @@
   "schema_version": "1.0",
   "status": "provisional-active-campaign",
   "canonical_verifier": {
-    "version": "1.0.1",
+    "version": "1.0.3",
     "model": "gpt-5.6-terra",
     "reasoning_effort": "high",
     "one_model_request_per_submission": true,
-    "canonical_verifier_sha256": "8b0fa28fc69d802144da420e10dc62d363a0a51ecc464fae443cfd2793276cbb",
-    "judge_prompt_sha256": "f6728fb219538344f03ecbccfba9fa0d450e2e0f7fe8be8dc340187ab1257eac",
+    "canonical_verifier_sha256": "6df28b7965c76504e5e8949edb77990589095fa043b03c99722ef20eb73b71a0",
+    "judge_prompt_sha256": "3aad37e8268e788ac5372eaefce57015984791503829904d668706b515c4ffb7",
     "section_ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a"
+  },
+  "deterministic_regrade": {
+    "task_version": "0.2.2",
+    "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:4bd8cdac41adff270d8c90d51ce7363a847c1d5cbd5d8d55d5ce39f6e3a8d1d0",
+    "reference_sha256": "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d",
+    "network_mode": "no-network",
+    "load_fixture": "The disclosed 100 ohm differential output load is inserted before candidate elements through the same collision-safe path for the reference and every submission."
   },
   "reference_qa": {
     "static_reward": 1.0,
@@ -20,8 +27,8 @@
   "retained_scorable_submissions": [
     {
       "trial_id": "hard__qP2umpx",
-      "static_reward": 0.6785714285714286,
-      "canonical_reward": 0.32142857142857145,
+      "static_reward": 0.7557691656592418,
+      "canonical_reward": 0.42413007658132357,
       "failed_sections": [
         "agc_and_selector",
         "complete_receiver",
@@ -29,27 +36,33 @@
       ],
       "production_pass": false,
       "canonical_output": "canonical-grades/hard__qP2umpx",
-      "superseded_composite_output": "canonical-grades-v1.0.0/hard__qP2umpx"
+      "superseded_composite_outputs": [
+        "canonical-grades-v1.0.1/hard__qP2umpx",
+        "canonical-grades-v1.0.0/hard__qP2umpx"
+      ]
     },
     {
       "trial_id": "hard__h5A2zF2",
-      "static_reward": 0.7482399368493521,
-      "canonical_reward": 0.391097079706495,
+      "static_reward": 0.6036269611265057,
+      "canonical_reward": 0.31791267541221996,
       "failed_sections": [
         "agc_and_selector",
         "complete_receiver"
       ],
       "production_pass": false,
       "canonical_output": "canonical-grades/hard__h5A2zF2",
-      "superseded_composite_output": "canonical-grades-v1.0.0/hard__h5A2zF2"
+      "superseded_composite_outputs": [
+        "canonical-grades-v1.0.1/hard__h5A2zF2",
+        "canonical-grades-v1.0.0/hard__h5A2zF2"
+      ]
     }
   ],
   "provisional_statistics": {
     "scorable_runs": 2,
-    "mean_canonical_reward": 0.3562628255675332,
-    "population_variance_canonical_reward": 0.001213425261417775,
+    "mean_canonical_reward": 0.37102137599677176,
+    "population_variance_canonical_reward": 0.002820534077779573,
     "production_pass_rate": 0.0
   },
-  "provenance_policy": "The frozen deterministic grade and original model response remain retained. Verifier v1.0.1 deterministically replayed the same judge JSON and original response metadata to add exact verifier-source hashing; it did not issue a second model judgment.",
+  "provenance_policy": "The frozen submissions, original deterministic grades, and superseded composite grades remain retained. Task v0.2.2 deterministically reran Ngspice for the same submissions with the corrected hidden output-load fixture. The fixture inserts its disclosed load at one stable position before every candidate, including the reference, so no private marker or reference-only path is used. Canonical verifier v1.0.3 then made one fresh GPT-5.6 Terra/high request per final corrected retained submission; it requires auditable evidence for every section verdict and reconciles dead local responses with signal and control topology.",
   "campaign_note": "Statistics are provisional until all authorized clean rollouts are retained, deterministically graded, and passed through this canonical verifier. Infrastructure-failed attempts are excluded."
 }

@@ -4,7 +4,9 @@ This private post-Harbor verifier combines the frozen deterministic Ngspice grad
 
 This composite result is the canonical grade. The raw Ngspice result is retained as provenance and must not be reported as the final grade once the composite verifier has completed.
 
-Each of the 28 deterministic criteria belongs to exactly one circuit section. A section-level `pass` preserves its criteria rewards. A section-level `fail` sets only its criteria rewards to zero. An `indeterminate` or malformed judge result is a grading-infrastructure failure and does not become a candidate failure.
+Each of the 28 deterministic criteria belongs to exactly one circuit section. A section-level `pass` preserves its criteria rewards. A section-level `fail` sets only its criteria rewards to zero. Every verdict must cite concrete elements, nodes, and an electrical reason, including passes. An `indeterminate` or malformed judge result is a grading-infrastructure failure and does not become a candidate failure.
+
+When a candidate causes one Ngspice test family to fail, the deterministic layer still emits all 28 criterion records. The unavailable family is explicitly marked `simulation_failed` and scored at zero, while trustworthy measurements from other families are retained. A static-grader infrastructure failure or malformed legacy record produces `infrastructure_failure.json` and is excluded from model-performance statistics.
 
 The original deterministic grade remains in every canonical report. The canonical report records artifact, prompt, ledger, reference, and evidence hashes together with the OpenAI response identifier and returned model identifier.
 

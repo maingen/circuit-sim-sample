@@ -6,16 +6,28 @@ import json
 
 from evaluator import (
     CandidateError,
+    REFERENCE_CRITERIA,
     REFERENCE_RESULT_PATH,
+    TEST_CRITERION_KEYS,
     central_reward,
     maximum_reward,
     minimum_reward,
     parse_candidate,
     rescore_cached_result,
+    result_from_criteria,
+    unavailable_criteria,
+    fixture,
 )
 
 
 def main() -> None:
+    owned_keys = [
+        key for keys in TEST_CRITERION_KEYS.values() for key in keys
+    ]
+    assert len(owned_keys) == 28
+    assert len(set(owned_keys)) == 28
+    assert set(owned_keys) == set(REFERENCE_CRITERIA)
+
     for function in (central_reward,):
         assert function(10.0, 10.0, 10.0) == (0.0, 1.0)
         assert function(10.5, 10.0, 10.0) == (0.05, 1.0)
@@ -47,6 +59,17 @@ def main() -> None:
         ".end\n"
     )
     assert ".options" not in compatible.simulation_core.casefold()
+    compatible_deck = fixture(compatible)
+    assert "R_TB_BUF_LOAD outp outn 100" in compatible_deck
+    assert compatible_deck.index("R_TB_BUF_LOAD outp outn 100") < compatible_deck.index("XDEVICE")
+
+    colliding = parse_candidate(
+        f"{primitive_text}\nR_TB_BUF_LOAD outp outn 1k\n.end\n"
+    )
+    collision_safe_deck = fixture(colliding)
+    assert "R_TB_BUF_LOAD outp outn 1k" in collision_safe_deck
+    assert "R_TB_BUF_LOAD_1 outp outn 100" in collision_safe_deck
+    assert collision_safe_deck.index("R_TB_BUF_LOAD_1 outp outn 100") < collision_safe_deck.index("XDEVICE")
 
     try:
         parse_candidate(
@@ -73,6 +96,23 @@ def main() -> None:
     assert rescored_reference["final_reward"] == 1.0
     assert rescored_reference["production_pass"] is True
     assert rescored_reference["criteria_observed"] == 28
+
+    partial_criteria = unavailable_criteria("peak-detector", "fixture timeout")
+    partial = result_from_criteria(
+        partial_criteria,
+        [],
+        [{"test": "peak-detector", "error": "fixture timeout"}],
+    )
+    assert partial["outcome"] == "simulation_failed"
+    assert partial["artifact_evaluable"] is False
+    assert partial["production_pass"] is False
+    assert partial["criteria_observed"] == 0
+    assert partial["criteria_reported"] == 3
+    assert all(item["reward"] == 0.0 for item in partial["criteria"])
+    assert all(
+        item["measurement_status"] == "simulation_failed"
+        for item in partial["criteria"]
+    )
     print("TIA reward scale checks passed")
 
 

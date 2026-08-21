@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
-  "canonical_verifier_version": "1.0.1",
+  "canonical_verifier_version": "1.0.3",
   "outcome": "judge_sections_failed",
   "artifact_evaluable": true,
   "production_pass": false,
-  "static_final_reward": 0.7482399368493521,
-  "section_gated_average": 0.391097079706495,
-  "final_reward": 0.391097079706495,
+  "static_final_reward": 0.6036269611265057,
+  "section_gated_average": 0.31791267541221996,
+  "final_reward": 0.31791267541221996,
   "failed_sections": [
     "agc_and_selector",
     "complete_receiver"
@@ -84,33 +84,33 @@
       "section_id": "rf_gain_stages",
       "test": "ac-mgc-1.25",
       "name": "minimum-setting transimpedance at 10 MHz",
-      "value": 72.26377483139204,
+      "value": 62.96390095708532,
       "target": 72.2029053519,
       "unit": "dB ohm",
       "criterion_type": "central",
-      "static_reward": 1.0,
+      "static_reward": 0.0,
       "judge_verdict": "pass",
-      "canonical_reward": 1.0
+      "canonical_reward": 0.0
     },
     {
       "criterion_id": "C07",
       "section_id": "rf_gain_stages",
       "test": "ac-mgc-1.40",
       "name": "maximum-setting transimpedance at 10 MHz",
-      "value": 74.02162173185556,
+      "value": 64.72175489791506,
       "target": 73.9351737803,
       "unit": "dB ohm",
       "criterion_type": "central",
-      "static_reward": 1.0,
+      "static_reward": 0.0,
       "judge_verdict": "pass",
-      "canonical_reward": 1.0
+      "canonical_reward": 0.0
     },
     {
       "criterion_id": "C08",
       "section_id": "rf_gain_stages",
       "test": "ac-sweep",
       "name": "gain tuning span",
-      "value": 1.7578469004635195,
+      "value": 1.7578539408297402,
       "target": 1.73226842839,
       "unit": "dB",
       "criterion_type": "central",
@@ -136,20 +136,20 @@
       "section_id": "rf_gain_stages",
       "test": "ac-mgc-1.40",
       "name": "transimpedance at 33 GHz",
-      "value": 72.17558739840092,
+      "value": 64.42929417907037,
       "target": 71.6908648136,
       "unit": "dB ohm",
       "criterion_type": "central",
-      "static_reward": 0.9507182317818588,
+      "static_reward": 0.0,
       "judge_verdict": "pass",
-      "canonical_reward": 0.9507182317818588
+      "canonical_reward": 0.0
     },
     {
       "criterion_id": "C11",
       "section_id": "rf_gain_stages",
       "test": "ac-sweep",
       "name": "minimum 3 dB bandwidth",
-      "value": 40211619949.926285,
+      "value": 51848144331.70621,
       "target": 33542786274.7,
       "unit": "Hz",
       "criterion_type": "minimum",
@@ -162,7 +162,7 @@
       "section_id": "rf_gain_stages",
       "test": "ac-mgc-1.40",
       "name": "group delay near 10 GHz",
-      "value": 1.2387800022558093e-11,
+      "value": 1.0666179718213432e-11,
       "target": 2.76160433616e-11,
       "unit": "s",
       "criterion_type": "central",
@@ -214,20 +214,20 @@
       "section_id": "output_buffer",
       "test": "buffer-445mVpp",
       "name": "output peak-to-peak",
-      "value": 1.6283335,
+      "value": 0.5580528400000002,
       "target": 0.59669911,
       "unit": "V",
       "criterion_type": "central",
-      "static_reward": 0.0,
+      "static_reward": 0.9015549115421588,
       "judge_verdict": "pass",
-      "canonical_reward": 0.0
+      "canonical_reward": 0.9015549115421588
     },
     {
       "criterion_id": "C17",
       "section_id": "output_buffer",
       "test": "buffer-445mVpp",
       "name": "total harmonic distortion",
-      "value": 1.8231422397726798,
+      "value": 1.827947691135662,
       "target": 0.504279497689,
       "unit": "percent",
       "criterion_type": "maximum",
@@ -240,7 +240,7 @@
       "section_id": "output_buffer",
       "test": "buffer-735mVpp",
       "name": "output peak-to-peak",
-      "value": 2.0775558799999994,
+      "value": 0.7115397200000002,
       "target": 0.92735165,
       "unit": "V",
       "criterion_type": "central",
@@ -253,7 +253,7 @@
       "section_id": "peak_detector",
       "test": "detector-50mVpp",
       "name": "average differential detector output",
-      "value": 0.006427708922155705,
+      "value": 0.006427937465069857,
       "target": 0.025497691517,
       "unit": "V",
       "criterion_type": "central",
@@ -266,7 +266,7 @@
       "section_id": "peak_detector",
       "test": "detector-550mVpp",
       "name": "average differential detector output",
-      "value": 0.2594588528912467,
+      "value": 0.25939581620320856,
       "target": 0.526871142475,
       "unit": "V",
       "criterion_type": "central",
@@ -344,11 +344,11 @@
       "section_id": "complete_receiver",
       "test": "pam4-eye",
       "name": "differential output peak-to-peak",
-      "value": 0.9945792000000004,
+      "value": 0.3887131700000004,
       "target": 1.01955731,
       "unit": "V",
       "criterion_type": "central",
-      "static_reward": 1.0,
+      "static_reward": 0.0,
       "judge_verdict": "fail",
       "canonical_reward": 0.0
     },
@@ -357,11 +357,11 @@
       "section_id": "complete_receiver",
       "test": "pam4-eye",
       "name": "minimum vertical eye opening",
-      "value": 0.30021962019999954,
+      "value": 0.1037316430000001,
       "target": 0.143565080137,
       "unit": "V",
       "criterion_type": "minimum",
-      "static_reward": 1.0,
+      "static_reward": 0.0,
       "judge_verdict": "fail",
       "canonical_reward": 0.0
     },
@@ -383,19 +383,152 @@
     "sections": {
       "input_tia_dc_cancellation": {
         "verdict": "pass",
-        "findings": []
+        "findings": [
+          {
+            "elements": [
+              "XQcbp",
+              "XQcbn",
+              "Rcp",
+              "Rcn",
+              "XMplp",
+              "XMprp",
+              "XMnlp",
+              "XMnrp",
+              "XMtp",
+              "XMpln",
+              "XMprn",
+              "XMnln",
+              "XMnrn",
+              "XMtn",
+              "Cintp",
+              "Cintn",
+              "XQefp",
+              "XQefn"
+            ],
+            "nodes": [
+              "inp",
+              "inn",
+              "tia_cp",
+              "tia_cn",
+              "ota_gp",
+              "ota_gn",
+              "tia_op",
+              "tia_on",
+              "vbcb",
+              "vref"
+            ],
+            "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+            "electrical_reason": "Each input is the emitter of a common-base NPN (XQcbp/XQcbn) with a collector load and an active emitter-follower output. Each branch also has a PMOS comparison/mirror path sensing its input against vref and developing ota_gp/ota_gn; the corresponding shunt NMOS (XMtp/XMtn) removes input DC current under the slow integrating control. This is a genuine DC cancellation path rather than a RF bypass. The nominal and overload input common-mode and mismatch measurements are consistent with both symmetric branches being biased and responsive."
+          }
+        ]
       },
       "rf_gain_stages": {
         "verdict": "pass",
-        "findings": []
+        "findings": [
+          {
+            "elements": [
+              "XQv1p",
+              "XQv1n",
+              "XMv1f",
+              "XMv1g",
+              "XQe1p",
+              "XQe1n",
+              "XQv2p",
+              "XQv2n",
+              "XMv2f",
+              "XMv2g",
+              "XQe2p",
+              "XQe2n",
+              "Cac3p",
+              "Cac3n"
+            ],
+            "nodes": [
+              "tia_op",
+              "tia_on",
+              "vg1_t",
+              "pkdinp",
+              "pkdinn",
+              "vg2_t",
+              "vg2_efp",
+              "vg2_efn",
+              "bufinp",
+              "bufinn",
+              "gc"
+            ],
+            "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+            "electrical_reason": "The first differential BJT stage is driven from tia_op/tia_on and buffered onto pkdinp/pkdinn; those nodes directly drive the second differential BJT stage, whose emitter-follower outputs are AC-coupled and rebaised onto bufinp/bufinn. In both stages, the shared emitter/tail node has a fixed sink and a substantial gc-gated NMOS sink (XMv1g/XMv2g), so gc genuinely changes the transconductance/bias of the active RF path. The measured monotonic tuning, nonzero gain span, and bandwidth support that this path is active; gain and group-delay target misses are sizing/performance issues, not evidence of a missing stage."
+          }
+        ]
       },
       "output_buffer": {
         "verdict": "pass",
-        "findings": []
+        "findings": [
+          {
+            "elements": [
+              "XQbp",
+              "XQbn",
+              "Rbp",
+              "Rbn",
+              "Reb_p",
+              "Reb_n",
+              "XMbt",
+              "Rfp",
+              "Rfn"
+            ],
+            "nodes": [
+              "bufinp",
+              "bufinn",
+              "buf_ep",
+              "buf_en",
+              "buf_t",
+              "outp",
+              "outn",
+              "finalp",
+              "finaln"
+            ],
+            "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+            "electrical_reason": "XQbp/XQbn form an actively biased differential BJT output stage: bufinp/bufinn drive their bases, their collectors drive resistively loaded outp/outn, and their emitter degeneration terminates in the NMOS tail sink XMbt. finalp/finaln are connected to these active outputs through Rfp/Rfn. The direct buffer tests show substantial nonzero differential output, confirming an active rather than passive-feedthrough buffer; the amplitude and THD misses do not negate this coherent topology."
+          }
+        ]
       },
       "peak_detector": {
         "verdict": "pass",
-        "findings": []
+        "findings": [
+          {
+            "elements": [
+              "Cpkp",
+              "Cpkn",
+              "Rpkbp",
+              "Rpkbn",
+              "XQpr",
+              "XQnr",
+              "Rrecp",
+              "Crecp",
+              "XQga",
+              "XQgb",
+              "Rca",
+              "Rcb",
+              "Rea",
+              "Reb",
+              "XMgt",
+              "Cdetp",
+              "Cdetn"
+            ],
+            "nodes": [
+              "pkdinp",
+              "pkdinn",
+              "pkd_bp",
+              "pkd_bn",
+              "rec_p",
+              "detp",
+              "detn",
+              "ga_e",
+              "ga_t"
+            ],
+            "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+            "electrical_reason": "The two RF inputs are capacitively coupled to biased rectifying BJT bases; XQpr/XQnr charge/discharge the rec_p node against Rrecp/Crecp. rec_p then drives one side of the active detector-output BJT pair XQga/XQgb, whose resistive collector loads create detn/detp and whose common tail has an NMOS bias sink. Thus the detector includes real RF input, rectification, stored charge, output, and bias paths. Its measured detector differential response is nonzero and strictly monotonic, although materially smaller than the endpoint targets."
+          }
+        ]
       },
       "agc_and_selector": {
         "verdict": "fail",
@@ -416,12 +549,31 @@
               "detn",
               "agc_bp",
               "agc_bn",
-              "vref13",
               "agc_cp",
+              "agc_cn",
               "agc"
             ],
             "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
-            "electrical_reason": "The detector-to-AGC inputs are exclusively AC coupled by Caga and Cagb. At the detector's rectified/averaged DC error output, these capacitors are open, while Ragbp and Ragbn force both AGC input bases to vref13. Consequently the active differential pair and follower establish only a quiescent agc value independent of the detector amplitude; no DC detector-error control path exists to drive automatic gain control. The reported zero AGC gain is consistent with this disconnection. The transmission-gate selector is electrically valid, but it merely selects this nonresponsive agc node in automatic mode."
+            "electrical_reason": "Although XQagp/XQagn and XQagef constitute a biased small-signal differential amplifier/follower, detp and detn reach its input bases only through Caga/Cagb. Those capacitors block the detector's DC/averaged differential output, so no detector-responsive averaged control voltage can be conveyed to agc in an operating-point AGC loop. This explains the exactly zero measured AGC gain and is a material missing AGC-control function, not merely a gain-sizing miss."
+          },
+          {
+            "elements": [
+              "XMinvn",
+              "XMinvp",
+              "XMpgc",
+              "XMngc2",
+              "XMngc",
+              "XMpgc2"
+            ],
+            "nodes": [
+              "mc",
+              "mcb",
+              "mgc",
+              "agc",
+              "gc"
+            ],
+            "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+            "electrical_reason": "The complementary transmission devices and inverter form a credible selector: in manual mode the mgc devices are enabled, while in automatic mode the agc devices are enabled; the forced-selector measurements confirm this. However, a selector that passes an externally forced agc does not repair the absent DC/averaged detector-to-agc control path."
           }
         ]
       },
@@ -430,69 +582,82 @@
         "findings": [
           {
             "elements": [
-              "Caga",
-              "Cagb",
-              "Ragbp",
-              "Ragbn",
-              "XQagp",
-              "XQagn",
-              "XQagef",
-              "XMagef",
-              "XMngc",
-              "XMpgc2"
+              "XQcbp",
+              "XQcbn",
+              "XQefp",
+              "XQefn",
+              "XQv1p",
+              "XQv1n",
+              "XQe1p",
+              "XQe1n",
+              "XQv2p",
+              "XQv2n",
+              "XQe2p",
+              "XQe2n",
+              "Cac3p",
+              "Cac3n",
+              "XQbp",
+              "XQbn",
+              "Rfp",
+              "Rfn"
             ],
             "nodes": [
-              "detp",
-              "detn",
-              "agc_bp",
-              "agc_bn",
-              "vref13",
-              "agc",
-              "gc"
+              "inp",
+              "inn",
+              "tia_op",
+              "tia_on",
+              "pkdinp",
+              "pkdinn",
+              "bufinp",
+              "bufinn",
+              "outp",
+              "outn",
+              "finalp",
+              "finaln"
             ],
             "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
-            "electrical_reason": "Although the forward TIA-to-output chain is connected, the required automatic control path is not physically coherent for the detector's averaged output: Caga and Cagb block the detector DC response and Ragbp/Ragbn rebias both AGC inputs to vref13. Thus agc cannot convey detector amplitude to the automatic selector devices XMngc/XMpgc2 and gc, leaving the detector/AGC feedback portion of the claimed complete receiver functionally disconnected."
+            "electrical_reason": "A coherent forward differential signal path does exist from inp/inn through the TIA follower outputs, both RF stages, the AC-coupled buffer inputs, and the active output buffer to finalp/finaln. The nonzero PAM4 output and three positive eye openings corroborate that forward path. However, the required receiver-level AGC loop is not coherently completed: detector outputs detp/detn couple to the AGC inputs only through Caga/Cagb, which cannot convey their averaged control information to agc and hence gc. The constituent detector, AGC, selector, and gain-control functions therefore do not form the required operational complete receiver."
           }
         ]
       }
     },
-    "summary": "The input TIA/cancellation, two gc-controlled RF stages, active output buffer, and active detector are genuinely implemented and connected. The AGC amplifier lacks a DC path from the rectified detector outputs, so automatic detector-based gain control and therefore the full closed receiver control path are not implemented."
+    "summary": "The input TIA/cancellation, two RF gain stages, output buffer, and active peak detector are coherently implemented. The AGC amplifier is structurally unable to use the detector\u2019s averaged output because its only detector-input connections are capacitive; while the selector itself is valid, this materially breaks both the AGC section and complete receiver integration."
   },
   "provenance": {
     "schema_version": "1.0",
-    "canonical_verifier_version": "1.0.1",
-    "trial_id": "hard__h5A2zF2",
-    "started_at": "2026-08-21T16:54:13.939719+00:00",
-    "finished_at": "2026-08-21T16:54:13.941067+00:00",
+    "canonical_verifier_version": "1.0.3",
+    "trial_id": "hard__h5A2zF2__canonical_v1.0.3",
+    "started_at": "2026-08-21T18:13:30.709251+00:00",
+    "finished_at": "2026-08-21T18:14:13.840701+00:00",
     "requested_model": "gpt-5.6-terra",
     "reasoning_effort": "high",
     "api": {
-      "response_id": "resp_044d1bdb529291e4016a888201dbb887d0a885d2e7c6d6788c",
+      "response_id": "resp_0bc64462153bfc70016a88954b881087d08fd5ae4631d2698b",
       "returned_model": "gpt-5.6-terra",
-      "created_at": 1787331073.0,
+      "created_at": 1787336011.0,
       "status": "completed",
       "usage": {
-        "input_tokens": 18533,
+        "input_tokens": 19158,
         "input_tokens_details": {
-          "cached_tokens": 0,
-          "cache_write_tokens": 18530
+          "cached_tokens": 1178,
+          "cache_write_tokens": 17977
         },
-        "output_tokens": 3277,
+        "output_tokens": 3421,
         "output_tokens_details": {
-          "reasoning_tokens": 2671
+          "reasoning_tokens": 1552
         },
-        "total_tokens": 21810
+        "total_tokens": 22579
       }
     },
     "hashes": {
       "candidate_sha256": "0766b2520f99850ddc5c2a7c3ca9957e3a353c449128036945137c87ff6f6c9c",
-      "static_details_sha256": "a1f69a513f87415ed90abcf57e7fc40a71cd726ccf7d9d42822c64de57f94d33",
+      "static_details_sha256": "89462cf9b61feb8d59056e143b4b8ace214983eb180efcf275994129d9f6313f",
       "instruction_sha256": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
-      "reference_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
+      "reference_sha256": "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d",
       "ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a",
-      "judge_prompt_sha256": "f6728fb219538344f03ecbccfba9fa0d450e2e0f7fe8be8dc340187ab1257eac",
-      "review_packet_sha256": "9679e28f5768e6261e379129a95bc33b430b26b9942c83168ccdb3240d6b08d2",
-      "canonical_verifier_sha256": "8b0fa28fc69d802144da420e10dc62d363a0a51ecc464fae443cfd2793276cbb"
+      "judge_prompt_sha256": "3aad37e8268e788ac5372eaefce57015984791503829904d668706b515c4ffb7",
+      "canonical_verifier_sha256": "6df28b7965c76504e5e8949edb77990589095fa043b03c99722ef20eb73b71a0",
+      "review_packet_sha256": "565ccb35179269bd646c885cc3ca67bac8b44cb6d313fd4c24327cc719b9a729"
     }
   }
 }

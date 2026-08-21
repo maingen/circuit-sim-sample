@@ -13,7 +13,8 @@ PACKAGE = Path(__file__).resolve().parent
 BASE_DIGEST = "sha256:0b123316ec4533fa9a61333d125c344f1be3efd1a94051a056f8c4e8ec249c96"
 IHP_REVISION = "22f2a25f1734796de3debbbf29cf697cbbc54081"
 OPENVAF_REVISION = "3369a83f9c626f6d298f9f881379f561ce432e27"
-REFERENCE_SHA = "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f"
+VERIFIER_DIGEST = "sha256:4bd8cdac41adff270d8c90d51ce7363a847c1d5cbd5d8d55d5ce39f6e3a8d1d0"
+REFERENCE_SHA = "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d"
 
 
 def require(condition: bool, message: str) -> None:
@@ -41,6 +42,11 @@ def main() -> None:
     for model in ("npn13G2", "npn13G2v", "sg13_hv_nmos", "sg13_hv_pmos"):
         require(model in reference_text, f"reference does not exercise {model}")
     require("sky130" not in reference_text.casefold(), "reference still contains SKY130 devices")
+    require("R_XBUF_LOAD" not in reference_text, "reference embeds the fixture-owned output load")
+    require(
+        "EESIMBENCH_FIXTURE_OUTPUT_LOAD" not in reference_text,
+        "reference contains a private output-load insertion marker",
+    )
 
     calibration = json.loads((PACKAGE / "tests/reference_calibration.json").read_text())
     criteria = calibration.get("criteria", [])
@@ -51,9 +57,13 @@ def main() -> None:
 
     task = (PACKAGE / "task.toml").read_text()
     require('artifacts = ["/app/candidate.cir"]' in task, "artifact contract is wrong")
-    require('version = "0.2.1"' in task, "task version is not Path 3")
+    require('version = "0.2.2"' in task, "task version is not the corrected Path 3 revision")
     require(IHP_REVISION in task, "task metadata omits the pinned IHP revision")
+    require(VERIFIER_DIGEST in task, "task metadata omits the corrected verifier digest")
     require('network_mode = "no-network"' in task, "verifier network must be disabled")
+
+    verifier_compose = (PACKAGE / "tests/docker-compose.yaml").read_text()
+    require(VERIFIER_DIGEST in verifier_compose, "Compose does not pin the corrected verifier")
 
     for dockerfile in (PACKAGE / "environment/Dockerfile", PACKAGE / "tests/Dockerfile"):
         text = dockerfile.read_text()
@@ -74,11 +84,27 @@ def main() -> None:
     require("250,000" not in instruction and "250000" not in instruction, "instruction exposes the package-size guard")
 
     sys.path.insert(0, str(PACKAGE / "tests"))
-    from evaluator import parse_candidate  # noqa: PLC0415
+    from evaluator import fixture, parse_candidate  # noqa: PLC0415
 
     parsed = parse_candidate(reference_text)
     require(not parsed.structural_failures, "; ".join(parsed.structural_failures))
-    require((PACKAGE / "environment/candidate.cir").read_bytes() != reference, "starter exposes the reference")
+    reference_deck = fixture(parsed)
+    require(
+        "R_TB_BUF_LOAD outp outn 100" in reference_deck,
+        "fixture did not inject the reference output load through the ordinary candidate path",
+    )
+    require(
+        reference_deck.index("R_TB_BUF_LOAD outp outn 100")
+        < reference_deck.index("RIFBTOP vcc ifbias 700"),
+        "fixture load is not inserted before candidate elements",
+    )
+    starter_path = PACKAGE / "environment/candidate.cir"
+    starter_deck = fixture(parse_candidate(starter_path.read_text()))
+    require(
+        "R_TB_BUF_LOAD outp outn 100" in starter_deck,
+        "private fixture does not supply ordinary candidates with the disclosed output load",
+    )
+    require(starter_path.read_bytes() != reference, "starter exposes the reference")
 
     with tempfile.TemporaryDirectory(prefix="tia-harbor-compile-") as temporary:
         out = Path(temporary)

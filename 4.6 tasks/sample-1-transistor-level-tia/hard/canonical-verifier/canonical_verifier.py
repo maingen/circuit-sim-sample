@@ -19,7 +19,7 @@ from openai import OpenAI
 ROOT = Path(__file__).resolve().parent
 DEFAULT_LEDGER = ROOT / "section_ledger.json"
 DEFAULT_PROMPT = ROOT / "judge_prompt.md"
-VERIFIER_VERSION = "1.0.1"
+VERIFIER_VERSION = "1.0.3"
 OUTPUT_FILES = (
     "review_packet.json",
     "judge.json",
@@ -166,7 +166,7 @@ def validate_judge_result(result: dict[str, Any], ledger: dict[str, Any]) -> Non
         findings = section["findings"]
         if verdict not in {"pass", "fail", "indeterminate"} or not isinstance(findings, list):
             raise JudgeInfrastructureError(f"invalid verdict or findings for {section_id}")
-        if verdict in {"fail", "indeterminate"} and not findings:
+        if not findings:
             raise JudgeInfrastructureError(f"{verdict} section {section_id} requires evidence")
         for finding in findings:
             if not isinstance(finding, dict) or set(finding) != {
@@ -353,41 +353,49 @@ def main() -> int:
     parser.add_argument("--overwrite", action="store_true")
     arguments = parser.parse_args()
 
-    output = arguments.output_dir
-    if output.exists() and any(output.iterdir()) and not arguments.overwrite:
-        raise CanonicalVerifierError(f"output directory is not empty: {output}")
-    output.mkdir(parents=True, exist_ok=True)
-    if arguments.overwrite:
-        for name in OUTPUT_FILES:
-            (output / name).unlink(missing_ok=True)
-
-    ledger = load_json(arguments.ledger)
-    details = load_json(arguments.static_details)
-    validate_ledger(ledger)
-    validate_static_details(details, ledger)
-    prompt = arguments.prompt.read_text(encoding="utf-8")
-    packet = build_packet(
-        arguments.instruction,
-        arguments.reference,
-        arguments.candidate,
-        details,
-        ledger,
-        arguments.trial_id,
-    )
-    write_json(output / "review_packet.json", packet)
-
     started = datetime.now(timezone.utc).isoformat()
-    hashes = {
-        "candidate_sha256": sha256_file(arguments.candidate),
-        "static_details_sha256": sha256_file(arguments.static_details),
-        "instruction_sha256": sha256_file(arguments.instruction),
-        "reference_sha256": sha256_file(arguments.reference),
-        "ledger_sha256": sha256_file(arguments.ledger),
-        "judge_prompt_sha256": sha256_file(arguments.prompt),
-        "review_packet_sha256": sha256_bytes(canonical_json(packet).encode("utf-8")),
-        "canonical_verifier_sha256": sha256_file(Path(__file__)),
-    }
+    output = arguments.output_dir
+    hashes: dict[str, str] = {}
     try:
+        if output.exists() and any(output.iterdir()) and not arguments.overwrite:
+            raise CanonicalVerifierError(f"output directory is not empty: {output}")
+        output.mkdir(parents=True, exist_ok=True)
+        if arguments.overwrite:
+            for name in OUTPUT_FILES:
+                (output / name).unlink(missing_ok=True)
+
+        hashes = {
+            "candidate_sha256": sha256_file(arguments.candidate),
+            "static_details_sha256": sha256_file(arguments.static_details),
+            "instruction_sha256": sha256_file(arguments.instruction),
+            "reference_sha256": sha256_file(arguments.reference),
+            "ledger_sha256": sha256_file(arguments.ledger),
+            "judge_prompt_sha256": sha256_file(arguments.prompt),
+            "canonical_verifier_sha256": sha256_file(Path(__file__)),
+        }
+        ledger = load_json(arguments.ledger)
+        details = load_json(arguments.static_details)
+        if details.get("outcome") == "infrastructure_error":
+            raise CanonicalVerifierError(
+                "static grader reported infrastructure_error: "
+                + str(details.get("error", "unspecified infrastructure failure"))
+            )
+        validate_ledger(ledger)
+        validate_static_details(details, ledger)
+        prompt = arguments.prompt.read_text(encoding="utf-8")
+        packet = build_packet(
+            arguments.instruction,
+            arguments.reference,
+            arguments.candidate,
+            details,
+            ledger,
+            arguments.trial_id,
+        )
+        hashes["review_packet_sha256"] = sha256_bytes(
+            canonical_json(packet).encode("utf-8")
+        )
+        write_json(output / "review_packet.json", packet)
+
         if arguments.judge_response:
             judge_result = load_json(arguments.judge_response)
             if arguments.judge_metadata:
@@ -415,10 +423,16 @@ def main() -> int:
         validate_judge_result(judge_result, ledger)
         write_json(output / "judge.json", judge_result)
         canonical = combine_results(details, ledger, judge_result)
-    except JudgeInfrastructureError as exc:
+    except Exception as exc:
+        judge_failure = isinstance(exc, JudgeInfrastructureError)
         failure = {
             "schema_version": "1.0",
-            "outcome": "judge_infrastructure_failure",
+            "outcome": (
+                "judge_infrastructure_failure"
+                if judge_failure
+                else "canonical_infrastructure_failure"
+            ),
+            "failure_stage": "judge" if judge_failure else "canonical_verifier",
             "error_type": type(exc).__name__,
             "error": str(exc),
             "started_at": started,
@@ -427,7 +441,11 @@ def main() -> int:
             "reasoning_effort": arguments.reasoning_effort,
             "hashes": hashes,
         }
-        write_json(output / "infrastructure_failure.json", failure)
+        try:
+            output.mkdir(parents=True, exist_ok=True)
+            write_json(output / "infrastructure_failure.json", failure)
+        except OSError:
+            pass
         print(json.dumps(failure, indent=2), file=sys.stderr)
         return 2
 

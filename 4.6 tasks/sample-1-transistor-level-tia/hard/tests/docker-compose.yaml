@@ -1,7 +1,7 @@
 services:
   main:
     platform: linux/amd64
-    image: 493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917
+    image: 493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:4bd8cdac41adff270d8c90d51ce7363a847c1d5cbd5d8d55d5ce39f6e3a8d1d0
     pull_policy: always
     user: root
     command: ["sleep", "infinity"]

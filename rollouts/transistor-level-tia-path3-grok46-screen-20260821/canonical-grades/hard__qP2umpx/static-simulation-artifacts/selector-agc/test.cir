@@ -1,0 +1,224 @@
+Transistor-level TIA private fixture
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib" mos_tt
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerHBT.lib" hbt_typ
+.options method=gear maxord=2 reltol=1e-3 abstol=1e-12 vntol=1e-6 itl4=500 rshunt=1e12
+R_TB_BUF_LOAD outp outn 100
+* IHP SG13G2 25-Gbaud differential optical-receiver front end
+*
+* Public nodes:
+*   vcc mc mgc oa inp inn finalp finaln gc agc
+*   bufinp bufinn outp outn pkdinp pkdinn detp detn
+
+* ======================== references ========================
+Rrfh vcc vref 25350
+Rrfl vref 0 7650
+Crf vref 0 4p
+
+Rcbh vcc bcb 1640
+Rcbl bcb 0 1575
+Ccb bcb 0 3p
+
+Xmn_b nbias nbias 0 0 sg13_hv_nmos w=4u l=0.8u ng=1 m=1
+Rnb vcc nbias 90k
+Cnb nbias 0 0.3p
+
+* weak VGA tail bias
+Xmn_rf nrf nrf 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+Rnr vcc nrf 2.9k
+Cnr nrf 0 0.3p
+
+* stronger buffer/EF tail bias
+Xmn_bf nbf nbf 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=2
+Rnb2 vcc nbf 0.76k
+Cnb2 nbf 0 0.3p
+
+Xmp_b pbias pbias vcc vcc sg13_hv_pmos w=8u l=0.4u ng=1 m=1
+Rpb pbias 0 5.1k
+Cpb pbias vcc 0.3p
+
+Rvbh vcc vgab 1660
+Rvbl vgab 0 1640
+Cvgb vgab 0 1p
+
+Rbbh vcc vbb 1065
+Rbbl vbb 0 2235
+Cbb vbb 0 1p
+
+* ======================== TIA P ========================
+Xq_tia_p pkdinp bcb inp 0 npn13G2 Nx=5
+Ltia_p vcc nltp 0.42n
+Rtia_p nltp pkdinp 215
+Csh_p pkdinp 0 8f
+
+Xmp_in_p inp pbias vcc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=20
+Xmn_in_p inp gdc_p 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=14
+
+Xota_p_in di_p inp ot_p 0 sg13_hv_nmos w=6u l=1.2u ng=1 m=2
+Xota_p_rf gdc_p vref ot_p 0 sg13_hv_nmos w=6u l=1.2u ng=1 m=2
+Xota_p_tl ot_p nbias 0 0 sg13_hv_nmos w=4u l=0.8u ng=1 m=1
+Xota_p_pd di_p di_p vcc vcc sg13_hv_pmos w=5u l=1.2u ng=1 m=1
+Xota_p_po gdc_p di_p vcc vcc sg13_hv_pmos w=5u l=1.2u ng=1 m=1
+Cota_p gdc_p 0 350p
+
+Xq_ef0p vcc pkdinp tia_ef_p 0 npn13G2 Nx=2
+Xmef0p tia_ef_p nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+
+* ======================== TIA N ========================
+Xq_tia_n pkdinn bcb inn 0 npn13G2 Nx=5
+Ltia_n vcc nltn 0.42n
+Rtia_n nltn pkdinn 215
+Csh_n pkdinn 0 8f
+
+Xmp_in_n inn pbias vcc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=20
+Xmn_in_n inn gdc_n 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=14
+
+Xota_n_in di_n inn ot_n 0 sg13_hv_nmos w=6u l=1.2u ng=1 m=2
+Xota_n_rf gdc_n vref ot_n 0 sg13_hv_nmos w=6u l=1.2u ng=1 m=2
+Xota_n_tl ot_n nbias 0 0 sg13_hv_nmos w=4u l=0.8u ng=1 m=1
+Xota_n_pd di_n di_n vcc vcc sg13_hv_pmos w=5u l=1.2u ng=1 m=1
+Xota_n_po gdc_n di_n vcc vcc sg13_hv_pmos w=5u l=1.2u ng=1 m=1
+Cota_n gdc_n 0 350p
+
+Xq_ef0n vcc pkdinn tia_ef_n 0 npn13G2 Nx=2
+Xmef0n tia_ef_n nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+
+Cc1p tia_ef_p ncc1p 500p
+Cc1n tia_ef_n ncc1n 500p
+Ls1p ncc1p vg1bp 155p
+Ls1n ncc1n vg1bn 155p
+Cd1p vg1bp 0 45f
+Cd1n vg1bn 0 45f
+Rb1p vg1bp vgab 2.0k
+Rb1n vg1bn vgab 2.0k
+
+* ======================== VGA-1 ========================
+Xq1p midp vg1bp e1p 0 npn13G2 Nx=3
+Xq1n midn vg1bn e1n 0 npn13G2 Nx=3
+Re1p e1p t1 10
+Re1n e1n t1 10
+L1p vcc nl1p 0.34n
+L1n vcc nl1n 0.34n
+R1p nl1p midp 140
+R1n nl1n midn 140
+Xm1fix t1 nrf 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=3
+Xm1gc t1 gc 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=3
+C1t t1 0 3f
+
+Xq_ef1p vcc midp vg1_ef_p 0 npn13G2 Nx=2
+Xmef1p vg1_ef_p nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+Xq_ef1n vcc midn vg1_ef_n 0 npn13G2 Nx=2
+Xmef1n vg1_ef_n nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+
+Cc2p vg1_ef_p ncc2p 500p
+Cc2n vg1_ef_n ncc2n 500p
+Ls2p ncc2p vg2bp 155p
+Ls2n ncc2n vg2bn 155p
+Cd2p vg2bp 0 45f
+Cd2n vg2bn 0 45f
+Rb2p vg2bp vgab 2.0k
+Rb2n vg2bn vgab 2.0k
+
+* ======================== VGA-2 ========================
+Xq2p nvg2p vg2bp e2p 0 npn13G2 Nx=3
+Xq2n nvg2n vg2bn e2n 0 npn13G2 Nx=3
+Re2p e2p t2 9
+Re2n e2n t2 9
+L2p vcc nl2p 0.30n
+L2n vcc nl2n 0.30n
+R2p nl2p nvg2p 130
+R2n nl2n nvg2n 130
+Xm2fix t2 nrf 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=3
+Xm2gc t2 gc 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=3
+C2t t2 0 3f
+
+Xq_ef2p vcc nvg2p vg2_ef_p 0 npn13G2 Nx=2
+Xmef2p vg2_ef_p nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+Xq_ef2n vcc nvg2n vg2_ef_n 0 npn13G2 Nx=2
+Xmef2n vg2_ef_n nbf 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=2
+
+Cc3p vg2_ef_p ncc3p 500p
+Cc3n vg2_ef_n ncc3n 500p
+Ls3p ncc3p bufinp 155p
+Ls3n ncc3n bufinn 155p
+Cd3p bufinp 0 45f
+Cd3n bufinn 0 45f
+Rbbp bufinp vbb 1.8k
+Rbbn bufinn vbb 1.8k
+
+* ======================== output buffer ========================
+Xqbp outp bufinp ebp 0 npn13G2 Nx=8
+Xqbn outn bufinn ebn 0 npn13G2 Nx=8
+Rebp ebp tb 13
+Rebn ebn tb 13
+Rbp vcc outp 62
+Rbn vcc outn 62
+Rbufft tb 0 64
+Ctb tb 0 3f
+
+Ralias_p finalp outp 1m
+Ralias_n finaln outn 1m
+
+* ======================== peak detector ========================
+Cpd_lp pkdinp pd_blp 24f
+Cpd_ln pkdinn pd_bln 24f
+Rpd_blp pd_blp pd_biasl 8k
+Rpd_bln pd_bln pd_biasl 8k
+Rpd_hl vcc pd_biasl 75k
+Rpd_ll pd_biasl 0 100k
+Cpd_bl pd_biasl 0 0.2p
+Xqpd_lp detp pd_blp pd_ela 0 npn13G2 Nx=1
+Xqpd_ln detn pd_bln pd_ela 0 npn13G2 Nx=1
+Rpd_ela pd_ela pd_el 10
+Rpd_el pd_el 0 250
+Cpd_ep pkdinp pd_bep 42f
+Cpd_en pkdinn pd_ben 42f
+Rpd_bep pd_bep pd_biase 8k
+Rpd_ben pd_ben pd_biase 8k
+Rpd_he vcc pd_biase 220k
+Rpd_le pd_biase 0 22k
+Cpd_be pd_biase 0 0.2p
+Xqpd_ep detp pd_bep pd_eea 0 npn13G2 Nx=1
+Xqpd_en detn pd_ben pd_eea 0 npn13G2 Nx=1
+Rpd_eea pd_eea pd_ee 10
+Rpd_ee pd_ee 0 18
+Rpd_cp vcc detp 2.4k
+Rpd_cn vcc detn 2.4k
+Cpd_op detp 0 6f
+Cpd_on detn 0 6f
+
+* ======================== AGC amplifier (~15 V/V) ========================
+Rag_rh vcc ag_ref 21000
+Rag_rl ag_ref 0 12000
+Cag_r ag_ref 0 0.2p
+Xagb nagb nagb 0 0 sg13_hv_nmos w=4u l=1.5u ng=1 m=1
+Ragb vcc nagb 200k
+Xagp ncp oa agt 0 sg13_hv_nmos w=10u l=0.8u ng=1 m=32
+Xagn agc ag_ref agt 0 sg13_hv_nmos w=10u l=0.8u ng=1 m=32
+Xagt agt nagb 0 0 sg13_hv_nmos w=10u l=1.5u ng=1 m=4
+Rag_cp vcc ncp 35220
+Rag_cn vcc agc 35220
+Cagc agc 0 0.2p
+
+* ======================== manual / automatic mux ========================
+Xmux_n mc_b mc 0 0 sg13_hv_nmos w=4u l=0.45u ng=1 m=1
+Xmux_p mc_b mc vcc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=1
+Xman_n gc mc_b mgc 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=8
+Xman_p gc mc mgc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=8
+Xaut_n gc mc agc 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=8
+Xaut_p gc mc_b agc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=8
+Cgc gc 0 20f
+
+V_TB_VCC vcc 0 3.3
+V_TB_MC mc 0 3.3
+V_TB_MGC mgc 0 1.4
+V_TB_OA oa 0 1.2
+I_TB_P 0 inp DC 0
+I_TB_N inn 0 DC 0
+V_TB_AGC agc 0 1.3
+
+.control
+op
+print v(gc)
+quit
+.endc
+.end

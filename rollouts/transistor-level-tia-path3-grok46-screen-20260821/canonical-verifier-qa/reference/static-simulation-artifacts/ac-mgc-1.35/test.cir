@@ -1,0 +1,339 @@
+Transistor-level TIA private fixture
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib" mos_tt
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerHBT.lib" hbt_typ
+.options method=gear maxord=2 reltol=1e-3 abstol=1e-12 vntol=1e-6 itl4=500 rshunt=1e12
+R_TB_BUF_LOAD outp outn 100
+* Complete transistor-level TIA: all verified blocks combined in one self-contained deck
+* IHP SG13G2 SiGe BiCMOS implementation of the paper-level topology. This file contains circuit content only.
+* Flat design hierarchy; X instances are only pinned IHP PDK primitives.
+* Active circuitry contains only resistors, capacitors, MOSFETs, and BJTs.
+* Physical resistor-divider references for 1.8 V outputs and 2.55 V follower bases.
+RIFBTOP vcc ifbias 700
+RIFBBOT ifbias 0 6k
+CIFBIAS ifbias 0 1n
+RIBTOP vcc ifbase 400
+RIBBOT ifbase 0 10.2k
+CIFBASE ifbase 0 1n
+RIBREF vcc ibn 2.2k
+XMIBREF ibn ibn 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
+
+* Balanced input convention used by the earlier verified reconstruction.
+
+* Flattened XMODE (MODE_SWITCH_TL)
+XM_XMODE_PINV XMODE__mcb mc vcc vcc sg13_hv_pmos w=64u l=0.45u ng=32 m=1 rfmode=1
+XM_XMODE_NINV XMODE__mcb mc 0 0 sg13_hv_nmos w=32u l=0.45u ng=16 m=1 rfmode=1
+XM_XMODE_NMGC gc XMODE__mcb mgc 0 sg13_hv_nmos w=40u l=0.45u ng=20 m=1 rfmode=1
+XM_XMODE_PMGC gc mc mgc vcc sg13_hv_pmos w=80u l=0.45u ng=40 m=1 rfmode=1
+XM_XMODE_NAGC gc mc agc 0 sg13_hv_nmos w=40u l=0.45u ng=20 m=1 rfmode=1
+XM_XMODE_PAGC gc XMODE__mcb agc vcc sg13_hv_pmos w=80u l=0.45u ng=40 m=1 rfmode=1
+R_XMODE_LOAD gc 0 1Meg
+C_XMODE_LOAD gc 0 10f
+* Flattened XCMCTRL (CMCTRL_TL)
+R_XCMCTRL_REFTOP vcc XCMCTRL__fixed_gate 86.51k
+R_XCMCTRL_REFBOT XCMCTRL__fixed_gate 0 100k
+C_XCMCTRL_REFGATE XCMCTRL__fixed_gate 0 1n
+XM_XCMCTRL_REFFOLLOW vcc XCMCTRL__fixed_gate XCMCTRL__fixed 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XCMCTRL_REFLOAD XCMCTRL__fixed 0 20k
+C_XCMCTRL_REFOUT XCMCTRL__fixed 0 1n
+R_XCMCTRL_BIASREF vcc XCMCTRL__nbias 5k
+XM_XCMCTRL_REF XCMCTRL__nbias XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+R_XCMCTRL_1P vcc vc1 1200
+R_XCMCTRL_1N vcc vc1b 1200
+XM_XCMCTRL_1P vc1 XCMCTRL__fixed XCMCTRL__s1p 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_1N vc1b gc XCMCTRL__s1n 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_1SP XCMCTRL__s1p XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_1SN XCMCTRL__s1n XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+R_XCMCTRL_DEG1 XCMCTRL__s1p XCMCTRL__s1n 47207
+R_XCMCTRL_2P vcc vc2 1200
+R_XCMCTRL_2N vcc vc2b 1200
+XM_XCMCTRL_2P vc2 XCMCTRL__fixed XCMCTRL__s2p 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_2N vc2b gc XCMCTRL__s2n 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_2SP XCMCTRL__s2p XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+XM_XCMCTRL_2SN XCMCTRL__s2n XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1
+R_XCMCTRL_DEG2 XCMCTRL__s2p XCMCTRL__s2n 9680
+* Flattened XTIAP (INPUT_TIA_TL)
+R_XTIAP_REFLDOTOP vcc XTIAP__ldo_ref_gate 25.45k
+R_XTIAP_REFLDOBOT XTIAP__ldo_ref_gate 0 100k
+C_XTIAP_REFLDOGATE XTIAP__ldo_ref_gate 0 1n
+XM_XTIAP_REFLDO vcc XTIAP__ldo_ref_gate XTIAP__ldo_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XTIAP_REFLDOLOAD XTIAP__ldo_ref 0 20k
+C_XTIAP_REFLDOOUT XTIAP__ldo_ref 0 1n
+R_XTIAP_REFINTOP vcc XTIAP__in_ref_gate 100k
+R_XTIAP_REFINBOT XTIAP__in_ref_gate 0 100k
+C_XTIAP_REFINGATE XTIAP__in_ref_gate 0 1n
+XM_XTIAP_REFIN vcc XTIAP__in_ref_gate XTIAP__in_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XTIAP_REFINLOAD XTIAP__in_ref 0 20k
+C_XTIAP_REFINOUT XTIAP__in_ref 0 1n
+R_XTIAP_NLBIAS vcc XTIAP__nlbias 3k
+XQ_XTIAP_NLB XTIAP__nlbias XTIAP__nlbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAP_NLTAIL XTIAP__nltail XTIAP__nlbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAP_NL1 XTIAP__nlsense XTIAP__vtia XTIAP__nltail 0 npn13G2 Nx=1 selft=0
+XQ_XTIAP_NL2 XTIAP__ldo_gate XTIAP__ldo_ref XTIAP__nltail 0 npn13G2 Nx=1 selft=0
+R_XTIAP_NL1 vcc XTIAP__nlsense 2.5k
+R_XTIAP_NL2 vcc XTIAP__ldo_gate 2.2k
+XM_XTIAP_PLDO XTIAP__vtia XTIAP__ldo_gate vcc vcc sg13_hv_pmos w=400u l=0.45u ng=64 m=1 rfmode=1
+C_XTIAP_LDO XTIAP__vtia 0 75p
+C_XTIAP_CLDO XTIAP__ldo_gate XTIAP__vtia 7.5p
+R_XTIAP_C XTIAP__vtia tia_p 80
+R_TIA_CASTOP vcc tia_casbias 16k
+R_TIA_CASBOT tia_casbias 0 17k
+C_TIA_CASBIAS tia_casbias 0 10p
+XQ_XTIAP_AMP XTIAP__casnode inp 0 0 npn13G2 Nx=3 selft=0
+XQ_XTIAP_CAS tia_p tia_casbias XTIAP__casnode 0 npn13G2 Nx=3 selft=0
+XQ_XTIAP_BUF XTIAP__vtia tia_p XTIAP__fb 0 npn13G2 Nx=1 selft=0
+R_XTIAP_FBREF XTIAP__vtia XTIAP__fbias 867
+XQ_XTIAP_FBREF XTIAP__fbias XTIAP__fbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAP_FBSINK XTIAP__fb XTIAP__fbias 0 0 npn13G2 Nx=1 selft=0
+R_XTIAP_F XTIAP__fb inp 250
+R_XTIAP_PBIAS XTIAP__pbias 0 100k
+XQ_XTIAP_PB XTIAP__pbias XTIAP__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0
+XQ_XTIAP_PTAIL XTIAP__ptail XTIAP__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0
+XQ_XTIAP_PIN XTIAP__nvin inp XTIAP__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0
+XQ_XTIAP_PIREF XTIAP__cancel_gate XTIAP__in_ref XTIAP__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0
+R_XTIAP_POUT1 XTIAP__nvin 0 100k
+R_XTIAP_POUT2 XTIAP__cancel_gate 0 100k
+C_XTIAP_GATE XTIAP__cancel_gate 0 15n
+XM_CANCEL_CAS_P inp oa XTIAP__cancel_d 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+XM_CANCEL_P XTIAP__cancel_d XTIAP__cancel_gate 0 0 sg13_hv_nmos w=100u l=0.45u ng=12 m=1 rfmode=1
+* Flattened XTIAN (INPUT_TIA_TL)
+R_XTIAN_REFLDOTOP vcc XTIAN__ldo_ref_gate 25.45k
+R_XTIAN_REFLDOBOT XTIAN__ldo_ref_gate 0 100k
+C_XTIAN_REFLDOGATE XTIAN__ldo_ref_gate 0 1n
+XM_XTIAN_REFLDO vcc XTIAN__ldo_ref_gate XTIAN__ldo_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XTIAN_REFLDOLOAD XTIAN__ldo_ref 0 20k
+C_XTIAN_REFLDOOUT XTIAN__ldo_ref 0 1n
+R_XTIAN_REFINTOP vcc XTIAN__in_ref_gate 100k
+R_XTIAN_REFINBOT XTIAN__in_ref_gate 0 100k
+C_XTIAN_REFINGATE XTIAN__in_ref_gate 0 1n
+XM_XTIAN_REFIN vcc XTIAN__in_ref_gate XTIAN__in_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XTIAN_REFINLOAD XTIAN__in_ref 0 20k
+C_XTIAN_REFINOUT XTIAN__in_ref 0 1n
+R_XTIAN_NLBIAS vcc XTIAN__nlbias 3k
+XQ_XTIAN_NLB XTIAN__nlbias XTIAN__nlbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAN_NLTAIL XTIAN__nltail XTIAN__nlbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAN_NL1 XTIAN__nlsense XTIAN__vtia XTIAN__nltail 0 npn13G2 Nx=1 selft=0
+XQ_XTIAN_NL2 XTIAN__ldo_gate XTIAN__ldo_ref XTIAN__nltail 0 npn13G2 Nx=1 selft=0
+R_XTIAN_NL1 vcc XTIAN__nlsense 2.5k
+R_XTIAN_NL2 vcc XTIAN__ldo_gate 2.2k
+XM_XTIAN_PLDO XTIAN__vtia XTIAN__ldo_gate vcc vcc sg13_hv_pmos w=400u l=0.45u ng=64 m=1 rfmode=1
+C_XTIAN_LDO XTIAN__vtia 0 75p
+C_XTIAN_CLDO XTIAN__ldo_gate XTIAN__vtia 7.5p
+R_XTIAN_C XTIAN__vtia tia_n 80
+XQ_XTIAN_AMP XTIAN__casnode inn 0 0 npn13G2 Nx=3 selft=0
+XQ_XTIAN_CAS tia_n tia_casbias XTIAN__casnode 0 npn13G2 Nx=3 selft=0
+XQ_XTIAN_BUF XTIAN__vtia tia_n XTIAN__fb 0 npn13G2 Nx=1 selft=0
+R_XTIAN_FBREF XTIAN__vtia XTIAN__fbias 867
+XQ_XTIAN_FBREF XTIAN__fbias XTIAN__fbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XTIAN_FBSINK XTIAN__fb XTIAN__fbias 0 0 npn13G2 Nx=1 selft=0
+R_XTIAN_F XTIAN__fb inn 250
+R_XTIAN_PBIAS XTIAN__pbias 0 100k
+XQ_XTIAN_PB XTIAN__pbias XTIAN__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0
+XQ_XTIAN_PTAIL XTIAN__ptail XTIAN__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0
+XQ_XTIAN_PIN XTIAN__nvin inn XTIAN__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0
+XQ_XTIAN_PIREF XTIAN__cancel_gate XTIAN__in_ref XTIAN__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0
+R_XTIAN_POUT1 XTIAN__nvin 0 100k
+R_XTIAN_POUT2 XTIAN__cancel_gate 0 100k
+C_XTIAN_GATE XTIAN__cancel_gate 0 15n
+XM_CANCEL_CAS_N inn oa XTIAN__cancel_d 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+XM_CANCEL_N XTIAN__cancel_d XTIAN__cancel_gate 0 0 sg13_hv_nmos w=100u l=0.45u ng=12 m=1 rfmode=1
+
+* Physical interface 1: AC-coupled transistor followers and calibrated pad.
+* Flattened XIF1P (INTERFACE_EF)
+C_XIF1P_IN tia_p XIF1P__base 20p
+R_XIF1P_BASE XIF1P__base ifbase 20k
+XQ_XIF1P_EF vcc XIF1P__base XIF1P__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF1P_BIAS XIF1P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF1P_SER XIF1P__emitter v1p 1
+R_XIF1P_SHUNT v1p ifbias 100
+* Flattened XIF1N (INTERFACE_EF)
+C_XIF1N_IN tia_n XIF1N__base 20p
+R_XIF1N_BASE XIF1N__base ifbase 20k
+XQ_XIF1N_EF vcc XIF1N__base XIF1N__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF1N_BIAS XIF1N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF1N_SER XIF1N__emitter v1n 1
+R_XIF1N_SHUNT v1n ifbias 100
+* Flattened XVGA1 (VGA1_TL)
+L_XVGA1_CL vcc XVGA1__peak_nl 2.7n
+R_XVGA1_CL XVGA1__peak_nl XVGA1__nl 400
+L_XVGA1_CR vcc XVGA1__peak_nr 2.7n
+R_XVGA1_CR XVGA1__peak_nr XVGA1__nr 400
+XQ_XVGA1_1 XVGA1__t34 v1p XVGA1__e1 0 npn13G2 Nx=1 selft=0
+XQ_XVGA1_2 XVGA1__t56 v1n XVGA1__e2 0 npn13G2 Nx=1 selft=0
+R_XVGA1_E XVGA1__e1 XVGA1__e2 5
+C_XVGA1_E XVGA1__e1 XVGA1__e2 50f
+XQ_XVGA1_3 XVGA1__nl vc1 XVGA1__t34 0 npn13G2 Nx=1 selft=0
+XQ_XVGA1_4 vcc vc1b XVGA1__t34 0 npn13G2 Nx=1 selft=0
+XQ_XVGA1_5 vcc vc1b XVGA1__t56 0 npn13G2 Nx=1 selft=0
+XQ_XVGA1_6 XVGA1__nr vc1 XVGA1__t56 0 npn13G2 Nx=1 selft=0
+XQ_XVGA1_7 vcc XVGA1__nr vga1p 0 npn13G2 Nx=5 selft=0
+XQ_XVGA1_8 vcc XVGA1__nl vga1n 0 npn13G2 Nx=5 selft=0
+R_XVGA1_BIASREF vcc XVGA1__nbias 2.2k
+XM_XVGA1_BIASREF XVGA1__nbias XVGA1__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
+XM_XVGA1_BIAS1 XVGA1__e1 XVGA1__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1
+XM_XVGA1_BIAS2 XVGA1__e2 XVGA1__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1
+XM_XVGA1_BIAS3 vga1p XVGA1__nbias 0 0 sg13_hv_nmos w=3u l=0.45u ng=19 m=1 rfmode=1
+XM_XVGA1_BIAS4 vga1n XVGA1__nbias 0 0 sg13_hv_nmos w=3u l=0.45u ng=19 m=1 rfmode=1
+
+* Physical interface 2: buffered low-impedance RF calibration pad.
+* Flattened XIF2P (INTERFACE_EF)
+C_XIF2P_IN vga1p XIF2P__base 20p
+R_XIF2P_BASE XIF2P__base ifbase 20k
+XQ_XIF2P_EF vcc XIF2P__base XIF2P__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF2P_BIAS XIF2P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF2P_SER XIF2P__emitter v2p 10
+R_XIF2P_SHUNT v2p ifbias 100
+* Flattened XIF2N (INTERFACE_EF)
+C_XIF2N_IN vga1n XIF2N__base 20p
+R_XIF2N_BASE XIF2N__base ifbase 20k
+XQ_XIF2N_EF vcc XIF2N__base XIF2N__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF2N_BIAS XIF2N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF2N_SER XIF2N__emitter v2n 10
+R_XIF2N_SHUNT v2n ifbias 100
+* Flattened XVGA2 (VGA2_TL)
+L_XVGA2_CL vcc XVGA2__peak_nl 2.7n
+R_XVGA2_CL XVGA2__peak_nl XVGA2__nl 400
+L_XVGA2_CR vcc XVGA2__peak_nr 2.7n
+R_XVGA2_CR XVGA2__peak_nr XVGA2__nr 400
+XQ_XVGA2_1 XVGA2__t34 v2p XVGA2__e1 0 npn13G2 Nx=1 selft=0
+XQ_XVGA2_2 XVGA2__t56 v2n XVGA2__e2 0 npn13G2 Nx=1 selft=0
+R_XVGA2_E XVGA2__e1 XVGA2__e2 5
+C_XVGA2_E XVGA2__e1 XVGA2__e2 50f
+XQ_XVGA2_3 XVGA2__nl vc2 XVGA2__t34 0 npn13G2 Nx=1 selft=0
+XQ_XVGA2_4 vcc vc2b XVGA2__t34 0 npn13G2 Nx=1 selft=0
+XQ_XVGA2_5 vcc vc2b XVGA2__t56 0 npn13G2 Nx=1 selft=0
+XQ_XVGA2_6 XVGA2__nr vc2 XVGA2__t56 0 npn13G2 Nx=1 selft=0
+XQ_XVGA2_7 vcc XVGA2__nr vga2p 0 npn13G2 Nx=5 selft=0
+XQ_XVGA2_8 vcc XVGA2__nl vga2n 0 npn13G2 Nx=5 selft=0
+R_XVGA2_BIASREF vcc XVGA2__nbias 2.2k
+XM_XVGA2_BIASREF XVGA2__nbias XVGA2__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
+XM_XVGA2_BIAS1 XVGA2__e1 XVGA2__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1
+XM_XVGA2_BIAS2 XVGA2__e2 XVGA2__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1
+XM_XVGA2_BIAS3 vga2p XVGA2__nbias 0 0 sg13_hv_nmos w=1.8u l=0.45u ng=12 m=1 rfmode=1
+XM_XVGA2_BIAS4 vga2n XVGA2__nbias 0 0 sg13_hv_nmos w=1.8u l=0.45u ng=12 m=1 rfmode=1
+
+* Physical buffered unity-coupled interface 3.
+* Flattened XIF3P (INTERFACE_EF)
+C_XIF3P_IN vga2p XIF3P__base 20p
+R_XIF3P_BASE XIF3P__base ifbase 20k
+XQ_XIF3P_EF vcc XIF3P__base XIF3P__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF3P_BIAS XIF3P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF3P_SER XIF3P__emitter bufinp 1
+R_XIF3P_SHUNT bufinp ifbias 10k
+* Flattened XIF3N (INTERFACE_EF)
+C_XIF3N_IN vga2n XIF3N__base 20p
+R_XIF3N_BASE XIF3N__base ifbase 20k
+XQ_XIF3N_EF vcc XIF3N__base XIF3N__emitter 0 npn13G2 Nx=2 selft=0
+XM_XIF3N_BIAS XIF3N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1
+R_XIF3N_SER XIF3N__emitter bufinn 1
+R_XIF3N_SHUNT bufinn ifbias 10k
+* Flattened XBUF (OUTPUT_BUFFER_TL)
+R_XBUF_CP vcc outp 50
+R_XBUF_CN vcc outn 50
+XQ_XBUF_1 outp bufinp XBUF__e1 0 npn13G2 Nx=6 selft=0
+XQ_XBUF_2 outn bufinn XBUF__e2 0 npn13G2 Nx=6 selft=0
+R_XBUF_E XBUF__e1 XBUF__e2 20
+R_XBUF_BIASREF vcc XBUF__nbias 2.2k
+XM_XBUF_BIASREF XBUF__nbias XBUF__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
+XM_XBUF_BIAS1 XBUF__e1 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1
+XM_XBUF_BIAS2 XBUF__e2 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1
+* Physical output pole. No controlled-source isolation is used.
+RLOWP outp finalp 50
+RLOWN outn finaln 50
+CLOWP finalp 0 66f
+CLOWN finaln 0 66f
+
+* High-impedance physical detector tap and detector rebias.
+RPKDTAPP finalp pkdtap_p 2k
+CPKDINP pkdtap_p pkdinp 6.8p
+RPKDTAPN finaln pkdtap_n 2k
+CPKDINN pkdtap_n pkdinn 6.8p
+RPKDBP pkdinp ifbias 60k
+RPKDBN pkdinn ifbias 60k
+* Flattened XPKD (PEAK_DETECTOR_TL)
+R_XPKD_CL vcc detn 800
+R_XPKD_CR vcc detp 800
+R_PKDVCC vcc pkdvcc 500
+C_PKDVCC pkdvcc 0 10p
+XQ_XPKD_8 pkdvcc pkdinn XPKD__e8 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_7 pkdvcc pkdinp XPKD__e7 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_1 XPKD__c1 XPKD__e8 XPKD__e1 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_2 XPKD__c2 XPKD__e7 XPKD__e2 0 npn13G2 Nx=1 selft=0
+R_XPKD_E1 XPKD__e1 XPKD__tail 200
+R_XPKD_E2 XPKD__e2 XPKD__tail 200
+XQ_XPKD_3 detn pkdinn XPKD__c1 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_4 detp pkdinp XPKD__c1 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_5 detn pkdinp XPKD__c2 0 npn13G2 Nx=1 selft=0
+XQ_XPKD_6 detp pkdinn XPKD__c2 0 npn13G2 Nx=1 selft=0
+R_XPKD_BIASREF vcc XPKD__nbias 2.2k
+XM_XPKD_BIASREF XPKD__nbias XPKD__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
+XM_XPKD_BIASL XPKD__e8 XPKD__nbias 0 0 sg13_hv_nmos w=15u l=0.45u ng=8 m=1 rfmode=1
+XM_XPKD_BIAST XPKD__tail XPKD__nbias 0 0 sg13_hv_nmos w=32u l=0.45u ng=16 m=1 rfmode=1
+XM_XPKD_BIASR XPKD__e7 XPKD__nbias 0 0 sg13_hv_nmos w=15u l=0.45u ng=8 m=1 rfmode=1
+* Flattened XAGC (AGC_CONTROLLER_TL)
+R_XAGC_PKDREFTOP vcc XAGC__pkd_ref_gate 133k
+R_XAGC_PKDREFBOT XAGC__pkd_ref_gate 0 100k
+C_XAGC_PKDREFGATE XAGC__pkd_ref_gate 0 1n
+XM_XAGC_PKDREF vcc XAGC__pkd_ref_gate XAGC__pkd_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XAGC_PKDREFLOAD XAGC__pkd_ref 0 20k
+C_XAGC_PKDREFOUT XAGC__pkd_ref 0 1n
+R_XAGC_AGCREFTOP vcc XAGC__agc_ref_gate 77.9k
+R_XAGC_AGCREFBOT XAGC__agc_ref_gate 0 100k
+C_XAGC_AGCREFGATE XAGC__agc_ref_gate 0 1n
+XM_XAGC_AGCREF vcc XAGC__agc_ref_gate XAGC__agc_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1
+R_XAGC_AGCREFLOAD XAGC__agc_ref 0 20k
+C_XAGC_AGCREFOUT XAGC__agc_ref 0 1n
+R_XAGC_LP_P detp XAGC__lp_p 600
+R_XAGC_LP_N detn XAGC__lp_n 600
+C_XAGC_LP XAGC__lp_p XAGC__lp_n 150f
+R_XAGC_SFREF vcc XAGC__sfbias 4.2k
+XQ_XAGC_SFREF XAGC__sfbias XAGC__sfbias 0 0 npn13G2 Nx=1 selft=0
+XQ_XAGC_SFPSINK XAGC__sf_p XAGC__sfbias 0 0 npn13G2v Nx=1 selft=0
+XQ_XAGC_SFNSINK XAGC__sf_n XAGC__sfbias 0 0 npn13G2v Nx=1 selft=0
+XQ_XAGC_SFP vcc XAGC__lp_p XAGC__sf_p 0 npn13G2 Nx=2 selft=0
+XQ_XAGC_SFN vcc XAGC__lp_n XAGC__sf_n 0 npn13G2 Nx=2 selft=0
+R_XAGC_PP XAGC__sf_p XAGC__op4p 40k
+R_XAGC_PV XAGC__pkd_ref XAGC__op4p 560k
+R_XAGC_IN XAGC__sf_n XAGC__op4n 40k
+R_XAGC_FB pkd XAGC__op4n 560k
+* Flattened XOP4 (CMOS_OPAMP_TL)
+R_XAGC_XOP4_NB vcc XAGC_XOP4__nbias 35k
+XM_XAGC_XOP4_NB XAGC_XOP4__nbias XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=10u l=1u ng=5 m=1 rfmode=1
+XM_XAGC_XOP4_TAIL XAGC_XOP4__etail XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP4_INP XAGC_XOP4__nleft XAGC__op4n XAGC_XOP4__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+XM_XAGC_XOP4_INN XAGC_XOP4__nfirst XAGC__op4p XAGC_XOP4__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+XM_XAGC_XOP4_PLOADD XAGC_XOP4__nleft XAGC_XOP4__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP4_PLOADM XAGC_XOP4__nfirst XAGC_XOP4__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP4_PVAS pkd XAGC_XOP4__nfirst vcc vcc sg13_hv_pmos w=80u l=1u ng=40 m=1 rfmode=1
+XM_XAGC_XOP4_NVAS pkd XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+C_XAGC_XOP4_COMP XAGC_XOP4__nfirst pkd 2p
+C_XAGC_XOP4_OUT pkd 0 1p
+* Flattened XOP5 (CMOS_OPAMP_TL)
+R_XAGC_XOP5_NB vcc XAGC_XOP5__nbias 35k
+XM_XAGC_XOP5_NB XAGC_XOP5__nbias XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=10u l=1u ng=5 m=1 rfmode=1
+XM_XAGC_XOP5_TAIL XAGC_XOP5__etail XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP5_INP XAGC_XOP5__nleft pkd XAGC_XOP5__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+XM_XAGC_XOP5_INN XAGC_XOP5__nfirst oa XAGC_XOP5__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+XM_XAGC_XOP5_PLOADD XAGC_XOP5__nleft XAGC_XOP5__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP5_PLOADM XAGC_XOP5__nfirst XAGC_XOP5__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1
+XM_XAGC_XOP5_PVAS XAGC__op5_raw XAGC_XOP5__nfirst vcc vcc sg13_hv_pmos w=80u l=1u ng=40 m=1 rfmode=1
+XM_XAGC_XOP5_NVAS XAGC__op5_raw XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1
+C_XAGC_XOP5_COMP XAGC_XOP5__nfirst XAGC__op5_raw 2p
+C_XAGC_XOP5_OUT XAGC__op5_raw 0 1p
+R_XAGC_OP XAGC__op5_raw agc 45k
+R_XAGC_GCREF agc XAGC__agc_ref 6.45k
+C_XAGC_AGC agc 0 10p
+
+V_TB_VCC vcc 0 3.3
+V_TB_MC mc 0 0
+V_TB_MGC mgc 0 1.35
+V_TB_OA oa 0 1.2
+I_TB_P 0 inp DC 0 AC 1
+I_TB_N inn 0 DC 0 AC 1
+.control
+set wr_vecnames
+set wr_singlescale
+ac dec 100 1Meg 100G
+wrdata ac.dat v(finalp,finaln)
+quit
+.endc
+.end

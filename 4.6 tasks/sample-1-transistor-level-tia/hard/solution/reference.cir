@@ -237,8 +237,6 @@ R_XBUF_BIASREF vcc XBUF__nbias 2.2k
 XM_XBUF_BIASREF XBUF__nbias XBUF__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1
 XM_XBUF_BIAS1 XBUF__e1 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1
 XM_XBUF_BIAS2 XBUF__e2 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1
-R_XBUF_LOAD outp outn 100
-
 * Physical output pole. No controlled-source isolation is used.
 RLOWP outp finalp 50
 RLOWN outn finaln 50

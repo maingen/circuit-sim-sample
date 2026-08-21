@@ -44,6 +44,50 @@ FORBIDDEN_DIRECTIVES = {
     ".noise", ".op", ".options", ".param", ".save", ".step", ".tran",
 }
 ALLOWED_ELEMENT_PREFIXES = {"r", "c", "l", "x", "v", "i"}
+TEST_CRITERION_KEYS = {
+    "nominal-op": (
+        ("nominal-op", "input common mode"),
+        ("nominal-op", "input voltage mismatch"),
+        ("nominal-op", "output common mode"),
+        ("nominal-op", "differential output offset"),
+        ("nominal-op", "supply power"),
+    ),
+    "ac-and-local-gain": (
+        ("ac-mgc-1.25", "minimum-setting transimpedance at 10 MHz"),
+        ("ac-mgc-1.40", "maximum-setting transimpedance at 10 MHz"),
+        ("ac-sweep", "gain tuning span"),
+        ("ac-sweep", "monotonic gain tuning"),
+        ("ac-mgc-1.40", "transimpedance at 33 GHz"),
+        ("ac-sweep", "minimum 3 dB bandwidth"),
+        ("ac-mgc-1.40", "group delay near 10 GHz"),
+    ),
+    "dc-overload": (
+        ("dc-overload", "maximum input voltage"),
+        ("dc-overload", "input voltage mismatch"),
+        ("dc-overload", "final differential offset"),
+    ),
+    "output-buffer": (
+        ("buffer-445mVpp", "output peak-to-peak"),
+        ("buffer-445mVpp", "total harmonic distortion"),
+        ("buffer-735mVpp", "output peak-to-peak"),
+    ),
+    "peak-detector": (
+        ("detector-50mVpp", "average differential detector output"),
+        ("detector-550mVpp", "average differential detector output"),
+        ("peak-detector", "strictly monotonic detector response"),
+    ),
+    "agc-and-selector": (
+        ("agc-amplifier", "AGC gain"),
+        ("selector-manual-1.25", "manual selector output"),
+        ("selector-manual-1.40", "manual selector output"),
+        ("selector-agc", "AGC selector output"),
+    ),
+    "pam4-eye": (
+        ("pam4-eye", "differential output peak-to-peak"),
+        ("pam4-eye", "minimum vertical eye opening"),
+        ("pam4-eye", "three positive eye openings"),
+    ),
+}
 
 
 def load_reference_criteria() -> dict[tuple[str, str], dict[str, object]]:
@@ -74,6 +118,10 @@ class SimulationError(RuntimeError):
     pass
 
 
+class GraderConfigurationError(RuntimeError):
+    pass
+
+
 @dataclass(frozen=True)
 class Candidate:
     source: str
@@ -86,15 +134,17 @@ class Candidate:
 class Criterion:
     test: str
     name: str
-    value: float | bool
+    value: float | bool | None
     target: float | bool
     unit: str
     criterion_type: str
     target_range: float | None
-    normalized_error: float
+    normalized_error: float | None
     reward: float
     status: str
     scoring_domain: str = "linear"
+    measurement_status: str = "measured"
+    measurement_error: str | None = None
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -109,6 +159,8 @@ class Criterion:
             "reward": self.reward,
             "status": self.status,
             "scoring_domain": self.scoring_domain,
+            "measurement_status": self.measurement_status,
+            "measurement_error": self.measurement_error,
         }
 
 
@@ -134,7 +186,9 @@ def reference_criterion(
     try:
         reference = REFERENCE_CRITERIA[(test, name)]
     except KeyError as exc:
-        raise ValueError(f"criterion is absent from reference calibration: {test}/{name}") from exc
+        raise GraderConfigurationError(
+            f"criterion is absent from reference calibration: {test}/{name}"
+        ) from exc
     expected = (
         reference["criterion_type"],
         reference["unit"],
@@ -142,7 +196,7 @@ def reference_criterion(
     )
     observed = (criterion_type, unit, scoring_domain)
     if observed != expected:
-        raise ValueError(
+        raise GraderConfigurationError(
             f"criterion metadata differs from reference calibration for {test}/{name}: "
             f"expected={expected}, observed={observed}"
         )
@@ -202,7 +256,9 @@ def central(
     else:
         actual_range = R_ZERO if target == 0.0 else abs(target)
         if actual_range <= 0.0:
-            raise ValueError(f"central target range must be positive for {name}")
+            raise GraderConfigurationError(
+                f"central target range must be positive for {name}"
+            )
         error, reward = central_reward(value, target, actual_range)
     return Criterion(
         test, name, value, target, unit, "central", actual_range, error, reward,
@@ -238,6 +294,34 @@ def boolean(test: str, name: str, value: bool) -> Criterion:
         test, name, value, target, "boolean", "boolean", None,
         0.0 if value == target else 1.0, reward, status_for(reward),
     )
+
+
+def unavailable_criteria(test_name: str, error: str) -> list[Criterion]:
+    try:
+        keys = TEST_CRITERION_KEYS[test_name]
+    except KeyError as exc:
+        raise RuntimeError(f"no criterion ownership declared for {test_name}") from exc
+    unavailable: list[Criterion] = []
+    for test, name in keys:
+        reference = REFERENCE_CRITERIA[(test, name)]
+        unavailable.append(
+            Criterion(
+                test=test,
+                name=name,
+                value=None,
+                target=reference["value"],
+                unit=str(reference["unit"]),
+                criterion_type=str(reference["criterion_type"]),
+                target_range=None,
+                normalized_error=None,
+                reward=0.0,
+                status="Fail",
+                scoring_domain=str(reference["scoring_domain"]),
+                measurement_status="simulation_failed",
+                measurement_error=f"{test_name} failed; see simulation_failures",
+            )
+        )
+    return unavailable
 
 
 def normalized(line: str) -> str:
@@ -390,11 +474,20 @@ def fixture(
     oa: float = 1.2,
     extra: str = "",
 ) -> str:
+    load_name = "R_TB_BUF_LOAD"
+    suffix = 1
+    while load_name.casefold() in candidate.element_names:
+        load_name = f"R_TB_BUF_LOAD_{suffix}"
+        suffix += 1
+    # Put the fixture-owned load before every candidate element. Ngspice's
+    # nonlinear iteration can depend on netlist ordering, so using one fixed
+    # insertion point avoids giving the reference a private ordering advantage.
+    simulation_core = f"{load_name} outp outn 100\n{candidate.simulation_core}"
     return f"""Transistor-level TIA private fixture
 .lib "{IHP_MODELS / 'cornerMOShv.lib'}" mos_tt
 .lib "{IHP_MODELS / 'cornerHBT.lib'}" hbt_typ
 .options method=gear maxord=2 reltol=1e-3 abstol=1e-12 vntol=1e-6 itl4=500 rshunt=1e12
-{candidate.simulation_core}
+{simulation_core}
 V_TB_VCC vcc 0 3.3
 V_TB_MC mc 0 {mc:.12g}
 V_TB_MGC mgc 0 {mgc:.12g}
@@ -933,7 +1026,10 @@ def result_from_criteria(
     structural_failures: Sequence[str],
     simulation_failures: Sequence[dict[str, str]],
 ) -> dict[str, object]:
-    coverage = min(1.0, len(criteria) / EXPECTED_CRITERIA)
+    measured_criteria = [
+        item for item in criteria if item.measurement_status == "measured"
+    ]
+    coverage = min(1.0, len(measured_criteria) / EXPECTED_CRITERIA)
     measured_score = (
         sum(item.reward for item in criteria) / EXPECTED_CRITERIA
         if criteria
@@ -958,8 +1054,12 @@ def result_from_criteria(
         for item in criteria
         if item.reward < 1.0
     )
-    artifact_evaluable = bool(criteria)
-    if not artifact_evaluable:
+    artifact_evaluable = (
+        len(criteria) == EXPECTED_CRITERIA
+        and len(measured_criteria) == EXPECTED_CRITERIA
+        and not simulation_failures
+    )
+    if simulation_failures:
         outcome = "simulation_failed"
     elif production_pass:
         outcome = "passed"
@@ -972,7 +1072,8 @@ def result_from_criteria(
         "final_reward": final_reward,
         "diagnostic_score_before_structural_gate": measured_score,
         "criterion_coverage": coverage,
-        "criteria_observed": len(criteria),
+        "criteria_observed": len(measured_criteria),
+        "criteria_reported": len(criteria),
         "criteria_expected": EXPECTED_CRITERIA,
         "failure_codes": failure_codes,
         "structural_failures": list(structural_failures),
@@ -1007,7 +1108,26 @@ def rescore_cached_result(cached: dict[str, object]) -> dict[str, object]:
         unit = str(item["unit"])
         criterion_type = str(item["criterion_type"])
         value = item["value"]
-        if criterion_type == "central":
+        if item.get("measurement_status", "measured") != "measured":
+            reference = REFERENCE_CRITERIA[(test, name)]
+            rescored.append(
+                Criterion(
+                    test=test,
+                    name=name,
+                    value=None,
+                    target=reference["value"],
+                    unit=str(reference["unit"]),
+                    criterion_type=str(reference["criterion_type"]),
+                    target_range=None,
+                    normalized_error=None,
+                    reward=0.0,
+                    status="Fail",
+                    scoring_domain=str(reference["scoring_domain"]),
+                    measurement_status=str(item.get("measurement_status")),
+                    measurement_error=str(item.get("measurement_error", "cached measurement unavailable")),
+                )
+            )
+        elif criterion_type == "central":
             rescored.append(
                 central(
                     test,
@@ -1059,15 +1179,90 @@ def grade_submission(candidate_path: Path, artifact_root: Path) -> dict[str, obj
             "error": "ngspice executable is unavailable",
             "criteria": [],
         }
+    required_models = (
+        IHP_MODELS / "cornerMOShv.lib",
+        IHP_MODELS / "cornerHBT.lib",
+    )
+    missing_models = [str(path) for path in required_models if not path.is_file()]
+    if missing_models:
+        return {
+            "outcome": "infrastructure_error",
+            "artifact_evaluable": False,
+            "production_pass": False,
+            "final_reward": 0.0,
+            "failure_codes": ["TIA-PDK-MISSING"],
+            "error": "required PDK models are unavailable: " + ", ".join(missing_models),
+            "criteria": [],
+        }
 
-    artifact_root.mkdir(parents=True, exist_ok=True)
+    try:
+        artifact_root.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        return {
+            "outcome": "infrastructure_error",
+            "artifact_evaluable": False,
+            "production_pass": False,
+            "final_reward": 0.0,
+            "failure_codes": ["TIA-ARTIFACT-STORAGE"],
+            "error": f"{type(exc).__name__}: {exc}",
+            "criteria": [],
+        }
     criteria: list[Criterion] = []
     simulation_failures: list[dict[str, str]] = []
     for test_name, function in TESTS:
         try:
             criteria.extend(function(candidate, artifact_root))
-        except (OSError, SimulationError, subprocess.SubprocessError, ValueError, ZeroDivisionError) as exc:
+        except (SimulationError, ValueError, ZeroDivisionError) as exc:
             simulation_failures.append({"test": test_name, "error": str(exc)})
+            criteria.extend(unavailable_criteria(test_name, str(exc)))
+        except (OSError, subprocess.SubprocessError) as exc:
+            return {
+                "outcome": "infrastructure_error",
+                "artifact_evaluable": False,
+                "production_pass": False,
+                "final_reward": 0.0,
+                "failure_codes": ["TIA-VERIFIER-INFRASTRUCTURE"],
+                "error": f"{type(exc).__name__}: {exc}",
+                "criteria_observed": sum(
+                    item.measurement_status == "measured" for item in criteria
+                ),
+                "criteria_expected": EXPECTED_CRITERIA,
+                "criteria": [item.as_dict() for item in criteria],
+            }
+        except Exception as exc:
+            return {
+                "outcome": "infrastructure_error",
+                "artifact_evaluable": False,
+                "production_pass": False,
+                "final_reward": 0.0,
+                "failure_codes": ["TIA-VERIFIER-INTERNAL"],
+                "error": f"{type(exc).__name__}: {exc}",
+                "criteria_observed": sum(
+                    item.measurement_status == "measured" for item in criteria
+                ),
+                "criteria_expected": EXPECTED_CRITERIA,
+                "criteria": [item.as_dict() for item in criteria],
+            }
+
+    reported_keys = [(item.test, item.name) for item in criteria]
+    if (
+        len(reported_keys) != EXPECTED_CRITERIA
+        or len(set(reported_keys)) != EXPECTED_CRITERIA
+        or set(reported_keys) != set(REFERENCE_CRITERIA)
+    ):
+        return {
+            "outcome": "infrastructure_error",
+            "artifact_evaluable": False,
+            "production_pass": False,
+            "final_reward": 0.0,
+            "failure_codes": ["TIA-CRITERION-COVERAGE"],
+            "error": "static grader did not report each criterion exactly once",
+            "criteria_observed": sum(
+                item.measurement_status == "measured" for item in criteria
+            ),
+            "criteria_expected": EXPECTED_CRITERIA,
+            "criteria": [item.as_dict() for item in criteria],
+        }
 
     return result_from_criteria(
         criteria,
