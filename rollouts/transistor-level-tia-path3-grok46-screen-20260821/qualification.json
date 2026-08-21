@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-08-21T23:50:16Z",
+  "task": "maingen/transistor-level-tia",
+  "campaign": "transistor-level-tia-path3-grok46-screen-20260821",
+  "decision": "trajectory-set-complete-canonical-grading-pending",
+  "frozen_revision": {
+    "task_path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+    "task_version": "0.2.1",
+    "task_commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+    "task_tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e",
+    "agent_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-agent@sha256:2c12477a12f315e39d1c0ff90049a3ef519c6d216324449101587ce98bcaa019",
+    "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917",
+    "freeze_record": "freeze.json"
+  },
+  "harness": {
+    "name": "harbor",
+    "agent": "grok-build",
+    "agent_version": "0.2.118",
+    "model": "grok-4.6",
+    "reasoning_effort_requested": "high",
+    "reasoning_effort_effective": "model-native fixed effort",
+    "engine": "docker",
+    "production_verifier_network": "none"
+  },
+  "counts": {
+    "authorized_scorable_rollouts": 8,
+    "launched_attempts": 20,
+    "infrastructure_failures": 12,
+    "retained_scorable_rollouts": 8,
+    "artifact_evaluable": 6,
+    "candidate_simulation_failures": 2,
+    "production_passes": 0
+  },
+  "infrastructure_failures": {
+    "NonZeroAgentExitCodeError": 10,
+    "ApiRateLimitError": 1,
+    "ApiOverloadedError": 1,
+    "policy": "Excluded from model-performance statistics and replaced with fresh run identifiers on the same frozen task."
+  },
+  "frozen_verifier_statistics": {
+    "mean_reward": 0.6312749522327985,
+    "population_variance": 0.008326963132884552,
+    "production_pass_rate": 0.0,
+    "artifact_evaluable_rate": 0.75
+  },
+  "corrected_deterministic_statistics": {
+    "task_version": "0.2.2",
+    "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:4bd8cdac41adff270d8c90d51ce7363a847c1d5cbd5d8d55d5ce39f6e3a8d1d0",
+    "mean_reward": 0.6228480474034194,
+    "population_variance": 0.008299132443941292,
+    "production_pass_rate": 0.0,
+    "artifact_evaluable_rate": 0.75,
+    "regrade_policy": "The private fixture correction did not change the model-visible contract, tools, environment, or task execution, so all retained submissions were regraded deterministically without rerunning agents."
+  },
+  "canonical_grading": {
+    "verifier_version": "1.0.3",
+    "model": "gpt-5.6-terra",
+    "completed_reviews": 2,
+    "pending_reviews": 6,
+    "status": "pending_openai_api_credential",
+    "summary": "canonical-verifier-summary.json",
+    "effect_on_trajectory_set": "none"
+  },
+  "reference_validation": {
+    "deterministic_reward": 1.0,
+    "canonical_reward": 1.0,
+    "production_pass": true,
+    "evidence": "canonical-verifier-qa/reference"
+  },
+  "validation": {
+    "retained_run_directories": 8,
+    "native_atif_trajectories": 8,
+    "native_session_archives": 8,
+    "candidate_artifacts": 8,
+    "frozen_grades": 8,
+    "corrected_deterministic_grades": 8,
+    "source_byte_matches": 8,
+    "duplicate_run_ids": 0,
+    "duplicate_session_ids": 0,
+    "problems": []
+  },
+  "runs": [
+    {
+      "id": "hard__KzkzqhG",
+      "session_id": "e237c31f-2ae9-4b71-8f9f-4eb3ab179413",
+      "started_at": "2026-08-21T11:13:16.126420Z",
+      "finished_at": "2026-08-21T19:53:01.602417Z",
+      "trajectory_steps": 122,
+      "candidate_sha256": "5c0ed5498acc43fd659d27d9a7252ebe1ce355b0f2a6757b72ff2fcf32b6ca4a",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.6604779744104945,
+      "corrected_reward": 0.6604779744104945,
+      "outcome": "requirements_failed",
+      "evidence": "hard__KzkzqhG"
+    },
+    {
+      "id": "hard__W9kdAs7",
+      "session_id": "917a6a9f-d283-450a-a664-aa226b72a78a",
+      "started_at": "2026-08-21T18:42:19.635410Z",
+      "finished_at": "2026-08-21T21:19:42.268853Z",
+      "trajectory_steps": 68,
+      "candidate_sha256": "ad250220efd0614782e79fc6ac2bab5883f8b6cefefea9582f5fbe440375ec6d",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.6180650690334977,
+      "corrected_reward": 0.6180650690334977,
+      "outcome": "requirements_failed",
+      "evidence": "hard__W9kdAs7"
+    },
+    {
+      "id": "hard__bpaMjCW",
+      "session_id": "3718f564-9bb0-4a7b-9334-98b1daaa830c",
+      "started_at": "2026-08-21T16:06:29.241077Z",
+      "finished_at": "2026-08-21T21:17:56.400869Z",
+      "trajectory_steps": 91,
+      "candidate_sha256": "705b65e669630859142cb7a1a41c53796433e3ee03a37c4dd4c5f624d3ae37c3",
+      "artifact_evaluable": false,
+      "production_pass": false,
+      "frozen_reward": 0.4642857142857143,
+      "corrected_reward": 0.4642857142857143,
+      "outcome": "candidate_simulation_failed",
+      "evidence": "hard__bpaMjCW"
+    },
+    {
+      "id": "hard__h5A2zF2",
+      "session_id": "977545cb-3209-4606-a9da-e7bc5da60f0a",
+      "started_at": "2026-08-21T11:23:36.065969Z",
+      "finished_at": "2026-08-21T15:08:23.399143Z",
+      "trajectory_steps": 182,
+      "candidate_sha256": "0766b2520f99850ddc5c2a7c3ca9957e3a353c449128036945137c87ff6f6c9c",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.7482399368493521,
+      "corrected_reward": 0.6036269611265057,
+      "outcome": "requirements_failed",
+      "evidence": "hard__h5A2zF2"
+    },
+    {
+      "id": "hard__harCher",
+      "session_id": "e7f45167-28f9-4357-bf3b-a94ba1ec5c78",
+      "started_at": "2026-08-21T18:23:39.948652Z",
+      "finished_at": "2026-08-21T21:07:08.581808Z",
+      "trajectory_steps": 164,
+      "candidate_sha256": "20ab8aaefe01b491a9c4f7c274fb8ff641e0b71ff9ead5b88c688f2e44fce5eb",
+      "artifact_evaluable": false,
+      "production_pass": false,
+      "frozen_reward": 0.5068813536657922,
+      "corrected_reward": 0.5068813536657922,
+      "outcome": "candidate_simulation_failed",
+      "evidence": "hard__harCher"
+    },
+    {
+      "id": "hard__qP2umpx",
+      "session_id": "67c4b3ba-bec3-4a92-bf7e-15225eeb8ecb",
+      "started_at": "2026-08-21T11:13:16.123037Z",
+      "finished_at": "2026-08-21T13:13:32.078772Z",
+      "trajectory_steps": 94,
+      "candidate_sha256": "e5cb8b053fc60df42fd0c626c8d67603d07f7f6a70123c039d4538b397913c1a",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.6785714285714286,
+      "corrected_reward": 0.7557691656592418,
+      "outcome": "requirements_failed",
+      "evidence": "hard__qP2umpx"
+    },
+    {
+      "id": "hard__uocJKQB",
+      "session_id": "6bbd5a5c-f243-4da5-aaa6-e66aa59b4537",
+      "started_at": "2026-08-21T18:03:39.419906Z",
+      "finished_at": "2026-08-21T23:46:55.042175Z",
+      "trajectory_steps": 83,
+      "candidate_sha256": "d439eb5364072b9f172829d03bad74fff4aa52d9dfbbd75b84dd7f4686b8bfc9",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.6951067124746798,
+      "corrected_reward": 0.6951067124746798,
+      "outcome": "requirements_failed",
+      "evidence": "hard__uocJKQB"
+    },
+    {
+      "id": "hard__vTMxfDC",
+      "session_id": "922cba14-ed8f-4d6a-ba55-c07ca5710154",
+      "started_at": "2026-08-21T18:04:51.864236Z",
+      "finished_at": "2026-08-21T23:17:37.634837Z",
+      "trajectory_steps": 137,
+      "candidate_sha256": "87cb09eee72a3f2f8baa7d0dfc7edbdf419179e47f3688640047177b88c6e764",
+      "artifact_evaluable": true,
+      "production_pass": false,
+      "frozen_reward": 0.6785714285714286,
+      "corrected_reward": 0.6785714285714286,
+      "outcome": "requirements_failed",
+      "evidence": "hard__vTMxfDC"
+    }
+  ]
+}

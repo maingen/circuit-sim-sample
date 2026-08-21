@@ -1,0 +1,171 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+
+The temperature limiting function received NaN.
+Please check your power dissipation and improve your heat sink Rth!
+    This message will be shown only once.
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+outp                                   2.78058
+outn                                   2.78058
+vb                                     1.18668
+erep                                  0.367903
+xqrep.s1                           8.28253e-10
+xqrep.t                                2.67941
+vcc                                        3.3
+vcref                                  2.47099
+erepc                                 0.371707
+xqcrep.s1                          1.73147e-09
+xqcrep.t                               6.96721
+ctp                                   0.298247
+inp                                   0.160897
+xqcbp.s1                             0.0875958
+xqcbp.t                                5.16346
+nltp                                       3.3
+ctpfp                                 0.298262
+docbp                                 0.298262
+dcop                                   1.51108
+edp                                    1.49424
+xqdpr.s1                             0.0124636
+xqdpr.t                                2.29082
+dummyp                                 3.29879
+xqdps.s1                           1.32032e-09
+xqdps.t                            2.57492e-10
+gdocp                                    2.541
+xqefdp.s1                          1.32017e-09
+xqefdp.t                              0.273668
+ctn                                   0.297097
+inn                                   0.159719
+xqcbn.s1                             0.0909625
+xqcbn.t                                5.25451
+nltn                                       3.3
+ctpfn                                 0.297111
+docbn                                 0.297112
+dcon                                   1.51108
+edn                                    1.49424
+xqdnr.s1                             0.0124636
+xqdnr.t                                2.29082
+dummyn                                 3.29879
+xqdns.s1                           1.32032e-09
+xqdns.t                            2.57565e-10
+gdocn                                    2.541
+xqefdn.s1                          1.32017e-09
+xqefdn.t                              0.273668
+ntp                                1.54692e-09
+xqeftp.s1                          1.65187e-09
+xqeftp.t                           4.75012e-08
+ntn                                1.49575e-09
+xqeftn.s1                          1.65187e-09
+xqeftn.t                           4.55085e-08
+g1p                                    1.44999
+g1n                                    1.44999
+n1c                                    3.04696
+e1p                                   0.594321
+xq1p.s1                            1.89233e-09
+xq1p.t                                 28.8632
+n1d                                    3.04696
+e1n                                   0.594321
+xq1n.s1                            1.89233e-09
+xq1n.t                                 28.8632
+t1                                    0.523797
+gc                                         1.4
+nl1p                                       3.3
+nl1n                                       3.3
+n1p                                    2.12761
+xqef1p.s1                          1.65418e-09
+xqef1p.t                                29.167
+n1n                                    2.12761
+xqef1n.s1                          1.65418e-09
+xqef1n.t                                29.167
+g2p                                    1.45513
+g2n                                    1.45513
+n2c                                    3.05619
+e2p                                   0.599237
+xq2p.s1                            1.90065e-09
+xq2p.t                                 29.1416
+n2d                                    3.05619
+e2n                                   0.599237
+xq2n.s1                            1.90065e-09
+xq2n.t                                 29.1416
+t2                                     0.52785
+nl2p                                       3.3
+nl2n                                       3.3
+n2p                                    2.15039
+xqef2p.s1                          1.98513e-09
+xqef2p.t                               24.8479
+n2n                                    2.15039
+xqef2n.s1                          1.98513e-09
+xqef2n.t                               24.8479
+bufinp                                 2.18523
+bufinn                                 2.18523
+ebp                                    1.32723
+xqbp.s1                            5.19073e-09
+xqbp.t                                 16.7358
+ebn                                    1.32723
+xqbn.s1                            5.19073e-09
+xqbn.t                                 16.7358
+tb                                     1.18967
+nlbp                                       3.3
+nlbn                                       3.3
+finalp                                 2.78058
+finaln                                 2.78058
+pkdinp                                   2.092
+pkdinn                                   2.092
+detp                                   1.04805
+epk                                    0.99987
+xqpkp.s1                               1.67644
+xqpkp.t                                17.3072
+detn                                   1.10803
+xqpkn.s1                             0.0765029
+xqpkn.t                                15.6586
+agcref                                 1.20037
+agc_x                                  1.55974
+oa                                         1.2
+eagp                                   0.37561
+xqagp.s1                           9.31854e-10
+xqagp.t                                4.58473
+agc                                    1.54621
+eagn                                  0.375667
+xqagn.s1                            9.2365e-10
+xqagn.t                                4.56742
+tagc                                  0.368273
+mc_inv                                     3.3
+mc                                           0
+mgc                                        1.4
+lbn#branch                          0.00742028
+lbp#branch                          0.00742028
+l2n#branch                          0.00283503
+l2p#branch                          0.00283503
+l1n#branch                          0.00281152
+l1p#branch                          0.00281152
+ltn#branch                          0.00566585
+ltp#branch                          0.00566368
+v_tb_pkdn#branch                   -0.00101075
+v_tb_pkdp#branch                   -0.00996227
+v_tb_oa#branch                    -1.19078e-06
+v_tb_mgc#branch                   -1.11403e-11
+v_tb_mc#branch                               0
+v_tb_vcc#branch                       -0.06596
+
+
+No. of Data Rows : 1
+doAnalyses: TRAN:  Timestep too small; initial timepoint: trouble with xqcbp:npn13g2_nx_vbic-instance q.xqcbp.qnpn13g2
+
+
+tran simulation(s) aborted
+ngspice-46 done

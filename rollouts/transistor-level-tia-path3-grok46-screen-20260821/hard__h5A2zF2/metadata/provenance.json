@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/circuit-sim-sample",
+  "source_campaign": "jobs/tia-path3-grok46-extension-five-20260821",
+  "source_trial": "hard__h5A2zF2",
+  "run_id": "9ce2e08f-09a1-4407-9614-0789ffc781f9",
+  "started_at": "2026-08-21T11:23:36.065969Z",
+  "finished_at": "2026-08-21T15:08:23.399143Z",
+  "frozen_task": {
+    "path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+    "version": "0.2.1",
+    "commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+    "tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e"
+  },
+  "agent": {
+    "name": "grok-build",
+    "version": "0.2.118",
+    "model": "grok-4.6",
+    "reasoning_effort_requested": "high",
+    "reasoning_effort_effective": "model-native fixed effort"
+  },
+  "retention": {
+    "trajectory_format": "ATIF-v1.7",
+    "trajectory_steps": 182,
+    "native_session_retained": true,
+    "candidate_sha256": "0766b2520f99850ddc5c2a7c3ca9957e3a353c449128036945137c87ff6f6c9c",
+    "trajectory_sha256": "18ca7fa0e244e2a3233f354fb288c8506b23249257a44a13f99066b064a7fc1f"
+  },
+  "frozen_grade": {
+    "reward": 0.7482399368493521,
+    "production_pass": false,
+    "artifact_evaluable": true
+  },
+  "corrected_deterministic_grade": {
+    "task_version": "0.2.2",
+    "reward": 0.6036269611265057,
+    "production_pass": false,
+    "artifact_evaluable": true,
+    "criteria_observed": 28,
+    "criteria_reported": 28,
+    "simulation_failures": []
+  },
+  "canonical_grade": {
+    "verifier_version": "1.0.3",
+    "reward": 0.31791267541221996,
+    "production_pass": false
+  }
+}

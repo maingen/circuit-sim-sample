@@ -1,0 +1,157 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+
+The temperature limiting function received NaN.
+Please check your power dissipation and improve your heat sink Rth!
+    This message will be shown only once.
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+outp                                   2.86108
+outn                                   2.86185
+vcc                                        3.3
+qb                                     1.60074
+qcas                                   2.31917
+mcb                                        3.3
+mc                                           0
+gc                                         1.4
+mgc                                        1.4
+agc                                   0.782135
+ctia_p                                 3.13723
+mid_p                                  1.48238
+xq_cas_p.s1                        2.83237e-09
+xq_cas_p.t                             10.5071
+inp                                   0.758767
+xq_cb_p.s1                         1.32782e-09
+xq_cb_p.t                              4.60328
+lp_p                                   3.13723
+oa                                         1.2
+gdc_p                                   0.6287
+tia_p                                  2.30623
+xq_ef_p.s1                          2.3053e-09
+xq_ef_p.t                              4.69297
+ctia_n                                 3.13722
+mid_n                                  1.48238
+xq_cas_n.s1                        2.83235e-09
+xq_cas_n.t                              10.508
+inn                                   0.758763
+xq_cb_n.s1                         1.32782e-09
+xq_cb_n.t                              4.60372
+lp_n                                   3.13722
+gdc_n                                 0.191392
+tia_n                                  2.30622
+xq_ef_n.s1                          2.3053e-09
+xq_ef_n.t                                4.693
+finalp                                 2.86108
+fp                                     2.14581
+finaln                                 2.86185
+fn                                     2.14638
+dcp                                    2.07487
+tdc_p                                  1.09375
+mid_dp                                 1.91391
+dcn                                     2.0747
+tdc_n                                  1.09416
+mid_dn                                 2.25001
+v1p                                    2.73006
+e1p                                    1.44492
+xq_v1p.s1                          2.46544e-09
+xq_v1p.t                               14.0588
+v1n                                    2.73017
+e1n                                    1.44491
+xq_v1n.s1                          2.46553e-09
+xq_v1n.t                               14.0573
+et1                                     1.4159
+l1p                                    2.73006
+l1n                                    2.73017
+vg1p                                   1.90543
+xq_e1p.s1                          2.30809e-09
+xq_e1p.t                               5.74532
+vg1n                                   1.90553
+xq_e1n.s1                          2.30809e-09
+xq_e1n.t                               5.74535
+v2p                                    2.98035
+e2p                                     1.0674
+xq_v2p.s1                          3.31881e-09
+xq_v2p.t                               13.6787
+v2n                                    2.97982
+e2n                                    1.06744
+xq_v2n.s1                          3.31833e-09
+xq_v2n.t                               13.6975
+et2                                    1.04286
+l2p                                    2.98035
+l2n                                    2.97982
+bufinp                                 2.15653
+xq_e2p.s1                          2.97162e-09
+xq_e2p.t                               4.68545
+bufinn                                 2.15601
+xq_e2n.s1                          2.97162e-09
+xq_e2n.t                               4.68622
+ebp                                    1.28412
+xq_bp.s1                           3.31215e-09
+xq_bp.t                                24.1868
+ebn                                    1.28379
+xq_bn.s1                           3.31149e-09
+xq_bn.t                                24.1192
+ebt                                    1.18748
+pkdcm                                  2.09323
+pkdinp                                   2.092
+pkdinn                                   2.092
+pke                                    1.25333
+xq_pdp.s1                          2.31583e-09
+xq_pdp.t                               13.9707
+xq_pdn.s1                          2.31583e-09
+xq_pdn.t                               13.9707
+pker                                   1.25452
+xq_rpp.s1                          2.31583e-09
+xq_rpp.t                               13.9757
+xq_rpn.s1                          2.31583e-09
+xq_rpn.t                               13.9757
+detp                                   1.64113
+eda                                   0.447787
+xq_da_p.s1                         1.14926e-09
+xq_da_p.t                               2.6667
+detn                                     1.595
+xq_da_n.s1                         1.11673e-09
+xq_da_n.t                              2.65578
+edak                                  0.252327
+agc_p                                  0.83643
+eag                                   0.786518
+xq_ag_p.s1                         0.000454302
+xq_ag_p.t                             0.186229
+agc_n                                  1.55808
+xq_ag_n.s1                         1.09009e-09
+xq_ag_n.t                              1.83758
+eagk                                  0.539745
+agc_ef                                0.782135
+xq_ag_ef.s1                        1.65064e-09
+xq_ag_ef.t                             2.03696
+l_l2n#branch                        0.00410489
+l_l2p#branch                        0.00409806
+l_l1n#branch                        0.00482906
+l_l1p#branch                        0.00482997
+l_tia_n#branch                      0.00280657
+l_tia_p#branch                      0.00280631
+v_tb_pkdn#branch                   7.90999e-06
+v_tb_pkdp#branch                   7.90999e-06
+v_tb_oa#branch                    -1.20003e-11
+v_tb_mgc#branch                   -5.55339e-12
+v_tb_mc#branch                               0
+v_tb_vcc#branch                     -0.0649684
+
+
+No. of Data Rows : 1008
+ngspice-46 done

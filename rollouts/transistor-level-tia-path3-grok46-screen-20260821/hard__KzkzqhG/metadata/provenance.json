@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/circuit-sim-sample",
+  "source_campaign": "jobs/tia-path3-grok46-screen-20260821",
+  "source_trial": "hard__KzkzqhG",
+  "run_id": "8acdd5a2-78b5-435f-a6fc-07e5b7fa04bc",
+  "started_at": "2026-08-21T11:13:16.126420Z",
+  "finished_at": "2026-08-21T19:53:01.602417Z",
+  "frozen_task": {
+    "path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+    "version": "0.2.1",
+    "commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+    "tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e"
+  },
+  "agent": {
+    "name": "grok-build",
+    "version": "0.2.118",
+    "model": "grok-4.6",
+    "reasoning_effort_requested": "high",
+    "reasoning_effort_effective": "model-native fixed effort"
+  },
+  "images": {
+    "agent": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-agent@sha256:2c12477a12f315e39d1c0ff90049a3ef519c6d216324449101587ce98bcaa019",
+    "frozen_verifier": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917",
+    "corrected_verifier": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:4bd8cdac41adff270d8c90d51ce7363a847c1d5cbd5d8d55d5ce39f6e3a8d1d0"
+  },
+  "retention": {
+    "trajectory_format": "ATIF-v1.7",
+    "trajectory_steps": 122,
+    "native_session_retained": true,
+    "candidate_sha256": "5c0ed5498acc43fd659d27d9a7252ebe1ce355b0f2a6757b72ff2fcf32b6ca4a",
+    "trajectory_sha256": "9da438ad7ea4945da57d0a1c709f208c73982dd6aaa322f0a6778e414344c55a"
+  },
+  "frozen_grade": {
+    "reward": 0.6604779744104945,
+    "production_pass": false,
+    "artifact_evaluable": true
+  },
+  "corrected_deterministic_grade": {
+    "task_version": "0.2.2",
+    "reward": 0.6604779744104945,
+    "production_pass": false,
+    "artifact_evaluable": true,
+    "criteria_observed": 28,
+    "criteria_reported": 28,
+    "simulation_failures": []
+  }
+}

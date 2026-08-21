@@ -1,0 +1,25 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: transistor-level tia private fixture
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+
+The temperature limiting function received NaN.
+Please check your power dissipation and improve your heat sink Rth!
+    This message will be shown only once.
+
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+No. of Data Rows : 1
+v(inp) = 7.589835e-01
+v(inn) = 7.589835e-01
+v(finalp) = 2.727141e+00
+v(finaln) = 2.727141e+00
+i(v_tb_vcc) = -6.74712e-02
+ngspice-46 done

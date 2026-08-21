@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/circuit-sim-sample",
+  "source_campaign": "jobs/tia-path3-grok46-infra-replacements-four-20260821",
+  "source_trial": "hard__bpaMjCW",
+  "run_id": "ecfd0ffe-91e5-4bdc-936a-dd7ad40aedc8",
+  "started_at": "2026-08-21T16:06:29.241077Z",
+  "finished_at": "2026-08-21T21:17:56.400869Z",
+  "frozen_task": {
+    "path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+    "version": "0.2.1",
+    "commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+    "tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e"
+  },
+  "agent": {
+    "name": "grok-build",
+    "version": "0.2.118",
+    "model": "grok-4.6",
+    "reasoning_effort_requested": "high",
+    "reasoning_effort_effective": "model-native fixed effort"
+  },
+  "retention": {
+    "trajectory_format": "ATIF-v1.7",
+    "trajectory_steps": 91,
+    "native_session_retained": true,
+    "candidate_sha256": "705b65e669630859142cb7a1a41c53796433e3ee03a37c4dd4c5f624d3ae37c3",
+    "trajectory_sha256": "17f80ada2e60326eb147df4737284aa0a27fb8df480036d18815283e4c3146f8"
+  },
+  "frozen_grade": {
+    "reward": 0.4642857142857143,
+    "production_pass": false,
+    "artifact_evaluable": false,
+    "outcome": "simulation_failed",
+    "candidate_caused_simulation_failures": [
+      "output-buffer",
+      "peak-detector",
+      "pam4-eye"
+    ]
+  },
+  "corrected_deterministic_grade": {
+    "task_version": "0.2.2",
+    "reward": 0.4642857142857143,
+    "production_pass": false,
+    "artifact_evaluable": false,
+    "outcome": "simulation_failed",
+    "criteria_observed": 19,
+    "criteria_reported": 28,
+    "candidate_caused_simulation_failures": [
+      "output-buffer",
+      "peak-detector",
+      "pam4-eye"
+    ]
+  },
+  "scorability": "scorable candidate failure: the agent exited cleanly, the complete trajectory and artifact were retained, and the deterministic verifier preserved all 28 criterion records while assigning zero to transient families that the submitted circuit could not simulate"
+}

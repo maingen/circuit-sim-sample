@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "source_repository": "maingen/circuit-sim-sample",
+  "source_campaign": "jobs/tia-path3-grok46-infra-replacement-one-e-20260821",
+  "source_trial": "hard__harCher",
+  "run_id": "0c37d38f-ad45-48b1-aec5-05a6e50603c6",
+  "started_at": "2026-08-21T18:23:39.948652Z",
+  "finished_at": "2026-08-21T21:07:08.581808Z",
+  "frozen_task": {
+    "path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+    "version": "0.2.1",
+    "commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+    "tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e"
+  },
+  "agent": {
+    "name": "grok-build",
+    "version": "0.2.118",
+    "model": "grok-4.6",
+    "reasoning_effort_requested": "high",
+    "reasoning_effort_effective": "model-native fixed effort"
+  },
+  "retention": {
+    "trajectory_format": "ATIF-v1.7",
+    "trajectory_steps": 164,
+    "native_session_retained": true,
+    "candidate_sha256": "20ab8aaefe01b491a9c4f7c274fb8ff641e0b71ff9ead5b88c688f2e44fce5eb",
+    "trajectory_sha256": "2c33cff23b91101a82b4cd23266fe41eecda3a15d5b95f8bf451104f856f45c7"
+  },
+  "frozen_grade": {
+    "reward": 0.5068813536657922,
+    "production_pass": false,
+    "artifact_evaluable": false,
+    "outcome": "simulation_failed",
+    "candidate_caused_simulation_failures": [
+      "output-buffer",
+      "peak-detector",
+      "pam4-eye"
+    ]
+  },
+  "corrected_deterministic_grade": {
+    "task_version": "0.2.2",
+    "reward": 0.5068813536657922,
+    "production_pass": false,
+    "artifact_evaluable": false,
+    "outcome": "simulation_failed",
+    "criteria_observed": 19,
+    "criteria_reported": 28,
+    "candidate_caused_simulation_failures": [
+      "output-buffer",
+      "peak-detector",
+      "pam4-eye"
+    ]
+  },
+  "scorability": "scorable candidate failure: the agent exited cleanly, the complete trajectory and artifact were retained, and the deterministic verifier preserved all 28 criterion records while assigning zero to transient families that the submitted circuit could not simulate"
+}

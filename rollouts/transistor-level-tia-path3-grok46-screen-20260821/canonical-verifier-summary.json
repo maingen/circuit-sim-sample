@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "status": "provisional-active-campaign",
+  "status": "rollout-complete-canonical-review-pending",
   "canonical_verifier": {
     "version": "1.0.3",
     "model": "gpt-5.6-terra",
@@ -29,40 +29,90 @@
       "trial_id": "hard__qP2umpx",
       "static_reward": 0.7557691656592418,
       "canonical_reward": 0.42413007658132357,
-      "failed_sections": [
-        "agc_and_selector",
-        "complete_receiver",
-        "peak_detector"
-      ],
+      "failed_sections": ["agc_and_selector", "complete_receiver", "peak_detector"],
       "production_pass": false,
-      "canonical_output": "canonical-grades/hard__qP2umpx",
-      "superseded_composite_outputs": [
-        "canonical-grades-v1.0.1/hard__qP2umpx",
-        "canonical-grades-v1.0.0/hard__qP2umpx"
-      ]
+      "canonical_status": "complete",
+      "canonical_output": "canonical-grades/hard__qP2umpx"
     },
     {
       "trial_id": "hard__h5A2zF2",
       "static_reward": 0.6036269611265057,
       "canonical_reward": 0.31791267541221996,
-      "failed_sections": [
-        "agc_and_selector",
-        "complete_receiver"
-      ],
+      "failed_sections": ["agc_and_selector", "complete_receiver"],
       "production_pass": false,
-      "canonical_output": "canonical-grades/hard__h5A2zF2",
-      "superseded_composite_outputs": [
-        "canonical-grades-v1.0.1/hard__h5A2zF2",
-        "canonical-grades-v1.0.0/hard__h5A2zF2"
-      ]
+      "canonical_status": "complete",
+      "canonical_output": "canonical-grades/hard__h5A2zF2"
+    },
+    {
+      "trial_id": "hard__KzkzqhG",
+      "static_reward": 0.6604779744104945,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__KzkzqhG"
+    },
+    {
+      "trial_id": "hard__W9kdAs7",
+      "static_reward": 0.6180650690334977,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__W9kdAs7"
+    },
+    {
+      "trial_id": "hard__bpaMjCW",
+      "static_reward": 0.4642857142857143,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__bpaMjCW"
+    },
+    {
+      "trial_id": "hard__harCher",
+      "static_reward": 0.5068813536657922,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__harCher"
+    },
+    {
+      "trial_id": "hard__uocJKQB",
+      "static_reward": 0.6951067124746798,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__uocJKQB"
+    },
+    {
+      "trial_id": "hard__vTMxfDC",
+      "static_reward": 0.6785714285714286,
+      "canonical_reward": null,
+      "failed_sections": null,
+      "production_pass": false,
+      "canonical_status": "pending_openai_api_credential",
+      "canonical_output": "canonical-grades/hard__vTMxfDC"
     }
   ],
-  "provisional_statistics": {
-    "scorable_runs": 2,
-    "mean_canonical_reward": 0.37102137599677176,
-    "population_variance_canonical_reward": 0.002820534077779573,
-    "production_pass_rate": 0.0
+  "deterministic_statistics": {
+    "scorable_runs": 8,
+    "mean_reward": 0.6228480474034194,
+    "population_variance": 0.008299132443941292,
+    "production_pass_rate": 0.0,
+    "artifact_evaluable_runs": 6
   },
-  "provenance_policy": "The frozen submissions, original deterministic grades, and superseded composite grades remain retained. Task v0.2.2 deterministically reran Ngspice for the same submissions with the corrected hidden output-load fixture. The fixture inserts its disclosed load at one stable position before every candidate, including the reference, so no private marker or reference-only path is used. Canonical verifier v1.0.3 then made one fresh GPT-5.6 Terra/high request per final corrected retained submission; it requires auditable evidence for every section verdict and reconciles dead local responses with signal and control topology.",
-  "campaign_note": "Statistics are provisional until all authorized clean rollouts are retained, deterministically graded, and passed through this canonical verifier. Infrastructure-failed attempts are excluded."
+  "canonical_statistics": {
+    "completed_reviews": 2,
+    "pending_reviews": 6,
+    "mean_reward_over_completed_reviews": 0.37102137599677176,
+    "population_variance_over_completed_reviews": 0.002820534077779573,
+    "production_pass_rate_over_completed_reviews": 0.0,
+    "final_campaign_statistics_available": false
+  },
+  "provenance_policy": "All eight frozen submissions and original grades are retained. Task v0.2.2 deterministically reran Ngspice for the same submissions with the corrected hidden output-load fixture. Agent trajectories were not rerun because the model-visible contract, available tools, and task execution were unchanged.",
+  "campaign_note": "All eight authorized clean Grok 4.6 trajectories are retained and deterministically regraded. Six canonical GPT-5.6 Terra reviews remain pending because no OPENAI_API_KEY credential is available in this process; this is post-hoc grading infrastructure status and does not invalidate the trajectories."
 }

@@ -1,0 +1,19 @@
+{
+    "task": {
+        "path": "4.6 tasks/sample-1-transistor-level-tia/hard"
+    },
+    "trial_name": "hard__h5A2zF2",
+    "trials_dir": "jobs/tia-path3-grok46-extension-five-20260821",
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.6",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "job_id": "f4f5465c-3fe7-4274-aa1a-8924ce271700"
+}

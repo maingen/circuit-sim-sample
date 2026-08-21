@@ -1,0 +1,19 @@
+{
+    "task": {
+        "path": "4.6 tasks/sample-1-transistor-level-tia/hard"
+    },
+    "trial_name": "hard__W9kdAs7",
+    "trials_dir": "jobs/tia-path3-grok46-infra-replacement-one-f-20260821",
+    "agent": {
+        "name": "grok-build",
+        "model_name": "grok-4.6",
+        "kwargs": {
+            "version": "0.2.118",
+            "reasoning_effort": "high"
+        },
+        "env": {
+            "XAI_API_KEY": "${XAI_API_KEY}"
+        }
+    },
+    "job_id": "daca0720-ea58-4dc5-b86d-4927ad746ebe"
+}

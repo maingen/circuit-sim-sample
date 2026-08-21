@@ -1,0 +1,225 @@
+Transistor-level TIA private fixture
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerMOShv.lib" mos_tt
+.lib "/opt/ihp-open-pdk/ihp-sg13g2/libs.tech/ngspice/models/cornerHBT.lib" hbt_typ
+.options method=gear maxord=2 reltol=1e-3 abstol=1e-12 vntol=1e-6 itl4=500 rshunt=1e12
+R_TB_BUF_LOAD outp outn 100
+* IHP SG13G2 25-Gbaud differential optical-receiver front end
+
+* ---------------------------------------------------------------------
+* Bias
+* ---------------------------------------------------------------------
+Rnr vcc nref 3.60k
+XMnr nref nref 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=1
+Cnr nref 0 4p
+
+Rbb1 vcc bcb 1.066k
+Rbb2 bcb 0 1.000k
+Cbcb bcb 0 20p
+
+Rca1 vcc bcas 5.60k
+Rca2 bcas 0 10.1k
+Ccas bcas 0 4p
+
+Rht vcc href 1.05k
+XQhref href href 0 0 npn13G2 Nx=4 selft=0
+Chref href 0 4p
+
+Rvb1 vcc vbias 5.40k
+Rvb2 vbias 0 6.90k
+Cvbias vbias 0 4p
+
+* class-C rectifier base bias ~ 0.704 V
+Rpd1 vcc vpd 12.27k
+Rpd2 vpd 0 3.33k
+Cvpd vpd 0 2p
+
+* ---------------------------------------------------------------------
+* TIA P : common-base + cascode + DC-overload cancellation
+* ---------------------------------------------------------------------
+XQcbp cbp bcb inp 0 npn13G2 Nx=6 selft=0
+XQcsp tiap bcas cbp 0 npn13G2 Nx=4 selft=0
+Lcp vcc ntp 0.24n
+Rcp ntp tiap 186
+XMtp inp gtp 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=4
+Rdc1p tiap gtp 75k
+Rdc2p gtp 0 56k
+Cgtp gtp 0 12n
+
+XQef0p vcc tiap efp 0 npn13G2 Nx=4 selft=0
+XMef0p efp nref 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+
+* ---------------------------------------------------------------------
+* TIA N
+* ---------------------------------------------------------------------
+XQcbn cbn bcb inn 0 npn13G2 Nx=6 selft=0
+XQcsn tian bcas cbn 0 npn13G2 Nx=4 selft=0
+Lcn vcc ntn 0.24n
+Rcn ntn tian 186
+XMtn inn gtn 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=4
+Rdc1n tian gtn 75k
+Rdc2n gtn 0 56k
+Cgtn gtn 0 12n
+
+XQef0n vcc tian efn 0 npn13G2 Nx=4 selft=0
+XMef0n efn nref 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+
+Cac1p efp vg1p 800p
+Cac1n efn vg1n 800p
+Rbg1p vg1p vbias 2.2k
+Rbg1n vg1n vbias 2.2k
+
+* ---------------------------------------------------------------------
+* VGA 1 : fixed HBT tail + gc MOS extra tail
+* ---------------------------------------------------------------------
+XQv1p nv1p vg1p ev1t 0 npn13G2 Nx=6 selft=0
+XQv1n nv1n vg1n ev1t 0 npn13G2 Nx=6 selft=0
+XQv1f ev1t href 0 0 npn13G2 Nx=4 selft=0
+XMv1g ev1t gc 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=2
+Lv1p vcc nlv1p 0.09n
+Lv1n vcc nlv1n 0.09n
+Rv1p nlv1p nv1p 40.0
+Rv1n nlv1n nv1n 40.0
+
+XQef1p vcc nv1p ef1p 0 npn13G2 Nx=4 selft=0
+XQef1n vcc nv1n ef1n 0 npn13G2 Nx=4 selft=0
+XMef1p ef1p nref 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+XMef1n ef1n nref 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+
+Rpkp ef1p pkdinp 600
+Rpkn ef1n pkdinn 600
+
+Cac2p ef1p vg2p 400p
+Cac2n ef1n vg2n 400p
+Rbg2p vg2p vbias 2.2k
+Rbg2n vg2n vbias 2.2k
+
+* ---------------------------------------------------------------------
+* VGA 2
+* ---------------------------------------------------------------------
+XQv2p nv2p vg2p ev2t 0 npn13G2 Nx=6 selft=0
+XQv2n nv2n vg2n ev2t 0 npn13G2 Nx=6 selft=0
+XQv2f ev2t href 0 0 npn13G2 Nx=4 selft=0
+XMv2g ev2t gc 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=2
+Lv2p vcc nlv2p 0.09n
+Lv2n vcc nlv2n 0.09n
+Rv2p nlv2p nv2p 40.0
+Rv2n nlv2n nv2n 40.0
+
+XQef2p vcc nv2p nbufp 0 npn13G2 Nx=5 selft=0
+XQef2n vcc nv2n nbufn 0 npn13G2 Nx=5 selft=0
+XMef2p nbufp nref 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=2
+XMef2n nbufn nref 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=2
+Riso_bp nbufp bufinp 12
+Riso_bn nbufn bufinn 12
+
+* ---------------------------------------------------------------------
+* Output buffer
+* ---------------------------------------------------------------------
+XQbp outp bufinp ebp 0 npn13G2 Nx=10 selft=0
+XQbn outn bufinn ebn 0 npn13G2 Nx=10 selft=0
+Reb_p ebp ebt 15
+Reb_n ebn ebt 15
+XMbt ebt nref 0 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=32
+Lbp vcc nbp 0.10n
+Lbn vcc nbn 0.10n
+Rbp nbp outp 70
+Rbn nbn outn 70
+
+* Isolated LC delay out -> final (buffer test remains on outp/outn)
+Lf1p outp xf1p 0.38n
+Lf1n outn xf1n 0.38n
+Cf1p xf1p 0 10f
+Cf1n xf1n 0 10f
+Lf2p xf1p xf2p 0.38n
+Lf2n xf1n xf2n 0.38n
+Cf2p xf2p 0 10f
+Cf2n xf2n 0 10f
+Lf3p xf2p xf3p 0.38n
+Lf3n xf2n xf3n 0.38n
+Cf3p xf3p 0 10f
+Cf3n xf3n 0 10f
+Lf4p xf3p xf4p 0.38n
+Lf4n xf3n xf4n 0.38n
+Cf4p xf4p 0 10f
+Cf4n xf4n 0 10f
+Lf5p xf4p xf5p 0.38n
+Lf5n xf4n xf5n 0.38n
+Cf5p xf5p 0 10f
+Cf5n xf5n 0 10f
+Lf6p xf5p xf6p 0.38n
+Lf6n xf5n xf6n 0.38n
+Cf6p xf6p 0 10f
+Cf6n xf6n 0 10f
+Lf7p xf6p xf7p 0.38n
+Lf7n xf6n xf7n 0.38n
+Cf7p xf7p 0 10f
+Cf7n xf7n 0 10f
+Lf8p xf7p finalp 0.38n
+Lf8n xf7n finaln 0.38n
+Cf8p finalp 0 10f
+Cf8n finaln 0 10f
+
+Rburn vcc 0 148
+
+* ---------------------------------------------------------------------
+* Peak detector : AC-coupled class-C rectifier, collector-load output
+* ---------------------------------------------------------------------
+Crecp pkdinp brecp 0.60p
+Crecn pkdinn brecn 0.60p
+Rrecp brecp vpd 3.3k
+Rrecn brecn vpd 3.3k
+
+XQor1 detn brecp eor 0 npn13G2 Nx=2 selft=0
+XQor2 detn brecn eor 0 npn13G2 Nx=2 selft=0
+Reor eor 0 480
+Ceor eor 0 10f
+Rpdn vcc detn 12.4k
+Cdetn detn 0 18f
+
+XQrf1 detp vpd eref 0 npn13G2 Nx=2 selft=0
+XQrf2 detp vpd eref 0 npn13G2 Nx=2 selft=0
+Reref eref 0 480
+Ceref eref 0 10f
+Rpdp vcc detp 12.4k
+Cdetp detp 0 18f
+
+* ---------------------------------------------------------------------
+* AGC amplifier : AC-coupled degenerated HBT pair, Av ~ 15
+* ---------------------------------------------------------------------
+Cagip detp agip 80p
+Cagin detn agin 80p
+Ragbp agip vbias 80k
+Ragbn agin vbias 80k
+
+XQagp dumagc agip eagp 0 npn13G2 Nx=2 selft=0
+XQagn agcnet agin eagn 0 npn13G2 Nx=2 selft=0
+Rdegp eagp oas 18.6
+Rdegn eagn oas 18.6
+XMagt oas oa 0 0 sg13_hv_nmos w=8u l=0.45u ng=1 m=2
+Ragp vcc dumagc 3.23k
+Ragn vcc agcnet 3.23k
+Cag1 agcnet 0 25f
+Ragser agcnet agc 10
+Cagc agc 0 25f
+
+* ---------------------------------------------------------------------
+* Manual / automatic gain selection
+* ---------------------------------------------------------------------
+XMman gc mc mgc vcc sg13_hv_pmos w=10u l=0.4u ng=1 m=24
+XMauto gc mc agc 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=24
+Cgc gc 0 25f
+
+V_TB_VCC vcc 0 3.3
+V_TB_MC mc 0 0
+V_TB_MGC mgc 0 1.3
+V_TB_OA oa 0 1.2
+I_TB_P 0 inp DC 0 AC 1
+I_TB_N inn 0 DC 0 AC 1
+.control
+set wr_vecnames
+set wr_singlescale
+ac dec 100 1Meg 100G
+wrdata ac.dat v(finalp,finaln)
+quit
+.endc
+.end
