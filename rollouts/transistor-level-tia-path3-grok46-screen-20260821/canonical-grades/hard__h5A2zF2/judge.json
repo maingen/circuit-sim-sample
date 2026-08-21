@@ -1,0 +1,79 @@
+{
+  "sections": {
+    "input_tia_dc_cancellation": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "rf_gain_stages": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "output_buffer": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "peak_detector": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "agc_and_selector": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Caga",
+            "Cagb",
+            "Ragbp",
+            "Ragbn",
+            "XQagp",
+            "XQagn",
+            "XQagef",
+            "XMagef"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "agc_bp",
+            "agc_bn",
+            "vref13",
+            "agc_cp",
+            "agc"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "The detector-to-AGC inputs are exclusively AC coupled by Caga and Cagb. At the detector's rectified/averaged DC error output, these capacitors are open, while Ragbp and Ragbn force both AGC input bases to vref13. Consequently the active differential pair and follower establish only a quiescent agc value independent of the detector amplitude; no DC detector-error control path exists to drive automatic gain control. The reported zero AGC gain is consistent with this disconnection. The transmission-gate selector is electrically valid, but it merely selects this nonresponsive agc node in automatic mode."
+        }
+      ]
+    },
+    "complete_receiver": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Caga",
+            "Cagb",
+            "Ragbp",
+            "Ragbn",
+            "XQagp",
+            "XQagn",
+            "XQagef",
+            "XMagef",
+            "XMngc",
+            "XMpgc2"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "agc_bp",
+            "agc_bn",
+            "vref13",
+            "agc",
+            "gc"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "Although the forward TIA-to-output chain is connected, the required automatic control path is not physically coherent for the detector's averaged output: Caga and Cagb block the detector DC response and Ragbp/Ragbn rebias both AGC inputs to vref13. Thus agc cannot convey detector amplitude to the automatic selector devices XMngc/XMpgc2 and gc, leaving the detector/AGC feedback portion of the claimed complete receiver functionally disconnected."
+        }
+      ]
+    }
+  },
+  "summary": "The input TIA/cancellation, two gc-controlled RF stages, active output buffer, and active detector are genuinely implemented and connected. The AGC amplifier lacks a DC path from the rectified detector outputs, so automatic detector-based gain control and therefore the full closed receiver control path are not implemented."
+}

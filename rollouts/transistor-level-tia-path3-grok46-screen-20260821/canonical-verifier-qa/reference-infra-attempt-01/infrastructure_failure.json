@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "outcome": "judge_infrastructure_failure",
+  "error_type": "JudgeInfrastructureError",
+  "error": "OPENAI_API_KEY is unavailable",
+  "started_at": "2026-08-21T16:49:34.177325+00:00",
+  "finished_at": "2026-08-21T16:49:34.177822+00:00",
+  "requested_model": "gpt-5.6-terra",
+  "reasoning_effort": "high",
+  "hashes": {
+    "candidate_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
+    "static_details_sha256": "160b005179aa0d6372377e8d7d4eae8ed8e485526f5e252730c00e5388a22c90",
+    "instruction_sha256": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
+    "reference_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
+    "ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a",
+    "judge_prompt_sha256": "f6728fb219538344f03ecbccfba9fa0d450e2e0f7fe8be8dc340187ab1257eac",
+    "review_packet_sha256": "beab2bf931bead29ee14bbc94a411a5bd61213a0a175c9d128b63eb14f1bc4c9"
+  }
+}

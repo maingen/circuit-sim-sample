@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "task": "maingen/transistor-level-tia",
+  "judge_model": "gpt-5.6-terra",
+  "reasoning_effort": "high",
+  "sections": [
+    {
+      "section_id": "input_tia_dc_cancellation",
+      "name": "Input TIA and DC-overload cancellation",
+      "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+      "expected_role": "Convert the differential photodiode current into voltage while establishing the input common mode and cancelling large DC photocurrent without bypassing the RF signal path.",
+      "owned_criteria": ["C01", "C02", "C13", "C14"]
+    },
+    {
+      "section_id": "rf_gain_stages",
+      "name": "Two gain-controlled RF stages",
+      "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+      "expected_role": "Provide two genuine RF gain stages whose signal path and gain-control devices respond coherently to gc across the disclosed mgc settings.",
+      "owned_criteria": ["C06", "C07", "C08", "C09", "C10", "C11", "C12"]
+    },
+    {
+      "section_id": "output_buffer",
+      "name": "Differential output buffer",
+      "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+      "expected_role": "Buffer a differential RF input into the required load through a coherent active differential stage rather than direct feedthrough or a passive substitute.",
+      "owned_criteria": ["C16", "C17", "C18"]
+    },
+    {
+      "section_id": "peak_detector",
+      "name": "Peak detector",
+      "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+      "expected_role": "Rectify or otherwise detect differential RF amplitude through a genuine active detector with usable charge, discharge, bias, and output paths.",
+      "owned_criteria": ["C19", "C20", "C21"]
+    },
+    {
+      "section_id": "agc_and_selector",
+      "name": "AGC amplifier and manual or automatic selector",
+      "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+      "expected_role": "Amplify detector error through an active AGC stage and use a genuine complementary or otherwise electrically valid selector that does not short control sources together.",
+      "owned_criteria": ["C22", "C23", "C24", "C25"]
+    },
+    {
+      "section_id": "complete_receiver",
+      "name": "Complete connected receiver signal path",
+      "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+      "expected_role": "Connect the required active blocks into one physically coherent receiver from inp and inn to finalp and finaln, with valid bias and supply paths and no bypass that makes disconnected decorative blocks appear functional.",
+      "owned_criteria": ["C03", "C04", "C05", "C15", "C26", "C27", "C28"]
+    }
+  ],
+  "criteria": [
+    {"criterion_id": "C01", "test": "nominal-op", "name": "input common mode", "section_id": "input_tia_dc_cancellation"},
+    {"criterion_id": "C02", "test": "nominal-op", "name": "input voltage mismatch", "section_id": "input_tia_dc_cancellation"},
+    {"criterion_id": "C03", "test": "nominal-op", "name": "output common mode", "section_id": "complete_receiver"},
+    {"criterion_id": "C04", "test": "nominal-op", "name": "differential output offset", "section_id": "complete_receiver"},
+    {"criterion_id": "C05", "test": "nominal-op", "name": "supply power", "section_id": "complete_receiver"},
+    {"criterion_id": "C06", "test": "ac-mgc-1.25", "name": "minimum-setting transimpedance at 10 MHz", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C07", "test": "ac-mgc-1.40", "name": "maximum-setting transimpedance at 10 MHz", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C08", "test": "ac-sweep", "name": "gain tuning span", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C09", "test": "ac-sweep", "name": "monotonic gain tuning", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C10", "test": "ac-mgc-1.40", "name": "transimpedance at 33 GHz", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C11", "test": "ac-sweep", "name": "minimum 3 dB bandwidth", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C12", "test": "ac-mgc-1.40", "name": "group delay near 10 GHz", "section_id": "rf_gain_stages"},
+    {"criterion_id": "C13", "test": "dc-overload", "name": "maximum input voltage", "section_id": "input_tia_dc_cancellation"},
+    {"criterion_id": "C14", "test": "dc-overload", "name": "input voltage mismatch", "section_id": "input_tia_dc_cancellation"},
+    {"criterion_id": "C15", "test": "dc-overload", "name": "final differential offset", "section_id": "complete_receiver"},
+    {"criterion_id": "C16", "test": "buffer-445mVpp", "name": "output peak-to-peak", "section_id": "output_buffer"},
+    {"criterion_id": "C17", "test": "buffer-445mVpp", "name": "total harmonic distortion", "section_id": "output_buffer"},
+    {"criterion_id": "C18", "test": "buffer-735mVpp", "name": "output peak-to-peak", "section_id": "output_buffer"},
+    {"criterion_id": "C19", "test": "detector-50mVpp", "name": "average differential detector output", "section_id": "peak_detector"},
+    {"criterion_id": "C20", "test": "detector-550mVpp", "name": "average differential detector output", "section_id": "peak_detector"},
+    {"criterion_id": "C21", "test": "peak-detector", "name": "strictly monotonic detector response", "section_id": "peak_detector"},
+    {"criterion_id": "C22", "test": "agc-amplifier", "name": "AGC gain", "section_id": "agc_and_selector"},
+    {"criterion_id": "C23", "test": "selector-manual-1.25", "name": "manual selector output", "section_id": "agc_and_selector"},
+    {"criterion_id": "C24", "test": "selector-manual-1.40", "name": "manual selector output", "section_id": "agc_and_selector"},
+    {"criterion_id": "C25", "test": "selector-agc", "name": "AGC selector output", "section_id": "agc_and_selector"},
+    {"criterion_id": "C26", "test": "pam4-eye", "name": "differential output peak-to-peak", "section_id": "complete_receiver"},
+    {"criterion_id": "C27", "test": "pam4-eye", "name": "minimum vertical eye opening", "section_id": "complete_receiver"},
+    {"criterion_id": "C28", "test": "pam4-eye", "name": "three positive eye openings", "section_id": "complete_receiver"}
+  ]
+}

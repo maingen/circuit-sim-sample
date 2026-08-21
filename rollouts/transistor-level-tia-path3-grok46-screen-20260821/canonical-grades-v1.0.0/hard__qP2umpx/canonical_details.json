@@ -1,0 +1,532 @@
+{
+  "schema_version": "1.0",
+  "canonical_verifier_version": "1.0.0",
+  "outcome": "judge_sections_failed",
+  "artifact_evaluable": true,
+  "production_pass": false,
+  "static_final_reward": 0.6785714285714286,
+  "section_gated_average": 0.32142857142857145,
+  "final_reward": 0.32142857142857145,
+  "failed_sections": [
+    "agc_and_selector",
+    "complete_receiver",
+    "peak_detector"
+  ],
+  "criteria_observed": 28,
+  "criteria_expected": 28,
+  "criteria": [
+    {
+      "criterion_id": "C01",
+      "section_id": "input_tia_dc_cancellation",
+      "test": "nominal-op",
+      "name": "input common mode",
+      "value": 0.7589835,
+      "target": 0.7594169,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C02",
+      "section_id": "input_tia_dc_cancellation",
+      "test": "nominal-op",
+      "name": "input voltage mismatch",
+      "value": 0.0,
+      "target": 0.001,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C03",
+      "section_id": "complete_receiver",
+      "test": "nominal-op",
+      "name": "output common mode",
+      "value": 2.727141,
+      "target": 2.780596,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C04",
+      "section_id": "complete_receiver",
+      "test": "nominal-op",
+      "name": "differential output offset",
+      "value": 0.0,
+      "target": 0.001,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C05",
+      "section_id": "complete_receiver",
+      "test": "nominal-op",
+      "name": "supply power",
+      "value": 0.22265495999999999,
+      "target": 0.21492339,
+      "unit": "W",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C06",
+      "section_id": "rf_gain_stages",
+      "test": "ac-mgc-1.25",
+      "name": "minimum-setting transimpedance at 10 MHz",
+      "value": 78.38076738986109,
+      "target": 72.2029053519,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C07",
+      "section_id": "rf_gain_stages",
+      "test": "ac-mgc-1.40",
+      "name": "maximum-setting transimpedance at 10 MHz",
+      "value": 80.08682374021373,
+      "target": 73.9351737803,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C08",
+      "section_id": "rf_gain_stages",
+      "test": "ac-sweep",
+      "name": "gain tuning span",
+      "value": 1.7060563503526396,
+      "target": 1.73226842839,
+      "unit": "dB",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C09",
+      "section_id": "rf_gain_stages",
+      "test": "ac-sweep",
+      "name": "monotonic gain tuning",
+      "value": true,
+      "target": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C10",
+      "section_id": "rf_gain_stages",
+      "test": "ac-mgc-1.40",
+      "name": "transimpedance at 33 GHz",
+      "value": 78.38646979487537,
+      "target": 71.6908648136,
+      "unit": "dB ohm",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C11",
+      "section_id": "rf_gain_stages",
+      "test": "ac-sweep",
+      "name": "minimum 3 dB bandwidth",
+      "value": 34772463805.069534,
+      "target": 33542786274.7,
+      "unit": "Hz",
+      "criterion_type": "minimum",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C12",
+      "section_id": "rf_gain_stages",
+      "test": "ac-mgc-1.40",
+      "name": "group delay near 10 GHz",
+      "value": 2.6528792122979712e-11,
+      "target": 2.76160433616e-11,
+      "unit": "s",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C13",
+      "section_id": "input_tia_dc_cancellation",
+      "test": "dc-overload",
+      "name": "maximum input voltage",
+      "value": 0.7591167,
+      "target": 0.804151,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C14",
+      "section_id": "input_tia_dc_cancellation",
+      "test": "dc-overload",
+      "name": "input voltage mismatch",
+      "value": 3.2999999999949736e-05,
+      "target": 0.0079673,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C15",
+      "section_id": "complete_receiver",
+      "test": "dc-overload",
+      "name": "final differential offset",
+      "value": 0.0,
+      "target": 0.001,
+      "unit": "V",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C16",
+      "section_id": "output_buffer",
+      "test": "buffer-445mVpp",
+      "name": "output peak-to-peak",
+      "value": 1.32544964,
+      "target": 0.59669911,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C17",
+      "section_id": "output_buffer",
+      "test": "buffer-445mVpp",
+      "name": "total harmonic distortion",
+      "value": 0.4868703769024963,
+      "target": 0.504279497689,
+      "unit": "percent",
+      "criterion_type": "maximum",
+      "static_reward": 1.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 1.0
+    },
+    {
+      "criterion_id": "C18",
+      "section_id": "output_buffer",
+      "test": "buffer-735mVpp",
+      "name": "output peak-to-peak",
+      "value": 2.07957282,
+      "target": 0.92735165,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "pass",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C19",
+      "section_id": "peak_detector",
+      "test": "detector-50mVpp",
+      "name": "average differential detector output",
+      "value": 0.00011244936741767526,
+      "target": 0.025497691517,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C20",
+      "section_id": "peak_detector",
+      "test": "detector-550mVpp",
+      "name": "average differential detector output",
+      "value": 0.003522581548872184,
+      "target": 0.526871142475,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C21",
+      "section_id": "peak_detector",
+      "test": "peak-detector",
+      "name": "strictly monotonic detector response",
+      "value": true,
+      "target": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C22",
+      "section_id": "agc_and_selector",
+      "test": "agc-amplifier",
+      "name": "AGC gain",
+      "value": 0.0,
+      "target": 15.0311933333,
+      "unit": "V/V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C23",
+      "section_id": "agc_and_selector",
+      "test": "selector-manual-1.25",
+      "name": "manual selector output",
+      "value": 1.25,
+      "target": 1.249926,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C24",
+      "section_id": "agc_and_selector",
+      "test": "selector-manual-1.40",
+      "name": "manual selector output",
+      "value": 1.4,
+      "target": 1.399912,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C25",
+      "section_id": "agc_and_selector",
+      "test": "selector-agc",
+      "name": "AGC selector output",
+      "value": 1.3,
+      "target": 1.299921,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C26",
+      "section_id": "complete_receiver",
+      "test": "pam4-eye",
+      "name": "differential output peak-to-peak",
+      "value": 2.0736604599999997,
+      "target": 1.01955731,
+      "unit": "V",
+      "criterion_type": "central",
+      "static_reward": 0.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C27",
+      "section_id": "complete_receiver",
+      "test": "pam4-eye",
+      "name": "minimum vertical eye opening",
+      "value": 0.24178260430000617,
+      "target": 0.143565080137,
+      "unit": "V",
+      "criterion_type": "minimum",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    },
+    {
+      "criterion_id": "C28",
+      "section_id": "complete_receiver",
+      "test": "pam4-eye",
+      "name": "three positive eye openings",
+      "value": true,
+      "target": true,
+      "unit": "boolean",
+      "criterion_type": "boolean",
+      "static_reward": 1.0,
+      "judge_verdict": "fail",
+      "canonical_reward": 0.0
+    }
+  ],
+  "judge": {
+    "sections": {
+      "input_tia_dc_cancellation": {
+        "verdict": "pass",
+        "findings": []
+      },
+      "rf_gain_stages": {
+        "verdict": "pass",
+        "findings": []
+      },
+      "output_buffer": {
+        "verdict": "pass",
+        "findings": []
+      },
+      "peak_detector": {
+        "verdict": "fail",
+        "findings": [
+          {
+            "elements": [
+              "Xqpd_lp",
+              "Xqpd_ep",
+              "Xqpd_ln",
+              "Xqpd_en",
+              "Cpd_lp",
+              "Cpd_ep",
+              "Cpd_ln",
+              "Cpd_en",
+              "Rpd_cp",
+              "Rpd_cn"
+            ],
+            "nodes": [
+              "pkdinp",
+              "pkdinn",
+              "detp",
+              "detn"
+            ],
+            "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+            "electrical_reason": "The detector consists of two electrically symmetric, independent common-emitter rectifier banks: both detp collector devices are driven only from pkdinp and both detn collector devices only from pkdinn. Equal-amplitude opposite-phase differential inputs therefore produce equal rectified averages on detp and detn, which cancel in the required differential output. There is no cross-coupled rectification, differential comparison, or other mechanism to convert differential RF amplitude into a usable detp-minus-detn signal."
+          }
+        ]
+      },
+      "agc_and_selector": {
+        "verdict": "fail",
+        "findings": [
+          {
+            "elements": [
+              "Xagp",
+              "Xagn",
+              "Xagt",
+              "Rag_cp",
+              "Rag_cn",
+              "Rag_rh",
+              "Rag_rl"
+            ],
+            "nodes": [
+              "detp",
+              "detn",
+              "oa",
+              "ag_ref",
+              "agc",
+              "agt",
+              "ncp"
+            ],
+            "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+            "electrical_reason": "The active AGC pair senses oa and ag_ref, with outputs ncp and agc; neither detp nor detn has any electrical connection to this amplifier or to an AGC error-summing network. Thus this stage cannot amplify detector error or close an amplitude-control loop. The transmission-gate selector is connected, but its automatic input is not a detector-derived AGC signal."
+          }
+        ]
+      },
+      "complete_receiver": {
+        "verdict": "fail",
+        "findings": [
+          {
+            "elements": [
+              "Xqpd_lp",
+              "Xqpd_ep",
+              "Xqpd_ln",
+              "Xqpd_en",
+              "Xagp",
+              "Xagn",
+              "Xagt",
+              "Xaut_n",
+              "Xaut_p"
+            ],
+            "nodes": [
+              "detp",
+              "detn",
+              "oa",
+              "ag_ref",
+              "agc",
+              "gc"
+            ],
+            "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+            "electrical_reason": "Although the forward TIA-to-buffer path is present and agc is routed through the automatic selector to gc, the detector outputs detp and detn are disconnected from the AGC amplifier. Consequently the required detector-to-AGC-to-gc feedback path does not exist; the automatic gain setting is instead determined by oa versus ag_ref."
+          },
+          {
+            "elements": [
+              "Ralias_p",
+              "Ralias_n"
+            ],
+            "nodes": [
+              "outp",
+              "outn",
+              "finalp",
+              "finaln"
+            ],
+            "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+            "electrical_reason": "finalp and finaln are attached to the actual buffer collector outputs only through 1 Mohm series resistors. This leaves the declared final outputs effectively floating and unable to drive a meaningful RF/output load; they act only as unloaded high-impedance aliases rather than as a physically usable buffered receiver output connection."
+          }
+        ]
+      }
+    },
+    "summary": "The input TIA branches, two gc-controlled RF stages, and active differential buffer are coherently implemented. The detector topology cannot generate a substantive differential envelope from a balanced differential RF signal, and its outputs are not connected to the AGC amplifier. The resulting detector-to-AGC feedback loop is absent, while final outputs are only weakly alias-connected to the buffer."
+  },
+  "provenance": {
+    "schema_version": "1.0",
+    "canonical_verifier_version": "1.0.0",
+    "trial_id": "hard__qP2umpx",
+    "started_at": "2026-08-21T16:50:19.254584+00:00",
+    "finished_at": "2026-08-21T16:51:12.726108+00:00",
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "api": {
+      "response_id": "resp_00e7d1698bfd1e77016a8881cbe5d087d0a0dfbcbf607ec6e7",
+      "returned_model": "gpt-5.6-terra",
+      "created_at": 1787331019.0,
+      "status": "completed",
+      "usage": {
+        "input_tokens": 18773,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 18770
+        },
+        "output_tokens": 3721,
+        "output_tokens_details": {
+          "reasoning_tokens": 2854
+        },
+        "total_tokens": 22494
+      }
+    },
+    "hashes": {
+      "candidate_sha256": "e5cb8b053fc60df42fd0c626c8d67603d07f7f6a70123c039d4538b397913c1a",
+      "static_details_sha256": "860ebf0db05c52e7ce6a48e4bd5608142d88124864c1ac814e4eab875cd7f1c9",
+      "instruction_sha256": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
+      "reference_sha256": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f",
+      "ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a",
+      "judge_prompt_sha256": "f6728fb219538344f03ecbccfba9fa0d450e2e0f7fe8be8dc340187ab1257eac",
+      "review_packet_sha256": "3373bb8243abcc45beb4ef943643e33d567a6b2bacbe91295f8a522a5862696c"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "campaign": "transistor-level-tia-path3-grok46-screen-20260821",
+  "frozen_at": "2026-08-21T11:12:58Z",
+  "task_path": "4.6 tasks/sample-1-transistor-level-tia/hard",
+  "task_version": "0.2.1",
+  "task_commit": "01923fc5ac4a674fbe755591fa8c620429c72c27",
+  "task_tree": "06e995fcf1c3d2ba5743b0060ae22c913abfd06e",
+  "model": "grok-4.6",
+  "agent": "grok-build",
+  "grok_build_version": "0.2.118",
+  "reasoning_effort_requested": "high",
+  "reasoning_effort_effective": "model-native fixed effort",
+  "reasoning_effort_note": "Grok Build 0.2.118 reports that grok-4.6 does not support the reasoning-effort option and ignores it consistently for all attempts.",
+  "authorized_attempts": 8,
+  "campaign_parts": [
+    {
+      "job_name": "tia-path3-grok46-screen-20260821",
+      "attempts": 3,
+      "concurrency": 3
+    },
+    {
+      "job_name": "tia-path3-grok46-extension-five-20260821",
+      "attempts": 5,
+      "concurrency": 5,
+      "authorization": "User authorized the five-run extension while the three-run screen was active."
+    }
+  ],
+  "agent_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-agent@sha256:2c12477a12f315e39d1c0ff90049a3ef519c6d216324449101587ce98bcaa019",
+  "verifier_image": "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917",
+  "sha256": {
+    "instruction.md": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
+    "task.toml": "3879fee370a40258363330e14074f319b1d51c55520ccc5b1bc6dafb1c42fd76",
+    "tests/evaluator.py": "22d6c8119f3102eb83999baa0d6d9f362fac0eabf6c3cec354775de40f26da89",
+    "environment/Dockerfile": "414d0caef6c805807634923b0bb61a3f4fd3531c2c58bc33700f55c25c650242",
+    "tests/Dockerfile": "581b5400063bc644b92ee495378007972bd297cc3ae54ff050459dc991c03518",
+    "solution/reference.cir": "eedb5a019bf4680d15d740fd5067362fe8eef7198a20c8fc96845d29326de51f"
+  },
+  "prose_qa": {
+    "pangram_result": "flagged_ai_generated",
+    "user_accepted_for_task_set": true
+  }
+}

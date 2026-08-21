@@ -1,0 +1,113 @@
+{
+  "sections": {
+    "input_tia_dc_cancellation": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "rf_gain_stages": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "output_buffer": {
+      "verdict": "pass",
+      "findings": []
+    },
+    "peak_detector": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Xqpd_lp",
+            "Xqpd_ep",
+            "Xqpd_ln",
+            "Xqpd_en",
+            "Cpd_lp",
+            "Cpd_ep",
+            "Cpd_ln",
+            "Cpd_en",
+            "Rpd_cp",
+            "Rpd_cn"
+          ],
+          "nodes": [
+            "pkdinp",
+            "pkdinn",
+            "detp",
+            "detn"
+          ],
+          "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+          "electrical_reason": "The detector consists of two electrically symmetric, independent common-emitter rectifier banks: both detp collector devices are driven only from pkdinp and both detn collector devices only from pkdinn. Equal-amplitude opposite-phase differential inputs therefore produce equal rectified averages on detp and detn, which cancel in the required differential output. There is no cross-coupled rectification, differential comparison, or other mechanism to convert differential RF amplitude into a usable detp-minus-detn signal."
+        }
+      ]
+    },
+    "agc_and_selector": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Xagp",
+            "Xagn",
+            "Xagt",
+            "Rag_cp",
+            "Rag_cn",
+            "Rag_rh",
+            "Rag_rl"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "oa",
+            "ag_ref",
+            "agc",
+            "agt",
+            "ncp"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "The active AGC pair senses oa and ag_ref, with outputs ncp and agc; neither detp nor detn has any electrical connection to this amplifier or to an AGC error-summing network. Thus this stage cannot amplify detector error or close an amplitude-control loop. The transmission-gate selector is connected, but its automatic input is not a detector-derived AGC signal."
+        }
+      ]
+    },
+    "complete_receiver": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Xqpd_lp",
+            "Xqpd_ep",
+            "Xqpd_ln",
+            "Xqpd_en",
+            "Xagp",
+            "Xagn",
+            "Xagt",
+            "Xaut_n",
+            "Xaut_p"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "oa",
+            "ag_ref",
+            "agc",
+            "gc"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "Although the forward TIA-to-buffer path is present and agc is routed through the automatic selector to gc, the detector outputs detp and detn are disconnected from the AGC amplifier. Consequently the required detector-to-AGC-to-gc feedback path does not exist; the automatic gain setting is instead determined by oa versus ag_ref."
+        },
+        {
+          "elements": [
+            "Ralias_p",
+            "Ralias_n"
+          ],
+          "nodes": [
+            "outp",
+            "outn",
+            "finalp",
+            "finaln"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "finalp and finaln are attached to the actual buffer collector outputs only through 1 Mohm series resistors. This leaves the declared final outputs effectively floating and unable to drive a meaningful RF/output load; they act only as unloaded high-impedance aliases rather than as a physically usable buffered receiver output connection."
+        }
+      ]
+    }
+  },
+  "summary": "The input TIA branches, two gc-controlled RF stages, and active differential buffer are coherently implemented. The detector topology cannot generate a substantive differential envelope from a balanced differential RF signal, and its outputs are not connected to the AGC amplifier. The resulting detector-to-AGC feedback loop is absent, while final outputs are only weakly alias-connected to the buffer."
+}
