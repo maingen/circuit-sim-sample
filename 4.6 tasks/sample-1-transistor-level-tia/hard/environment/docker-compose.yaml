@@ -1,10 +1,8 @@
 services:
   main:
     platform: linux/amd64
-    image: eesimbench/transistor-level-tia-agent:local
-    build:
-      context: ..
-      dockerfile: environment/Dockerfile
+    image: 493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-agent@sha256:2c12477a12f315e39d1c0ff90049a3ef519c6d216324449101587ce98bcaa019
+    pull_policy: always
     command: ["sleep", "infinity"]
     cap_drop: [ALL]
     cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]

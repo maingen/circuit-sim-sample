@@ -3,7 +3,7 @@ artifacts = ["/app/candidate.cir"]
 
 [task]
 name = "maingen/transistor-level-tia"
-version = "0.2.0"
+version = "0.2.1"
 description = "Design a complete 3.3 V transistor-level differential TIA with dual VGAs, output buffer, Gilbert peak detector, and AGC."
 keywords = ["electrical-engineering", "spice", "ngspice", "analog", "tia", "vga", "agc", "bjt", "mosfet"]
 
@@ -30,11 +30,11 @@ network_mode = "no-network"
 [verifier.environment]
 network_mode = "no-network"
 build_timeout_sec = 86400.0
-docker_image = "eesimbench/transistor-level-tia-verifier:local"
+docker_image = "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917"
 os = "linux"
 
 [environment]
 network_mode = "public"
 build_timeout_sec = 86400.0
-docker_image = "eesimbench/transistor-level-tia-agent:local"
+docker_image = "493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-agent@sha256:2c12477a12f315e39d1c0ff90049a3ef519c6d216324449101587ce98bcaa019"
 os = "linux"

@@ -1,10 +1,8 @@
 services:
   main:
     platform: linux/amd64
-    image: eesimbench/transistor-level-tia-verifier:local
-    build:
-      context: ..
-      dockerfile: tests/Dockerfile
+    image: 493565080580.dkr.ecr.us-east-1.amazonaws.com/eesimbench/transistor-level-tia-path3-verifier@sha256:246cefe1a5d26210aff31335c36f9d5f21a4b04346825cb10dbb980fa8247917
+    pull_policy: always
     user: root
     command: ["sleep", "infinity"]
     tmpfs:

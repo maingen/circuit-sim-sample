@@ -51,7 +51,7 @@ def main() -> None:
 
     task = (PACKAGE / "task.toml").read_text()
     require('artifacts = ["/app/candidate.cir"]' in task, "artifact contract is wrong")
-    require('version = "0.2.0"' in task, "task version is not Path 3")
+    require('version = "0.2.1"' in task, "task version is not Path 3")
     require(IHP_REVISION in task, "task metadata omits the pinned IHP revision")
     require('network_mode = "no-network"' in task, "verifier network must be disabled")
 
