@@ -1,2 +1,0 @@
-* TODO: flattened transistor-level implementation for pll_synth_tx
-* Required named nodes: refclk div_reset pfd_reset lop lom vctrl_out probe_feedback vdd1 0

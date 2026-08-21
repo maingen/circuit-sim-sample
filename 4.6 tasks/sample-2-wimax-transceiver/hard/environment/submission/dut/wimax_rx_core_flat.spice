@@ -1,2 +1,0 @@
-* TODO: flattened transistor-level implementation for wimax_rx_core
-* Required named nodes: rfin lo2940p lo2940m lo465p lo465m outp outm vdd1 0

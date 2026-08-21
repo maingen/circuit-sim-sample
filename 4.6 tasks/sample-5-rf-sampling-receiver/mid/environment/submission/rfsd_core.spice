@@ -1,4 +1,0 @@
-* Replace this starter with a complete flattened physical circuit.
-.subckt RFSD_CORE IN LOP LON RESET VDD VSS IOUTP IOUTN QOUTP QOUTN ADCCLK ADCCLKB
-* No devices are provided.
-.ends RFSD_CORE

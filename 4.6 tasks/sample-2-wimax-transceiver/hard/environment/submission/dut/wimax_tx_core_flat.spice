@@ -1,2 +1,0 @@
-* TODO: flattened transistor-level implementation for wimax_tx_core
-* Required named nodes: bbp bbm lo465p lo465m lo3040p lo3040m rfout probe_pa_drain vdd1 vdd5 0

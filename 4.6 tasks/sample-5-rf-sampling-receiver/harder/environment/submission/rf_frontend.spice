@@ -1,4 +1,0 @@
-* Replace this starter with a complete flattened physical circuit.
-.subckt RF_FRONTEND ANT VDD VSS OUT
-* No devices are provided.
-.ends RF_FRONTEND

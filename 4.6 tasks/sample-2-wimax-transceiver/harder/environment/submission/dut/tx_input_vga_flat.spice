@@ -1,2 +1,0 @@
-* TODO: flattened transistor-level implementation for tx_input_vga
-* Required named nodes: inp inm outp outm gain vdd1 0

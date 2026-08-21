@@ -1,4 +1,0 @@
-* Replace this starter with a complete flattened physical circuit.
-.subckt ADC1BIT INP INN CLK CLKB VDD VSS BIT BITB
-* No devices are provided.
-.ends ADC1BIT
