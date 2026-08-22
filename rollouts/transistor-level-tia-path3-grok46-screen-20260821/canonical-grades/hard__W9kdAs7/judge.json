@@ -1,0 +1,231 @@
+{
+  "sections": {
+    "input_tia_dc_cancellation": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Xqin_p",
+            "Xqcas_p",
+            "Rc_p",
+            "Lrc_p",
+            "Xqef_p",
+            "Xmncan_p",
+            "Xmnota_tp",
+            "Xmnota_rp",
+            "Cint_p",
+            "Rint_p",
+            "Xqin_n",
+            "Xqcas_n",
+            "Rc_n",
+            "Lrc_n",
+            "Xqef_n",
+            "Xmncan_n",
+            "Xmnota_tn",
+            "Xmnota_rn",
+            "Cint_n",
+            "Rint_n"
+          ],
+          "nodes": [
+            "inp",
+            "inn",
+            "tia_p",
+            "tia_n",
+            "colm_p",
+            "colm_n",
+            "vcmref",
+            "oa"
+          ],
+          "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+          "electrical_reason": "Each polarity has an input HBT/cascode/load path from inp or inn through ncas_p/ncas_n and col_p/col_n to the emitter-follower outputs tia_p/tia_n. The slow cancellation loops compare each TIA output against vcmref through the MOS differential pairs, integrate at colm_p/colm_n using Cint and Rint, and drive Xmncan_p/Xmncan_n shunts at the respective input nodes. Thus excess DC input current has a transistor-controlled low-frequency cancellation path while the RF output is separately AC-coupled onward. Symmetric nominal and overload input measurements are consistent with both branches being connected and active."
+        }
+      ]
+    },
+    "rf_gain_stages": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Cac_p",
+            "Cac_n",
+            "Rbac_p",
+            "Rbac_n",
+            "Xqvg1p",
+            "Xqvg1n",
+            "Xmnvar1",
+            "Xqef1p",
+            "Xqef1n",
+            "Xqvg2p",
+            "Xqvg2n",
+            "Xmnvar2",
+            "Xqef2p",
+            "Xqef2n"
+          ],
+          "nodes": [
+            "tia_p",
+            "tia_n",
+            "vgain_p",
+            "vgain_n",
+            "ve1c",
+            "vg1p",
+            "vg1n",
+            "ve2c",
+            "bufinp",
+            "bufinn",
+            "gc"
+          ],
+          "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+          "electrical_reason": "The AC-coupled TIA voltages drive matched HBT gain devices in VGA1, whose collector loads and emitter followers drive the corresponding matched HBT devices in VGA2. Xmnvar1 and Xmnvar2 are genuine gc-controlled tail-current shunts at ve1c and ve2c, in parallel with fixed oa-biased tail devices, so gc electrically changes both stage operating currents and gain. The measured nonzero, monotonic 1.736 dB gain variation supports this connected control mechanism; the shortfalls in absolute gain and bandwidth are sizing/performance issues rather than a missing gain-stage path."
+        }
+      ]
+    },
+    "output_buffer": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Xqbp",
+            "Xqbn",
+            "Reop",
+            "Reon",
+            "Xmnbuf",
+            "Rlp",
+            "Rln",
+            "Llp",
+            "Lln",
+            "Rdp",
+            "Rdn",
+            "Clp",
+            "Cln"
+          ],
+          "nodes": [
+            "bufinp",
+            "bufinn",
+            "veop",
+            "veon",
+            "veoc",
+            "colb_p",
+            "colb_n",
+            "outp",
+            "outn"
+          ],
+          "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+          "electrical_reason": "Xqbp and Xqbn form the active differential HBT output pair from bufinp/bufinn. Their emitters are degenerated through Reop/Reon and share the oa-biased NMOS tail X mnbuf at veoc; their collector currents develop output voltages through Rlp/Rln and the L/R output networks into outp/outn. This is an active differential buffer rather than direct feedthrough. The measured low THD and finite driven output response confirm operation, while the amplitude deficiency does not make the active buffer structurally absent."
+        }
+      ]
+    },
+    "peak_detector": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Xqpd_ap",
+            "Xqpd_an",
+            "Xmnpd_t",
+            "Cgil_lp",
+            "Cgil_ln",
+            "Cgil_up",
+            "Cgil_un",
+            "Xqgl_p",
+            "Xqgl_n",
+            "Xmngil",
+            "Xqg_pp",
+            "Xqg_pn",
+            "Xqg_np",
+            "Xqg_nn",
+            "Rdetp",
+            "Rdetn",
+            "Cdetp",
+            "Cdetn"
+          ],
+          "nodes": [
+            "pkdinp",
+            "pkdinn",
+            "pdap",
+            "pdan",
+            "glo_p",
+            "glo_n",
+            "grf_p",
+            "grf_n",
+            "cgil_p",
+            "cgil_n",
+            "detp",
+            "detn"
+          ],
+          "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+          "electrical_reason": "The directly tested pkdinp/pkdinn ports drive an active HBT preamplifier with a MOS tail. Its differential RF collector signal is AC-coupled into both the local pair and the Gilbert switching-quad base drives. The quad steers current between detp and detn, where Rdetp/Rdetn provide charge/discharge paths and Cdetp/Cdetn provide output filtering. The measured strictly monotonic detector response confirms that this active detection path is responsive under its local test."
+        }
+      ]
+    },
+    "agc_and_selector": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Ragiso_p",
+            "Ragiso_n",
+            "Xqag_p",
+            "Xqag_n",
+            "Xmnag",
+            "Ragp",
+            "Ragd",
+            "Xqagef",
+            "Xmnagef",
+            "Ragc_s",
+            "Cagc",
+            "Xsw_man",
+            "Xsw_auto"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "aginp",
+            "aginn",
+            "agcpre",
+            "agcint",
+            "agc",
+            "gc",
+            "mgc",
+            "mc",
+            "oa"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "The detector outputs feed the bases of the active HBT differential amplifier Xqag_p/Xqag_n, with the oa-biased MOS tail Xmnag. Its collector output is buffered by the HBT follower Xqagef and MOS bias device Xmnagef before reaching agc through Ragc_s and Cagc. Xsw_man is a PMOS pass device from mgc to gc enabled at mc=0, while Xsw_auto is an NMOS pass device from agc to gc enabled at mc=3.3 V; the sources are not directly shorted together. The independent manual and forced-agc selector tests confirm the intended selection paths."
+        }
+      ]
+    },
+    "complete_receiver": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Riso_p",
+            "Riso_n",
+            "Xqpd_ap",
+            "Xqpd_an",
+            "Xqg_pp",
+            "Xqg_pn",
+            "Xqg_np",
+            "Xqg_nn",
+            "Ragiso_p",
+            "Ragiso_n",
+            "Xsw_auto"
+          ],
+          "nodes": [
+            "bufinp",
+            "bufinn",
+            "pkdinp",
+            "pkdinn",
+            "detp",
+            "detn",
+            "agc",
+            "gc"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "Although the forward RF path from the TIAs through the two VGAs and buffer to finalp/finaln is connected, the detector ports are connected back to bufinp/bufinn only through Riso_p and Riso_n, each 1.0 megohm. At the detector's 33.5 GHz operating domain, the preamplifier BJT input capacitances present a finite RF load, so these 1 Mohm series elements effectively isolate pkdinp/pkdinn from the receiver RF signal. Consequently the locally valid externally driven detector and the detector-to-agc amplifier cannot form a credible amplitude-responsive feedback loop to Xsw_auto/gc in the complete receiver. The PAM4 forward-path response therefore does not establish the required coherent detector/AGC integration."
+        }
+      ]
+    }
+  },
+  "summary": "The input TIA/cancellation, two gc-controlled RF stages, active output buffer, locally functional active detector, and AGC/selector are individually present. The complete receiver fails because megohm detector-tap resistors effectively block the required high-frequency signal path from the receiver to the detector, leaving the automatic AGC loop disconnected in practical electrical operation."
+}

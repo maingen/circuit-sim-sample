@@ -1,0 +1,739 @@
+{
+  "packet_schema_version": "1.0",
+  "trial_id": "hard__harCher",
+  "public_instructions": "# IHP SG13G2 25-Gbaud differential TIA\n\nCreate `/app/candidate.cir`, a flat Ngspice circuit for a complete 3.3 V differential optical-receiver front end. The circuit must contain two input TIA branches with DC-overload cancellation, two gain-controlled RF stages, a differential output buffer, a peak detector, an AGC amplifier, and manual/automatic gain selection.\n\nUse the installed IHP Open PDK SG13G2 models. The supported active-device subcircuits are `npn13G2`, `npn13G2v`, `sg13_hv_nmos`, and `sg13_hv_pmos`; use their documented terminal order and legal dimensions. Passive elements may be resistors, capacitors, or inductors. Do not replace an active block with a behavioral source, controlled source, built-in transistor model, or op-amp macromodel.\n\nThe submission must be a single flat circuit ending in `.end`. Do not add `.include`, `.lib`, analysis, measurement, control, file-access, parameter, function, or save directives. The verifier supplies the PDK corners, sources, and analyses. Independent sources may only represent the external supply/control/input fixtures; the verifier removes those before simulation.\n\n## Public interface\n\nThese node names are the circuit's external or block-test interface and must be present:\n\n- Name the supply and control nodes `vcc`, `mc`, `mgc`, and `oa`.\n- Name the photodiode inputs and receiver outputs `inp`, `inn`, `finalp`, and `finaln`.\n- Name the gain-control loop nodes `gc` and `agc`.\n- Name the output-buffer test nodes `bufinp`, `bufinn`, `outp`, and `outn`.\n- Name the peak-detector test nodes `pkdinp`, `pkdinn`, `detp`, and `detn`.\n\nAll other node names and every element name are your choice. Internal connectivity and simulated behavior are graded; internal spelling is not.\n\n## Operating conditions and targets\n\nUnless a test says otherwise, the fixture uses `vcc = 3.300 V`, `mc = 0 V`, `mgc = 1.400 V`, `oa = 1.200 V`, the typical HBT corner, and the typical high-voltage MOS corner. The values below are from the supplied Path 3 SG13G2 reference simulated with Ngspice 46. Central targets receive full credit within 5% normalized error; limits are one-sided.\n\nAt zero input current, the circuit must meet these targets:\n\n- The input common-mode target is `0.7594 V`.\n- The input mismatch must not exceed `1.000 mV`.\n- The final-output common-mode target is `2.781 V`.\n- The final differential offset must not exceed `1.000 mV`.\n- The total 3.3 V supply-power target is `0.2149 W`.\n\nFor AC analysis, the fixture applies equal-magnitude, opposite-polarity AC currents at `inp` and `inn` and sweeps 1 MHz to 100 GHz. Across `mgc = 1.250, 1.300, 1.350, 1.400 V`, the gain must increase monotonically. The circuit must also meet these targets:\n\n- The 10 MHz transimpedance target at `mgc = 1.250 V` is `72.20 dB-ohm`.\n- The 10 MHz transimpedance target at `mgc = 1.400 V` is `73.94 dB-ohm`.\n- The gain-control span target is `1.732 dB`.\n- The 33 GHz transimpedance target at maximum gain is `71.69 dB-ohm`.\n- The minimum 3 dB bandwidth over all four gain settings must be at least `33.54 GHz`.\n- The group-delay target near 10 GHz at maximum gain is `27.62 ps`.\n\nFor the DC-overload test, the fixture injects `500.0 uA` into `inp` and `375.0 uA` into `inn`. The larger input voltage must be no more than `0.8042 V`, input mismatch no more than `7.967 mV`, and final differential offset no more than `1.000 mV`.\n\nThe output-buffer test directly drives `bufinp` and `bufinn` at a `2.235 V` common mode with a 1 GHz differential sine and places 100 ohms differentially across `outp` and `outn`:\n\n- A `445.0 mVpp` input must produce `596.7 mVpp` output with no more than `0.5043%` THD.\n- A `735.0 mVpp` input must produce `927.4 mVpp` output.\n\nThe peak-detector test directly drives `pkdinp` and `pkdinn` at a `2.092 V` common mode and 33.5 GHz. Its average absolute differential output must increase strictly for `50.00, 200.0, 400.0, 550.0 mVpp` inputs. The endpoint targets are `25.50 mV` at 50 mVpp and `526.9 mV` at 550 mVpp.\n\nThe AGC amplifier target is `15.03 V/V`. In manual mode (`mc = 0 V`), `gc` targets `1.250 V` and `1.400 V` for the corresponding `mgc` values. In automatic mode (`mc = 3.3 V`), an applied `agc = 1.300 V` must produce `gc = 1.300 V`.\n\nFor the 25-Gbaud PAM4 transient, the fixture uses a 40 ps UI and opposite-polarity input currents whose differential levels are `-200.0, -66.67, +66.67, +200.0 uA`. Target a final differential output of `1.020 Vpp`, a minimum sampled vertical eye opening of at least `143.6 mV`, and three positive adjacent eye openings.\n\n## Modeling scope\n\nThis is a nominal pre-layout SG13G2 simulation. The PDK devices make transistor sizing and voltage stress meaningful, but the task does not include extracted interconnect, package/photodiode parasitics, mismatch, Monte Carlo, or PVT sweeps. Do not claim that it validates silicon BER, worst-case CMRR, or the paper's `12.2 pA/sqrt(Hz)` input-referred-noise result.\n",
+  "frozen_reference_circuit": "* Complete transistor-level TIA: all verified blocks combined in one self-contained deck\n* IHP SG13G2 SiGe BiCMOS implementation of the paper-level topology. This file contains circuit content only.\n* Flat design hierarchy; X instances are only pinned IHP PDK primitives.\n* Active circuitry contains only resistors, capacitors, MOSFETs, and BJTs.\nVCC vcc 0 3.3\nVMGC mgc 0 1.4\nVMC mc 0 0\nVOA oa 0 1.2\n* Physical resistor-divider references for 1.8 V outputs and 2.55 V follower bases.\nRIFBTOP vcc ifbias 700\nRIFBBOT ifbias 0 6k\nCIFBIAS ifbias 0 1n\nRIBTOP vcc ifbase 400\nRIBBOT ifbase 0 10.2k\nCIFBASE ifbase 0 1n\nRIBREF vcc ibn 2.2k\nXMIBREF ibn ibn 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1\n\n* Balanced input convention used by the earlier verified reconstruction.\nIINP 0 inp AC 1\nIINN inn 0 AC 1\n\n* Flattened XMODE (MODE_SWITCH_TL)\nXM_XMODE_PINV XMODE__mcb mc vcc vcc sg13_hv_pmos w=64u l=0.45u ng=32 m=1 rfmode=1\nXM_XMODE_NINV XMODE__mcb mc 0 0 sg13_hv_nmos w=32u l=0.45u ng=16 m=1 rfmode=1\nXM_XMODE_NMGC gc XMODE__mcb mgc 0 sg13_hv_nmos w=40u l=0.45u ng=20 m=1 rfmode=1\nXM_XMODE_PMGC gc mc mgc vcc sg13_hv_pmos w=80u l=0.45u ng=40 m=1 rfmode=1\nXM_XMODE_NAGC gc mc agc 0 sg13_hv_nmos w=40u l=0.45u ng=20 m=1 rfmode=1\nXM_XMODE_PAGC gc XMODE__mcb agc vcc sg13_hv_pmos w=80u l=0.45u ng=40 m=1 rfmode=1\nR_XMODE_LOAD gc 0 1Meg\nC_XMODE_LOAD gc 0 10f\n* Flattened XCMCTRL (CMCTRL_TL)\nR_XCMCTRL_REFTOP vcc XCMCTRL__fixed_gate 86.51k\nR_XCMCTRL_REFBOT XCMCTRL__fixed_gate 0 100k\nC_XCMCTRL_REFGATE XCMCTRL__fixed_gate 0 1n\nXM_XCMCTRL_REFFOLLOW vcc XCMCTRL__fixed_gate XCMCTRL__fixed 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XCMCTRL_REFLOAD XCMCTRL__fixed 0 20k\nC_XCMCTRL_REFOUT XCMCTRL__fixed 0 1n\nR_XCMCTRL_BIASREF vcc XCMCTRL__nbias 5k\nXM_XCMCTRL_REF XCMCTRL__nbias XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nR_XCMCTRL_1P vcc vc1 1200\nR_XCMCTRL_1N vcc vc1b 1200\nXM_XCMCTRL_1P vc1 XCMCTRL__fixed XCMCTRL__s1p 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_1N vc1b gc XCMCTRL__s1n 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_1SP XCMCTRL__s1p XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_1SN XCMCTRL__s1n XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nR_XCMCTRL_DEG1 XCMCTRL__s1p XCMCTRL__s1n 47207\nR_XCMCTRL_2P vcc vc2 1200\nR_XCMCTRL_2N vcc vc2b 1200\nXM_XCMCTRL_2P vc2 XCMCTRL__fixed XCMCTRL__s2p 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_2N vc2b gc XCMCTRL__s2n 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_2SP XCMCTRL__s2p XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nXM_XCMCTRL_2SN XCMCTRL__s2n XCMCTRL__nbias 0 0 sg13_hv_nmos w=40u l=0.5u ng=20 m=1 rfmode=1\nR_XCMCTRL_DEG2 XCMCTRL__s2p XCMCTRL__s2n 9680\n* Flattened XTIAP (INPUT_TIA_TL)\nR_XTIAP_REFLDOTOP vcc XTIAP__ldo_ref_gate 25.45k\nR_XTIAP_REFLDOBOT XTIAP__ldo_ref_gate 0 100k\nC_XTIAP_REFLDOGATE XTIAP__ldo_ref_gate 0 1n\nXM_XTIAP_REFLDO vcc XTIAP__ldo_ref_gate XTIAP__ldo_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XTIAP_REFLDOLOAD XTIAP__ldo_ref 0 20k\nC_XTIAP_REFLDOOUT XTIAP__ldo_ref 0 1n\nR_XTIAP_REFINTOP vcc XTIAP__in_ref_gate 100k\nR_XTIAP_REFINBOT XTIAP__in_ref_gate 0 100k\nC_XTIAP_REFINGATE XTIAP__in_ref_gate 0 1n\nXM_XTIAP_REFIN vcc XTIAP__in_ref_gate XTIAP__in_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XTIAP_REFINLOAD XTIAP__in_ref 0 20k\nC_XTIAP_REFINOUT XTIAP__in_ref 0 1n\nR_XTIAP_NLBIAS vcc XTIAP__nlbias 3k\nXQ_XTIAP_NLB XTIAP__nlbias XTIAP__nlbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAP_NLTAIL XTIAP__nltail XTIAP__nlbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAP_NL1 XTIAP__nlsense XTIAP__vtia XTIAP__nltail 0 npn13G2 Nx=1 selft=0\nXQ_XTIAP_NL2 XTIAP__ldo_gate XTIAP__ldo_ref XTIAP__nltail 0 npn13G2 Nx=1 selft=0\nR_XTIAP_NL1 vcc XTIAP__nlsense 2.5k\nR_XTIAP_NL2 vcc XTIAP__ldo_gate 2.2k\nXM_XTIAP_PLDO XTIAP__vtia XTIAP__ldo_gate vcc vcc sg13_hv_pmos w=400u l=0.45u ng=64 m=1 rfmode=1\nC_XTIAP_LDO XTIAP__vtia 0 75p\nC_XTIAP_CLDO XTIAP__ldo_gate XTIAP__vtia 7.5p\nR_XTIAP_C XTIAP__vtia tia_p 80\nR_TIA_CASTOP vcc tia_casbias 16k\nR_TIA_CASBOT tia_casbias 0 17k\nC_TIA_CASBIAS tia_casbias 0 10p\nXQ_XTIAP_AMP XTIAP__casnode inp 0 0 npn13G2 Nx=3 selft=0\nXQ_XTIAP_CAS tia_p tia_casbias XTIAP__casnode 0 npn13G2 Nx=3 selft=0\nXQ_XTIAP_BUF XTIAP__vtia tia_p XTIAP__fb 0 npn13G2 Nx=1 selft=0\nR_XTIAP_FBREF XTIAP__vtia XTIAP__fbias 867\nXQ_XTIAP_FBREF XTIAP__fbias XTIAP__fbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAP_FBSINK XTIAP__fb XTIAP__fbias 0 0 npn13G2 Nx=1 selft=0\nR_XTIAP_F XTIAP__fb inp 250\nR_XTIAP_PBIAS XTIAP__pbias 0 100k\nXQ_XTIAP_PB XTIAP__pbias XTIAP__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0\nXQ_XTIAP_PTAIL XTIAP__ptail XTIAP__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0\nXQ_XTIAP_PIN XTIAP__nvin inp XTIAP__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0\nXQ_XTIAP_PIREF XTIAP__cancel_gate XTIAP__in_ref XTIAP__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0\nR_XTIAP_POUT1 XTIAP__nvin 0 100k\nR_XTIAP_POUT2 XTIAP__cancel_gate 0 100k\nC_XTIAP_GATE XTIAP__cancel_gate 0 15n\nXM_CANCEL_CAS_P inp oa XTIAP__cancel_d 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nXM_CANCEL_P XTIAP__cancel_d XTIAP__cancel_gate 0 0 sg13_hv_nmos w=100u l=0.45u ng=12 m=1 rfmode=1\n* Flattened XTIAN (INPUT_TIA_TL)\nR_XTIAN_REFLDOTOP vcc XTIAN__ldo_ref_gate 25.45k\nR_XTIAN_REFLDOBOT XTIAN__ldo_ref_gate 0 100k\nC_XTIAN_REFLDOGATE XTIAN__ldo_ref_gate 0 1n\nXM_XTIAN_REFLDO vcc XTIAN__ldo_ref_gate XTIAN__ldo_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XTIAN_REFLDOLOAD XTIAN__ldo_ref 0 20k\nC_XTIAN_REFLDOOUT XTIAN__ldo_ref 0 1n\nR_XTIAN_REFINTOP vcc XTIAN__in_ref_gate 100k\nR_XTIAN_REFINBOT XTIAN__in_ref_gate 0 100k\nC_XTIAN_REFINGATE XTIAN__in_ref_gate 0 1n\nXM_XTIAN_REFIN vcc XTIAN__in_ref_gate XTIAN__in_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XTIAN_REFINLOAD XTIAN__in_ref 0 20k\nC_XTIAN_REFINOUT XTIAN__in_ref 0 1n\nR_XTIAN_NLBIAS vcc XTIAN__nlbias 3k\nXQ_XTIAN_NLB XTIAN__nlbias XTIAN__nlbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAN_NLTAIL XTIAN__nltail XTIAN__nlbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAN_NL1 XTIAN__nlsense XTIAN__vtia XTIAN__nltail 0 npn13G2 Nx=1 selft=0\nXQ_XTIAN_NL2 XTIAN__ldo_gate XTIAN__ldo_ref XTIAN__nltail 0 npn13G2 Nx=1 selft=0\nR_XTIAN_NL1 vcc XTIAN__nlsense 2.5k\nR_XTIAN_NL2 vcc XTIAN__ldo_gate 2.2k\nXM_XTIAN_PLDO XTIAN__vtia XTIAN__ldo_gate vcc vcc sg13_hv_pmos w=400u l=0.45u ng=64 m=1 rfmode=1\nC_XTIAN_LDO XTIAN__vtia 0 75p\nC_XTIAN_CLDO XTIAN__ldo_gate XTIAN__vtia 7.5p\nR_XTIAN_C XTIAN__vtia tia_n 80\nXQ_XTIAN_AMP XTIAN__casnode inn 0 0 npn13G2 Nx=3 selft=0\nXQ_XTIAN_CAS tia_n tia_casbias XTIAN__casnode 0 npn13G2 Nx=3 selft=0\nXQ_XTIAN_BUF XTIAN__vtia tia_n XTIAN__fb 0 npn13G2 Nx=1 selft=0\nR_XTIAN_FBREF XTIAN__vtia XTIAN__fbias 867\nXQ_XTIAN_FBREF XTIAN__fbias XTIAN__fbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XTIAN_FBSINK XTIAN__fb XTIAN__fbias 0 0 npn13G2 Nx=1 selft=0\nR_XTIAN_F XTIAN__fb inn 250\nR_XTIAN_PBIAS XTIAN__pbias 0 100k\nXQ_XTIAN_PB XTIAN__pbias XTIAN__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0\nXQ_XTIAN_PTAIL XTIAN__ptail XTIAN__pbias vcc vcc sg13_hv_pmos w=1u l=0.45u ng=1 m=1 rfmode=0\nXQ_XTIAN_PIN XTIAN__nvin inn XTIAN__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0\nXQ_XTIAN_PIREF XTIAN__cancel_gate XTIAN__in_ref XTIAN__ptail vcc sg13_hv_pmos w=4u l=0.45u ng=4 m=1 rfmode=0\nR_XTIAN_POUT1 XTIAN__nvin 0 100k\nR_XTIAN_POUT2 XTIAN__cancel_gate 0 100k\nC_XTIAN_GATE XTIAN__cancel_gate 0 15n\nXM_CANCEL_CAS_N inn oa XTIAN__cancel_d 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nXM_CANCEL_N XTIAN__cancel_d XTIAN__cancel_gate 0 0 sg13_hv_nmos w=100u l=0.45u ng=12 m=1 rfmode=1\n\n* Physical interface 1: AC-coupled transistor followers and calibrated pad.\n* Flattened XIF1P (INTERFACE_EF)\nC_XIF1P_IN tia_p XIF1P__base 20p\nR_XIF1P_BASE XIF1P__base ifbase 20k\nXQ_XIF1P_EF vcc XIF1P__base XIF1P__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF1P_BIAS XIF1P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF1P_SER XIF1P__emitter v1p 1\nR_XIF1P_SHUNT v1p ifbias 100\n* Flattened XIF1N (INTERFACE_EF)\nC_XIF1N_IN tia_n XIF1N__base 20p\nR_XIF1N_BASE XIF1N__base ifbase 20k\nXQ_XIF1N_EF vcc XIF1N__base XIF1N__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF1N_BIAS XIF1N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF1N_SER XIF1N__emitter v1n 1\nR_XIF1N_SHUNT v1n ifbias 100\n* Flattened XVGA1 (VGA1_TL)\nL_XVGA1_CL vcc XVGA1__peak_nl 2.7n\nR_XVGA1_CL XVGA1__peak_nl XVGA1__nl 400\nL_XVGA1_CR vcc XVGA1__peak_nr 2.7n\nR_XVGA1_CR XVGA1__peak_nr XVGA1__nr 400\nXQ_XVGA1_1 XVGA1__t34 v1p XVGA1__e1 0 npn13G2 Nx=1 selft=0\nXQ_XVGA1_2 XVGA1__t56 v1n XVGA1__e2 0 npn13G2 Nx=1 selft=0\nR_XVGA1_E XVGA1__e1 XVGA1__e2 5\nC_XVGA1_E XVGA1__e1 XVGA1__e2 50f\nXQ_XVGA1_3 XVGA1__nl vc1 XVGA1__t34 0 npn13G2 Nx=1 selft=0\nXQ_XVGA1_4 vcc vc1b XVGA1__t34 0 npn13G2 Nx=1 selft=0\nXQ_XVGA1_5 vcc vc1b XVGA1__t56 0 npn13G2 Nx=1 selft=0\nXQ_XVGA1_6 XVGA1__nr vc1 XVGA1__t56 0 npn13G2 Nx=1 selft=0\nXQ_XVGA1_7 vcc XVGA1__nr vga1p 0 npn13G2 Nx=5 selft=0\nXQ_XVGA1_8 vcc XVGA1__nl vga1n 0 npn13G2 Nx=5 selft=0\nR_XVGA1_BIASREF vcc XVGA1__nbias 2.2k\nXM_XVGA1_BIASREF XVGA1__nbias XVGA1__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1\nXM_XVGA1_BIAS1 XVGA1__e1 XVGA1__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1\nXM_XVGA1_BIAS2 XVGA1__e2 XVGA1__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1\nXM_XVGA1_BIAS3 vga1p XVGA1__nbias 0 0 sg13_hv_nmos w=3u l=0.45u ng=19 m=1 rfmode=1\nXM_XVGA1_BIAS4 vga1n XVGA1__nbias 0 0 sg13_hv_nmos w=3u l=0.45u ng=19 m=1 rfmode=1\n\n* Physical interface 2: buffered low-impedance RF calibration pad.\n* Flattened XIF2P (INTERFACE_EF)\nC_XIF2P_IN vga1p XIF2P__base 20p\nR_XIF2P_BASE XIF2P__base ifbase 20k\nXQ_XIF2P_EF vcc XIF2P__base XIF2P__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF2P_BIAS XIF2P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF2P_SER XIF2P__emitter v2p 10\nR_XIF2P_SHUNT v2p ifbias 100\n* Flattened XIF2N (INTERFACE_EF)\nC_XIF2N_IN vga1n XIF2N__base 20p\nR_XIF2N_BASE XIF2N__base ifbase 20k\nXQ_XIF2N_EF vcc XIF2N__base XIF2N__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF2N_BIAS XIF2N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF2N_SER XIF2N__emitter v2n 10\nR_XIF2N_SHUNT v2n ifbias 100\n* Flattened XVGA2 (VGA2_TL)\nL_XVGA2_CL vcc XVGA2__peak_nl 2.7n\nR_XVGA2_CL XVGA2__peak_nl XVGA2__nl 400\nL_XVGA2_CR vcc XVGA2__peak_nr 2.7n\nR_XVGA2_CR XVGA2__peak_nr XVGA2__nr 400\nXQ_XVGA2_1 XVGA2__t34 v2p XVGA2__e1 0 npn13G2 Nx=1 selft=0\nXQ_XVGA2_2 XVGA2__t56 v2n XVGA2__e2 0 npn13G2 Nx=1 selft=0\nR_XVGA2_E XVGA2__e1 XVGA2__e2 5\nC_XVGA2_E XVGA2__e1 XVGA2__e2 50f\nXQ_XVGA2_3 XVGA2__nl vc2 XVGA2__t34 0 npn13G2 Nx=1 selft=0\nXQ_XVGA2_4 vcc vc2b XVGA2__t34 0 npn13G2 Nx=1 selft=0\nXQ_XVGA2_5 vcc vc2b XVGA2__t56 0 npn13G2 Nx=1 selft=0\nXQ_XVGA2_6 XVGA2__nr vc2 XVGA2__t56 0 npn13G2 Nx=1 selft=0\nXQ_XVGA2_7 vcc XVGA2__nr vga2p 0 npn13G2 Nx=5 selft=0\nXQ_XVGA2_8 vcc XVGA2__nl vga2n 0 npn13G2 Nx=5 selft=0\nR_XVGA2_BIASREF vcc XVGA2__nbias 2.2k\nXM_XVGA2_BIASREF XVGA2__nbias XVGA2__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1\nXM_XVGA2_BIAS1 XVGA2__e1 XVGA2__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1\nXM_XVGA2_BIAS2 XVGA2__e2 XVGA2__nbias 0 0 sg13_hv_nmos w=24u l=0.45u ng=12 m=1 rfmode=1\nXM_XVGA2_BIAS3 vga2p XVGA2__nbias 0 0 sg13_hv_nmos w=1.8u l=0.45u ng=12 m=1 rfmode=1\nXM_XVGA2_BIAS4 vga2n XVGA2__nbias 0 0 sg13_hv_nmos w=1.8u l=0.45u ng=12 m=1 rfmode=1\n\n* Physical buffered unity-coupled interface 3.\n* Flattened XIF3P (INTERFACE_EF)\nC_XIF3P_IN vga2p XIF3P__base 20p\nR_XIF3P_BASE XIF3P__base ifbase 20k\nXQ_XIF3P_EF vcc XIF3P__base XIF3P__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF3P_BIAS XIF3P__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF3P_SER XIF3P__emitter bufinp 1\nR_XIF3P_SHUNT bufinp ifbias 10k\n* Flattened XIF3N (INTERFACE_EF)\nC_XIF3N_IN vga2n XIF3N__base 20p\nR_XIF3N_BASE XIF3N__base ifbase 20k\nXQ_XIF3N_EF vcc XIF3N__base XIF3N__emitter 0 npn13G2 Nx=2 selft=0\nXM_XIF3N_BIAS XIF3N__emitter ibn 0 0 sg13_hv_nmos w=20u l=0.45u ng=10 m=1 rfmode=1\nR_XIF3N_SER XIF3N__emitter bufinn 1\nR_XIF3N_SHUNT bufinn ifbias 10k\n* Flattened XBUF (OUTPUT_BUFFER_TL)\nR_XBUF_CP vcc outp 50\nR_XBUF_CN vcc outn 50\nXQ_XBUF_1 outp bufinp XBUF__e1 0 npn13G2 Nx=6 selft=0\nXQ_XBUF_2 outn bufinn XBUF__e2 0 npn13G2 Nx=6 selft=0\nR_XBUF_E XBUF__e1 XBUF__e2 20\nR_XBUF_BIASREF vcc XBUF__nbias 2.2k\nXM_XBUF_BIASREF XBUF__nbias XBUF__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1\nXM_XBUF_BIAS1 XBUF__e1 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1\nXM_XBUF_BIAS2 XBUF__e2 XBUF__nbias 0 0 sg13_hv_nmos w=120u l=0.45u ng=60 m=1 rfmode=1\n* Physical output pole. No controlled-source isolation is used.\nRLOWP outp finalp 50\nRLOWN outn finaln 50\nCLOWP finalp 0 66f\nCLOWN finaln 0 66f\n\n* High-impedance physical detector tap and detector rebias.\nRPKDTAPP finalp pkdtap_p 2k\nCPKDINP pkdtap_p pkdinp 6.8p\nRPKDTAPN finaln pkdtap_n 2k\nCPKDINN pkdtap_n pkdinn 6.8p\nRPKDBP pkdinp ifbias 60k\nRPKDBN pkdinn ifbias 60k\n* Flattened XPKD (PEAK_DETECTOR_TL)\nR_XPKD_CL vcc detn 800\nR_XPKD_CR vcc detp 800\nR_PKDVCC vcc pkdvcc 500\nC_PKDVCC pkdvcc 0 10p\nXQ_XPKD_8 pkdvcc pkdinn XPKD__e8 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_7 pkdvcc pkdinp XPKD__e7 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_1 XPKD__c1 XPKD__e8 XPKD__e1 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_2 XPKD__c2 XPKD__e7 XPKD__e2 0 npn13G2 Nx=1 selft=0\nR_XPKD_E1 XPKD__e1 XPKD__tail 200\nR_XPKD_E2 XPKD__e2 XPKD__tail 200\nXQ_XPKD_3 detn pkdinn XPKD__c1 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_4 detp pkdinp XPKD__c1 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_5 detn pkdinp XPKD__c2 0 npn13G2 Nx=1 selft=0\nXQ_XPKD_6 detp pkdinn XPKD__c2 0 npn13G2 Nx=1 selft=0\nR_XPKD_BIASREF vcc XPKD__nbias 2.2k\nXM_XPKD_BIASREF XPKD__nbias XPKD__nbias 0 0 sg13_hv_nmos w=10u l=0.45u ng=5 m=1 rfmode=1\nXM_XPKD_BIASL XPKD__e8 XPKD__nbias 0 0 sg13_hv_nmos w=15u l=0.45u ng=8 m=1 rfmode=1\nXM_XPKD_BIAST XPKD__tail XPKD__nbias 0 0 sg13_hv_nmos w=32u l=0.45u ng=16 m=1 rfmode=1\nXM_XPKD_BIASR XPKD__e7 XPKD__nbias 0 0 sg13_hv_nmos w=15u l=0.45u ng=8 m=1 rfmode=1\n* Flattened XAGC (AGC_CONTROLLER_TL)\nR_XAGC_PKDREFTOP vcc XAGC__pkd_ref_gate 133k\nR_XAGC_PKDREFBOT XAGC__pkd_ref_gate 0 100k\nC_XAGC_PKDREFGATE XAGC__pkd_ref_gate 0 1n\nXM_XAGC_PKDREF vcc XAGC__pkd_ref_gate XAGC__pkd_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XAGC_PKDREFLOAD XAGC__pkd_ref 0 20k\nC_XAGC_PKDREFOUT XAGC__pkd_ref 0 1n\nR_XAGC_AGCREFTOP vcc XAGC__agc_ref_gate 77.9k\nR_XAGC_AGCREFBOT XAGC__agc_ref_gate 0 100k\nC_XAGC_AGCREFGATE XAGC__agc_ref_gate 0 1n\nXM_XAGC_AGCREF vcc XAGC__agc_ref_gate XAGC__agc_ref 0 sg13_hv_nmos w=1000u l=1u ng=64 m=1 rfmode=1\nR_XAGC_AGCREFLOAD XAGC__agc_ref 0 20k\nC_XAGC_AGCREFOUT XAGC__agc_ref 0 1n\nR_XAGC_LP_P detp XAGC__lp_p 600\nR_XAGC_LP_N detn XAGC__lp_n 600\nC_XAGC_LP XAGC__lp_p XAGC__lp_n 150f\nR_XAGC_SFREF vcc XAGC__sfbias 4.2k\nXQ_XAGC_SFREF XAGC__sfbias XAGC__sfbias 0 0 npn13G2 Nx=1 selft=0\nXQ_XAGC_SFPSINK XAGC__sf_p XAGC__sfbias 0 0 npn13G2v Nx=1 selft=0\nXQ_XAGC_SFNSINK XAGC__sf_n XAGC__sfbias 0 0 npn13G2v Nx=1 selft=0\nXQ_XAGC_SFP vcc XAGC__lp_p XAGC__sf_p 0 npn13G2 Nx=2 selft=0\nXQ_XAGC_SFN vcc XAGC__lp_n XAGC__sf_n 0 npn13G2 Nx=2 selft=0\nR_XAGC_PP XAGC__sf_p XAGC__op4p 40k\nR_XAGC_PV XAGC__pkd_ref XAGC__op4p 560k\nR_XAGC_IN XAGC__sf_n XAGC__op4n 40k\nR_XAGC_FB pkd XAGC__op4n 560k\n* Flattened XOP4 (CMOS_OPAMP_TL)\nR_XAGC_XOP4_NB vcc XAGC_XOP4__nbias 35k\nXM_XAGC_XOP4_NB XAGC_XOP4__nbias XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=10u l=1u ng=5 m=1 rfmode=1\nXM_XAGC_XOP4_TAIL XAGC_XOP4__etail XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP4_INP XAGC_XOP4__nleft XAGC__op4n XAGC_XOP4__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nXM_XAGC_XOP4_INN XAGC_XOP4__nfirst XAGC__op4p XAGC_XOP4__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nXM_XAGC_XOP4_PLOADD XAGC_XOP4__nleft XAGC_XOP4__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP4_PLOADM XAGC_XOP4__nfirst XAGC_XOP4__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP4_PVAS pkd XAGC_XOP4__nfirst vcc vcc sg13_hv_pmos w=80u l=1u ng=40 m=1 rfmode=1\nXM_XAGC_XOP4_NVAS pkd XAGC_XOP4__nbias 0 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nC_XAGC_XOP4_COMP XAGC_XOP4__nfirst pkd 2p\nC_XAGC_XOP4_OUT pkd 0 1p\n* Flattened XOP5 (CMOS_OPAMP_TL)\nR_XAGC_XOP5_NB vcc XAGC_XOP5__nbias 35k\nXM_XAGC_XOP5_NB XAGC_XOP5__nbias XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=10u l=1u ng=5 m=1 rfmode=1\nXM_XAGC_XOP5_TAIL XAGC_XOP5__etail XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP5_INP XAGC_XOP5__nleft pkd XAGC_XOP5__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nXM_XAGC_XOP5_INN XAGC_XOP5__nfirst oa XAGC_XOP5__etail 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nXM_XAGC_XOP5_PLOADD XAGC_XOP5__nleft XAGC_XOP5__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP5_PLOADM XAGC_XOP5__nfirst XAGC_XOP5__nleft vcc vcc sg13_hv_pmos w=20u l=1u ng=10 m=1 rfmode=1\nXM_XAGC_XOP5_PVAS XAGC__op5_raw XAGC_XOP5__nfirst vcc vcc sg13_hv_pmos w=80u l=1u ng=40 m=1 rfmode=1\nXM_XAGC_XOP5_NVAS XAGC__op5_raw XAGC_XOP5__nbias 0 0 sg13_hv_nmos w=40u l=1u ng=20 m=1 rfmode=1\nC_XAGC_XOP5_COMP XAGC_XOP5__nfirst XAGC__op5_raw 2p\nC_XAGC_XOP5_OUT XAGC__op5_raw 0 1p\nR_XAGC_OP XAGC__op5_raw agc 45k\nR_XAGC_GCREF agc XAGC__agc_ref 6.45k\nC_XAGC_AGC agc 0 10p\n\n\n\n\n\n\n\n\n\n\n\n\n.end\n",
+  "candidate_circuit": "* IHP SG13G2 25-Gbaud differential optical-receiver front end\n\n* =====================================================================\n* References\n* =====================================================================\nxqref ncs ncs 0 0 npn13G2 Nx=4 selft=0\nrcs vcc ncs 1600\nccs ncs 0 12p\n\nrb1 vcc biastia 2585\nrb2 biastia 0 2450\ncbcb biastia 0 80p\n\nrca1 vcc biascas 1320\nrca2 biascas 0 3630\ncbca biascas 0 30p\n\n* DCOC reference above idle TIA-EF so the sink is off at zero input\nrr1 vcc vref 1280\nrr2 vref 0 2020\ncref vref 0 40p\n\n* buffer-input CM for AC-coupled interface\nrbc1 vcc vbufcm 1065\nrbc2 vbufcm 0 2235\ncbcf vbufcm 0 20p\n\n* =====================================================================\n* TIA P : common-base + cascode + EF\n* =====================================================================\nxqt_p ntailp ncs 0 0 npn13G2 Nx=6 selft=0\nretp inp ntailp 4\nxqcb_p ncasp biastia inp 0 npn13G2 Nx=6 selft=0\nxqcs_p tiaop biascas ncasp 0 npn13G2 Nx=4 selft=0\nltp vcc tiaopx 0.40n\nrtp tiaopx tiaop 168\nxqef_p vcc tiaop tiaefp 0 npn13G2 Nx=4 selft=0\nrep tiaefp ntefp 10\nxqeft_p ntefp ncs 0 0 npn13G2 Nx=3 selft=0\n\n* =====================================================================\n* TIA N\n* =====================================================================\nxqt_n ntailn ncs 0 0 npn13G2 Nx=6 selft=0\nretn inn ntailn 4\nxqcb_n ncasn biastia inn 0 npn13G2 Nx=6 selft=0\nxqcs_n tiaon biascas ncasn 0 npn13G2 Nx=4 selft=0\nltn vcc tiaonx 0.40n\nrtn tiaonx tiaon 168\nxqef_n vcc tiaon tiaefn 0 npn13G2 Nx=4 selft=0\nren tiaefn ntefn 10\nxqeft_n ntefn ncs 0 0 npn13G2 Nx=3 selft=0\n\n* =====================================================================\n* DCOC P : high-gain pair, no degeneration; EF + divider onto NMOS\n* tiaef > vref -> cea_rp high -> gdc high -> sink\n* =====================================================================\nxqea_p cea_p tiaefp eea_p 0 npn13G2 Nx=1 selft=0\nxqea_rp cea_rp vref eea_p 0 npn13G2 Nx=1 selft=0\nreap eea_p tea_p 15\nxqeat_p tea_p ncs 0 0 npn13G2 Nx=1 selft=0\nrlap vcc cea_p 18000\nrlarp vcc cea_rp 18000\nxqeb_p vcc cea_rp gdcr_p 0 npn13G2 Nx=1 selft=0\nrgp1 gdcr_p gdc_p 8000\nrgp2 gdc_p 0 12000\ncgp gdc_p 0 10n\nxmdc_p inp gdc_p 0 0 sg13_hv_nmos w=10u l=0.45u ng=2 m=24\n\n* =====================================================================\n* DCOC N\n* =====================================================================\nxqea_n cea_n tiaefn eea_n 0 npn13G2 Nx=1 selft=0\nxqea_rn cea_rn vref eea_n 0 npn13G2 Nx=1 selft=0\nrean eea_n tea_n 15\nxqeat_n tea_n ncs 0 0 npn13G2 Nx=1 selft=0\nrlan vcc cea_n 18000\nrlarn vcc cea_rn 18000\nxqeb_n vcc cea_rn gdcr_n 0 npn13G2 Nx=1 selft=0\nrgn1 gdcr_n gdc_n 8000\nrgn2 gdc_n 0 12000\ncgn gdc_n 0 10n\nxmdc_n inn gdc_n 0 0 sg13_hv_nmos w=10u l=0.45u ng=2 m=24\n\n* =====================================================================\n* VGA1 : tail-current AGC\n* =====================================================================\nxqv1p vga1p tiaefp ev1p 0 npn13G2 Nx=4 selft=0\nxqv1n vga1n tiaefn ev1n 0 npn13G2 Nx=4 selft=0\nre1p ev1p tv1 18\nre1n ev1n tv1 18\nxqv1t tv1 ncs 0 0 npn13G2 Nx=2 selft=0\nxmg1 tv1 gc 0 0 sg13_hv_nmos w=5u l=0.55u ng=1 m=2\nl1p vcc v1px 0.30n\nl1n vcc v1nx 0.30n\nrv1p v1px vga1p 155\nrv1n v1nx vga1n 155\nxqv1efp vcc vga1p v1efp 0 npn13G2 Nx=3 selft=0\nxqv1efn vcc vga1n v1efn 0 npn13G2 Nx=3 selft=0\nre1ep v1efp nv1p 12\nre1en v1efn nv1n 12\nxqv1tp nv1p ncs 0 0 npn13G2 Nx=2 selft=0\nxqv1tn nv1n ncs 0 0 npn13G2 Nx=2 selft=0\n\n* =====================================================================\n* VGA2\n* =====================================================================\nxqv2p vga2p v1efp ev2p 0 npn13G2 Nx=4 selft=0\nxqv2n vga2n v1efn ev2n 0 npn13G2 Nx=4 selft=0\nre2p ev2p tv2 16\nre2n ev2n tv2 16\nxqv2t tv2 ncs 0 0 npn13G2 Nx=2 selft=0\nxmg2 tv2 gc 0 0 sg13_hv_nmos w=5u l=0.55u ng=1 m=2\nl2p vcc v2px 0.24n\nl2n vcc v2nx 0.24n\nrv2p v2px vga2p 145\nrv2n v2nx vga2n 145\nxqv2efp vcc vga2p v2efp 0 npn13G2 Nx=4 selft=0\nxqv2efn vcc vga2n v2efn 0 npn13G2 Nx=4 selft=0\nre2ep v2efp nb2p 8\nre2en v2efn nb2n 8\nxqv2tp nb2p ncs 0 0 npn13G2 Nx=3 selft=0\nxqv2tn nb2n ncs 0 0 npn13G2 Nx=3 selft=0\n\n* AC-couple VGA to buffer so the buffer test can drive bufinp/bufinn\nccplp v2efp bufinp 8n\nccpln v2efn bufinn 8n\nrbip bufinp vbufcm 1800\nrbin bufinn vbufcm 1800\n\n* =====================================================================\n* Output buffer  Av ~ 1.34\n* =====================================================================\nxqbp outp bufinp ebp 0 npn13G2 Nx=8 selft=0\nxqbn outn bufinn ebn 0 npn13G2 Nx=8 selft=0\nrbp ebp tbuf 11\nrbn ebn tbuf 11\nxqbt tbuf ncsb 0 0 npn13G2 Nx=10 selft=0\nrcsb vcc ncsb 142\nxqbref ncsb ncsb 0 0 npn13G2 Nx=8 selft=0\nccsb ncsb 0 20p\nlbp vcc outpx 0.12n\nlbn vcc outnx 0.12n\nrlp outpx outp 50\nrln outnx outn 50\n\n* delay line ~ 12 ps\nld1p outp d1p 0.20n\ncd1p d1p 0 80f\nld2p d1p d2p 0.20n\ncd2p d2p 0 80f\nld3p d2p finalp 0.20n\ncd3p finalp 0 40f\nld1n outn d1n 0.20n\ncd1n d1n 0 80f\nld2n d1n d2n 0.20n\ncd2n d2n 0 80f\nld3n d2n finaln 0.20n\ncd3n finaln 0 40f\n\n* =====================================================================\n* Peak detector\n* =====================================================================\ncpkd_p v2efp pkdinp 2f\ncpkd_n v2efn pkdinn 2f\nrpkp pkdinp vpkcm 40000\nrpkn pkdinn vpkcm 40000\nrpkc1 vcc vpkcm 1210\nrpkc2 vpkcm 0 2090\ncpkcm vpkcm 0 20p\n\nxqpd_p cpd_p pkdinp epd 0 npn13G2 Nx=4 selft=0\nxqpd_n cpd_n pkdinn epd 0 npn13G2 Nx=4 selft=0\nrepd epd tpd 6\nxqpdt tpd ncs 0 0 npn13G2 Nx=4 selft=0\nrlpdp vcc cpd_p 280\nrlpdn vcc cpd_n 280\n\n* full-wave peak on detp, replica CM on detn\nxqpk_a vcc cpd_p detp 0 npn13G2 Nx=3 selft=0\nxqpk_b vcc cpd_n detp 0 npn13G2 Nx=3 selft=0\nxqpk_r vcc vpkcm detn 0 npn13G2 Nx=6 selft=0\nrldp detp vpkld 2200\nrldn detn vpkld 2200\nchp detp 0 15f\nchn detn 0 15f\nrld1 vcc vpkld 2400\nxqld vpkld vpkld 0 0 npn13G2 Nx=2 selft=0\n\n* =====================================================================\n* AGC amplifier ~15 V/V from oa to agc\n* =====================================================================\nravg1 detp agcin 12000\nravg2 detn agcin 12000\ncagin agcin 0 40p\nrdv1 agcin agcs 6350\nrdv2 agcs 0 12000\nxqagp cagp oa eag 0 npn13G2 Nx=2 selft=0\nxqagn cagn agcs eag 0 npn13G2 Nx=2 selft=0\nreag eag tagc 58\nxqagt tagc ncs 0 0 npn13G2 Nx=2 selft=0\nrlagp vcc cagp 2850\nrlagn vcc cagn 2850\nxqagef vcc cagp agcnet 0 npn13G2 Nx=1 selft=0\nrsagc agcnet agc 2200\nragc agc 0 18000\ncagc agc 0 20p\n\n* =====================================================================\n* Manual / automatic mux : gc = (mc high) ? agc : mgc\n* =====================================================================\nxinvp nmc mc vcc vcc sg13_hv_pmos w=10u l=0.40u ng=1 m=8\nxinvn nmc mc 0 0 sg13_hv_nmos w=6u l=0.45u ng=1 m=8\nxtgmp gc mc mgc vcc sg13_hv_pmos w=10u l=0.40u ng=1 m=30\nxtgmn gc nmc mgc 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=30\nxtgap gc nmc agc vcc sg13_hv_pmos w=10u l=0.40u ng=1 m=30\nxtgan gc mc agc 0 sg13_hv_nmos w=10u l=0.45u ng=1 m=30\ncgc gc 0 4p\n\n* supply-current trim\nxpdum ndum ncs 0 0 npn13G2 Nx=8 selft=0\nrdum vcc ndum 400\n.end\n",
+  "deterministic_ngspice_details": {
+    "outcome": "simulation_failed",
+    "artifact_evaluable": false,
+    "production_pass": false,
+    "final_reward": 0.5068813536657922,
+    "diagnostic_score_before_structural_gate": 0.5068813536657922,
+    "criterion_coverage": 0.6785714285714286,
+    "criteria_observed": 19,
+    "criteria_reported": 28,
+    "criteria_expected": 28,
+    "failure_codes": [
+      "TIA-SIMULATION-FAILED-OUTPUT-BUFFER",
+      "TIA-SIMULATION-FAILED-PEAK-DETECTOR",
+      "TIA-SIMULATION-FAILED-PAM4-EYE",
+      "TIA-REQUIREMENT-MINIMUM-SETTING-TRANSIMPEDANCE-AT-10-MHZ",
+      "TIA-REQUIREMENT-MAXIMUM-SETTING-TRANSIMPEDANCE-AT-10-MHZ",
+      "TIA-REQUIREMENT-TRANSIMPEDANCE-AT-33-GHZ",
+      "TIA-REQUIREMENT-GROUP-DELAY-NEAR-10-GHZ",
+      "TIA-REQUIREMENT-OUTPUT-PEAK-TO-PEAK",
+      "TIA-REQUIREMENT-TOTAL-HARMONIC-DISTORTION",
+      "TIA-REQUIREMENT-OUTPUT-PEAK-TO-PEAK",
+      "TIA-REQUIREMENT-AVERAGE-DIFFERENTIAL-DETECTOR-OUTPUT",
+      "TIA-REQUIREMENT-AVERAGE-DIFFERENTIAL-DETECTOR-OUTPUT",
+      "TIA-REQUIREMENT-STRICTLY-MONOTONIC-DETECTOR-RESPONSE",
+      "TIA-REQUIREMENT-AGC-GAIN",
+      "TIA-REQUIREMENT-DIFFERENTIAL-OUTPUT-PEAK-TO-PEAK",
+      "TIA-REQUIREMENT-MINIMUM-VERTICAL-EYE-OPENING",
+      "TIA-REQUIREMENT-THREE-POSITIVE-EYE-OPENINGS"
+    ],
+    "structural_failures": [],
+    "simulation_failures": [
+      {
+        "test": "output-buffer",
+        "error": "Ngspice failed with code 0; missing=[]; aborted=True;                                 3.0757\nxqpd_n.s1                           2.1506e-09\nxqpd_n.t                                     0\ntpd                                    1.28939\nxqpdt.s1                           8.92908e-10\nxqpdt.t                                      0\ndetp                                   2.27939\nxqpk_a.s1                          1.97953e-09\nxqpk_a.t                                     0\nxqpk_b.s1                          1.97953e-09\nxqpk_b.t                                     0\ndetn                                   1.33187\nxqpk_r.s1                          2.97755e-09\nxqpk_r.t                                     0\nvpkld                                 0.880497\nxqld.s1                             4.1811e-10\nxqld.t                                       0\nagcin                                  1.36071\nagcs                                  0.889845\ncagp                                   1.03234\noa                                         1.2\neag                                   0.360974\nxqagp.s1                           5.07685e-10\nxqagp.t                                      0\ncagn                                   3.29996\nxqagn.s1                           1.65185e-09\nxqagn.t                                      0\ntagc                                   0.31469\nxqagt.s1                           6.48449e-09\nxqagt.t                                      0\nagcnet                                0.295781\nxqagef.s1                          1.32047e-09\nxqagef.t                                     0\nagc                                   0.263568\nnmc                                        3.3\nmc                                           0\nmgc                                        1.4\nndum                                   2.00697\nxpdum.s1                           2.19913e-09\nxpdum.t                                      0\nld3n#branch                        2.78394e-12\nld2n#branch                        5.56794e-12\nld1n#branch                        8.35182e-12\nld3p#branch                        2.78402e-12\nld2p#branch                        5.56802e-12\nld1p#branch                        8.35201e-12\nlbn#branch                           0.0103216\nlbp#branch                           0.0103216\nl2n#branch                         0.000735502\nl2p#branch                         0.000735502\nl1n#branch                          0.00073017\nl1p#branch                          0.00073017\nltn#branch                          0.00239246\nltp#branch                          0.00239246\nv_tb_bufn#branch                  -1.58859e-05\nv_tb_bufp#branch                  -1.58859e-05\nv_tb_oa#branch                    -1.03329e-06\nv_tb_mgc#branch                   -5.51334e-12\nv_tb_mc#branch                               0\nv_tb_vcc#branch                      -0.065837\n\n\nNo. of Data Rows : 1\ndoAnalyses: TRAN:  Timestep too small; initial timepoint: trouble with xqea_p:npn13g2_nx_vbic-instance q.xqea_p.qnpn13g2\n\n\ntran simulation(s) aborted\nngspice-46 done"
+      },
+      {
+        "test": "peak-detector",
+        "error": "Ngspice failed with code 0; missing=[]; aborted=True;                                3.07565\nxqpd_n.s1                          2.15057e-09\nxqpd_n.t                                     0\ntpd                                     1.2693\nxqpdt.s1                           8.78845e-10\nxqpdt.t                                      0\ndetp                                   2.27934\nxqpk_a.s1                          1.97953e-09\nxqpk_a.t                                     0\nxqpk_b.s1                          1.97953e-09\nxqpk_b.t                                     0\ndetn                                   1.33118\nxqpk_r.s1                          2.97755e-09\nxqpk_r.t                                     0\nvpkld                                 0.880486\nxqld.s1                            4.18109e-10\nxqld.t                                       0\nagcin                                  1.36043\nagcs                                  0.889663\ncagp                                   1.03218\noa                                         1.2\neag                                   0.360971\nxqagp.s1                           5.07606e-10\nxqagp.t                                      0\ncagn                                   3.29996\nxqagn.s1                           1.65185e-09\nxqagn.t                                      0\ntagc                                  0.314684\nxqagt.s1                           6.48693e-09\nxqagt.t                                      0\nagcnet                                0.295636\nxqagef.s1                          1.32047e-09\nxqagef.t                                     0\nagc                                   0.263438\nnmc                                        3.3\nmc                                           0\nmgc                                        1.4\nndum                                   2.00688\nxpdum.s1                           2.19903e-09\nxpdum.t                                      0\nld3n#branch                        2.78393e-12\nld2n#branch                        5.56784e-12\nld1n#branch                        8.35176e-12\nld3p#branch                        2.78393e-12\nld2p#branch                        5.56785e-12\nld1p#branch                        8.35176e-12\nlbn#branch                           0.0103215\nlbp#branch                           0.0103215\nl2n#branch                         0.000945519\nl2p#branch                         0.000525517\nl1n#branch                         0.000644869\nl1p#branch                         0.000815493\nltn#branch                          0.00242585\nltp#branch                          0.00235941\nv_tb_pkdn#branch                   6.43806e-07\nv_tb_pkdp#branch                   6.43806e-07\nv_tb_oa#branch                    -1.03337e-06\nv_tb_mgc#branch                   -5.51328e-12\nv_tb_mc#branch                               0\nv_tb_vcc#branch                       -0.06586\n\n\nNo. of Data Rows : 1\ndoAnalyses: TRAN:  Timestep too small; initial timepoint: trouble with xqea_p:npn13g2_nx_vbic-instance q.xqea_p.qnpn13g2\n\n\ntran simulation(s) aborted\nngspice-46 done"
+      },
+      {
+        "test": "pam4-eye",
+        "error": "Ngspice failed with code 0; missing=[]; aborted=True; 1                          2.15059e-09\nxqpd_p.t                                     0\ncpd_n                                  3.07568\nxqpd_n.s1                          2.15059e-09\nxqpd_n.t                                     0\ntpd                                    1.28938\nxqpdt.s1                           8.92902e-10\nxqpdt.t                                      0\ndetp                                   2.27937\nxqpk_a.s1                          1.97953e-09\nxqpk_a.t                                     0\nxqpk_b.s1                          1.97953e-09\nxqpk_b.t                                     0\ndetn                                   1.33187\nxqpk_r.s1                          2.97755e-09\nxqpk_r.t                                     0\nvpkld                                 0.880496\nxqld.s1                             4.1811e-10\nxqld.t                                       0\nagcin                                  1.36071\nagcs                                  0.889841\ncagp                                   1.03217\noa                                         1.2\neag                                    0.36097\nxqagp.s1                           5.07598e-10\nxqagp.t                                      0\ncagn                                   3.29996\nxqagn.s1                           1.65185e-09\nxqagn.t                                      0\ntagc                                  0.314683\nxqagt.s1                           6.48717e-09\nxqagt.t                                      0\nagcnet                                0.295623\nxqagef.s1                          1.32047e-09\nxqagef.t                                     0\nagc                                   0.263426\nnmc                                        3.3\nmc                                           0\nmgc                                        1.4\nndum                                   2.00688\nxpdum.s1                           2.19902e-09\nxpdum.t                                      0\nld3n#branch                        2.78392e-12\nld2n#branch                        5.56784e-12\nld1n#branch                        8.35176e-12\nld3p#branch                        2.78391e-12\nld2p#branch                        5.56782e-12\nld1p#branch                        8.35175e-12\nlbn#branch                           0.0103215\nlbp#branch                           0.0103215\nl2n#branch                         0.000945522\nl2p#branch                         0.000525519\nl1n#branch                         0.000644871\nl1p#branch                         0.000815495\nltn#branch                          0.00242586\nltp#branch                          0.00235942\nv_tb_oa#branch                    -1.03337e-06\nv_tb_mgc#branch                   -5.51328e-12\nv_tb_mc#branch                               0\nv_tb_vcc#branch                     -0.0658596\n\n\nNo. of Data Rows : 1\ndoAnalyses: TRAN:  Timestep too small; initial timepoint: trouble with xqea_p:npn13g2_nx_vbic-instance q.xqea_p.qnpn13g2\n\n\ntran simulation(s) aborted\nngspice-46 done"
+      }
+    ],
+    "criteria": [
+      {
+        "test": "nominal-op",
+        "name": "input common mode",
+        "value": 0.7588874,
+        "target": 0.7594169,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": 0.7594169,
+        "normalized_error": 0.0006972454787350144,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "nominal-op",
+        "name": "input voltage mismatch",
+        "value": 0.0,
+        "target": 0.001,
+        "unit": "V",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": -1.0,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "nominal-op",
+        "name": "output common mode",
+        "value": 2.783924,
+        "target": 2.780596,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": 2.780596,
+        "normalized_error": 0.0011968657079272844,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "nominal-op",
+        "name": "differential output offset",
+        "value": 0.0,
+        "target": 0.001,
+        "unit": "V",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": -1.0,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "nominal-op",
+        "name": "supply power",
+        "value": 0.21733107,
+        "target": 0.21492339,
+        "unit": "W",
+        "criterion_type": "central",
+        "target_range": 0.21492339,
+        "normalized_error": 0.011202503366432083,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-mgc-1.25",
+        "name": "minimum-setting transimpedance at 10 MHz",
+        "value": 66.34839383346812,
+        "target": 72.2029053519,
+        "unit": "dB ohm",
+        "criterion_type": "central",
+        "target_range": 4075.1656563235856,
+        "normalized_error": 0.4903471888074125,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear magnitude converted from dB",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-mgc-1.40",
+        "name": "maximum-setting transimpedance at 10 MHz",
+        "value": 68.03372174910388,
+        "target": 73.9351737803,
+        "unit": "dB ohm",
+        "criterion_type": "central",
+        "target_range": 4974.60599624678,
+        "normalized_error": 0.4930940389216949,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear magnitude converted from dB",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-sweep",
+        "name": "gain tuning span",
+        "value": 1.685327915635753,
+        "target": 1.73226842839,
+        "unit": "dB",
+        "criterion_type": "central",
+        "target_range": 1.73226842839,
+        "normalized_error": 0.027097713024692344,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-sweep",
+        "name": "monotonic gain tuning",
+        "value": true,
+        "target": true,
+        "unit": "boolean",
+        "criterion_type": "boolean",
+        "target_range": null,
+        "normalized_error": 0.0,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-mgc-1.40",
+        "name": "transimpedance at 33 GHz",
+        "value": 69.13523228725259,
+        "target": 71.6908648136,
+        "unit": "dB ohm",
+        "criterion_type": "central",
+        "target_range": 3841.87509036498,
+        "normalized_error": 0.25489346283234365,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear magnitude converted from dB",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-sweep",
+        "name": "minimum 3 dB bandwidth",
+        "value": 58806796871.525314,
+        "target": 33542786274.7,
+        "unit": "Hz",
+        "criterion_type": "minimum",
+        "target_range": null,
+        "normalized_error": -0.753187597175878,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "ac-mgc-1.40",
+        "name": "group delay near 10 GHz",
+        "value": 2.2890984886408293e-11,
+        "target": 2.76160433616e-11,
+        "unit": "s",
+        "criterion_type": "central",
+        "target_range": 2.76160433616e-11,
+        "normalized_error": 0.1710983146036728,
+        "reward": 0.19267790264218132,
+        "status": "Partial",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "dc-overload",
+        "name": "maximum input voltage",
+        "value": 0.7695696,
+        "target": 0.804151,
+        "unit": "V",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": -0.04300361499270658,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "dc-overload",
+        "name": "input voltage mismatch",
+        "value": 0.002465700000000015,
+        "target": 0.0079673,
+        "unit": "V",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": -0.6905225107627408,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "dc-overload",
+        "name": "final differential offset",
+        "value": 0.0,
+        "target": 0.001,
+        "unit": "V",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": -1.0,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "buffer-445mVpp",
+        "name": "output peak-to-peak",
+        "value": null,
+        "target": 0.59669911,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "output-buffer failed; see simulation_failures"
+      },
+      {
+        "test": "buffer-445mVpp",
+        "name": "total harmonic distortion",
+        "value": null,
+        "target": 0.504279497689,
+        "unit": "percent",
+        "criterion_type": "maximum",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "output-buffer failed; see simulation_failures"
+      },
+      {
+        "test": "buffer-735mVpp",
+        "name": "output peak-to-peak",
+        "value": null,
+        "target": 0.92735165,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "output-buffer failed; see simulation_failures"
+      },
+      {
+        "test": "detector-50mVpp",
+        "name": "average differential detector output",
+        "value": null,
+        "target": 0.025497691517,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "peak-detector failed; see simulation_failures"
+      },
+      {
+        "test": "detector-550mVpp",
+        "name": "average differential detector output",
+        "value": null,
+        "target": 0.526871142475,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "peak-detector failed; see simulation_failures"
+      },
+      {
+        "test": "peak-detector",
+        "name": "strictly monotonic detector response",
+        "value": null,
+        "target": true,
+        "unit": "boolean",
+        "criterion_type": "boolean",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "peak-detector failed; see simulation_failures"
+      },
+      {
+        "test": "agc-amplifier",
+        "name": "AGC gain",
+        "value": 1.666666666714593e-05,
+        "target": 15.0311933333,
+        "unit": "V/V",
+        "criterion_type": "central",
+        "target_range": 15.0311933333,
+        "normalized_error": 0.9999988911947111,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "selector-manual-1.25",
+        "name": "manual selector output",
+        "value": 1.25,
+        "target": 1.249926,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": 1.249926,
+        "normalized_error": 5.920350484741294e-05,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "selector-manual-1.40",
+        "name": "manual selector output",
+        "value": 1.4,
+        "target": 1.399912,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": 1.399912,
+        "normalized_error": 6.286109412582074e-05,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "selector-agc",
+        "name": "AGC selector output",
+        "value": 1.3,
+        "target": 1.299921,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": 1.299921,
+        "normalized_error": 6.077292389302136e-05,
+        "reward": 1.0,
+        "status": "Pass",
+        "scoring_domain": "linear",
+        "measurement_status": "measured",
+        "measurement_error": null
+      },
+      {
+        "test": "pam4-eye",
+        "name": "differential output peak-to-peak",
+        "value": null,
+        "target": 1.01955731,
+        "unit": "V",
+        "criterion_type": "central",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "pam4-eye failed; see simulation_failures"
+      },
+      {
+        "test": "pam4-eye",
+        "name": "minimum vertical eye opening",
+        "value": null,
+        "target": 0.143565080137,
+        "unit": "V",
+        "criterion_type": "minimum",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "pam4-eye failed; see simulation_failures"
+      },
+      {
+        "test": "pam4-eye",
+        "name": "three positive eye openings",
+        "value": null,
+        "target": true,
+        "unit": "boolean",
+        "criterion_type": "boolean",
+        "target_range": null,
+        "normalized_error": null,
+        "reward": 0.0,
+        "status": "Fail",
+        "scoring_domain": "linear",
+        "measurement_status": "simulation_failed",
+        "measurement_error": "pam4-eye failed; see simulation_failures"
+      }
+    ],
+    "not_verifiable": [
+      "12.2 pA/sqrt(Hz) input-referred noise",
+      "30 dB worst-case CMRR at 25 GHz",
+      "4.2 mVpp BER sensitivity at 32 Gb/s",
+      "fabrication yield and Monte Carlo mismatch",
+      "post-layout and extracted-parasitic behavior",
+      "measured 25 Gbaud PAM4 eye statistics",
+      "process, voltage, and temperature corners beyond the pinned nominal case"
+    ],
+    "model_limit": "The pinned IHP SG13G2 SiGe BiCMOS models support pre-layout simulation; this task does not validate the paper's fabricated silicon or extracted layout."
+  },
+  "section_ledger": {
+    "schema_version": "1.0",
+    "task": "maingen/transistor-level-tia",
+    "judge_model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "sections": [
+      {
+        "section_id": "input_tia_dc_cancellation",
+        "name": "Input TIA and DC-overload cancellation",
+        "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+        "expected_role": "Convert the differential photodiode current into voltage while establishing the input common mode and cancelling large DC photocurrent without bypassing the RF signal path.",
+        "owned_criteria": [
+          "C01",
+          "C02",
+          "C13",
+          "C14"
+        ]
+      },
+      {
+        "section_id": "rf_gain_stages",
+        "name": "Two gain-controlled RF stages",
+        "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+        "expected_role": "Provide two genuine RF gain stages whose signal path and gain-control devices respond coherently to gc across the disclosed mgc settings.",
+        "owned_criteria": [
+          "C06",
+          "C07",
+          "C08",
+          "C09",
+          "C10",
+          "C11",
+          "C12"
+        ]
+      },
+      {
+        "section_id": "output_buffer",
+        "name": "Differential output buffer",
+        "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+        "expected_role": "Buffer a differential RF input into the required load through a coherent active differential stage rather than direct feedthrough or a passive substitute.",
+        "owned_criteria": [
+          "C16",
+          "C17",
+          "C18"
+        ]
+      },
+      {
+        "section_id": "peak_detector",
+        "name": "Peak detector",
+        "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+        "expected_role": "Rectify or otherwise detect differential RF amplitude through a genuine active detector with usable charge, discharge, bias, and output paths.",
+        "owned_criteria": [
+          "C19",
+          "C20",
+          "C21"
+        ]
+      },
+      {
+        "section_id": "agc_and_selector",
+        "name": "AGC amplifier and manual or automatic selector",
+        "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+        "expected_role": "Amplify detector error through an active AGC stage and use a genuine complementary or otherwise electrically valid selector that does not short control sources together.",
+        "owned_criteria": [
+          "C22",
+          "C23",
+          "C24",
+          "C25"
+        ]
+      },
+      {
+        "section_id": "complete_receiver",
+        "name": "Complete connected receiver signal path",
+        "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+        "expected_role": "Connect the required active blocks into one physically coherent receiver from inp and inn to finalp and finaln, with valid bias and supply paths and no bypass that makes disconnected decorative blocks appear functional.",
+        "owned_criteria": [
+          "C03",
+          "C04",
+          "C05",
+          "C15",
+          "C26",
+          "C27",
+          "C28"
+        ]
+      }
+    ],
+    "criteria": [
+      {
+        "criterion_id": "C01",
+        "test": "nominal-op",
+        "name": "input common mode",
+        "section_id": "input_tia_dc_cancellation"
+      },
+      {
+        "criterion_id": "C02",
+        "test": "nominal-op",
+        "name": "input voltage mismatch",
+        "section_id": "input_tia_dc_cancellation"
+      },
+      {
+        "criterion_id": "C03",
+        "test": "nominal-op",
+        "name": "output common mode",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C04",
+        "test": "nominal-op",
+        "name": "differential output offset",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C05",
+        "test": "nominal-op",
+        "name": "supply power",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C06",
+        "test": "ac-mgc-1.25",
+        "name": "minimum-setting transimpedance at 10 MHz",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C07",
+        "test": "ac-mgc-1.40",
+        "name": "maximum-setting transimpedance at 10 MHz",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C08",
+        "test": "ac-sweep",
+        "name": "gain tuning span",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C09",
+        "test": "ac-sweep",
+        "name": "monotonic gain tuning",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C10",
+        "test": "ac-mgc-1.40",
+        "name": "transimpedance at 33 GHz",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C11",
+        "test": "ac-sweep",
+        "name": "minimum 3 dB bandwidth",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C12",
+        "test": "ac-mgc-1.40",
+        "name": "group delay near 10 GHz",
+        "section_id": "rf_gain_stages"
+      },
+      {
+        "criterion_id": "C13",
+        "test": "dc-overload",
+        "name": "maximum input voltage",
+        "section_id": "input_tia_dc_cancellation"
+      },
+      {
+        "criterion_id": "C14",
+        "test": "dc-overload",
+        "name": "input voltage mismatch",
+        "section_id": "input_tia_dc_cancellation"
+      },
+      {
+        "criterion_id": "C15",
+        "test": "dc-overload",
+        "name": "final differential offset",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C16",
+        "test": "buffer-445mVpp",
+        "name": "output peak-to-peak",
+        "section_id": "output_buffer"
+      },
+      {
+        "criterion_id": "C17",
+        "test": "buffer-445mVpp",
+        "name": "total harmonic distortion",
+        "section_id": "output_buffer"
+      },
+      {
+        "criterion_id": "C18",
+        "test": "buffer-735mVpp",
+        "name": "output peak-to-peak",
+        "section_id": "output_buffer"
+      },
+      {
+        "criterion_id": "C19",
+        "test": "detector-50mVpp",
+        "name": "average differential detector output",
+        "section_id": "peak_detector"
+      },
+      {
+        "criterion_id": "C20",
+        "test": "detector-550mVpp",
+        "name": "average differential detector output",
+        "section_id": "peak_detector"
+      },
+      {
+        "criterion_id": "C21",
+        "test": "peak-detector",
+        "name": "strictly monotonic detector response",
+        "section_id": "peak_detector"
+      },
+      {
+        "criterion_id": "C22",
+        "test": "agc-amplifier",
+        "name": "AGC gain",
+        "section_id": "agc_and_selector"
+      },
+      {
+        "criterion_id": "C23",
+        "test": "selector-manual-1.25",
+        "name": "manual selector output",
+        "section_id": "agc_and_selector"
+      },
+      {
+        "criterion_id": "C24",
+        "test": "selector-manual-1.40",
+        "name": "manual selector output",
+        "section_id": "agc_and_selector"
+      },
+      {
+        "criterion_id": "C25",
+        "test": "selector-agc",
+        "name": "AGC selector output",
+        "section_id": "agc_and_selector"
+      },
+      {
+        "criterion_id": "C26",
+        "test": "pam4-eye",
+        "name": "differential output peak-to-peak",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C27",
+        "test": "pam4-eye",
+        "name": "minimum vertical eye opening",
+        "section_id": "complete_receiver"
+      },
+      {
+        "criterion_id": "C28",
+        "test": "pam4-eye",
+        "name": "three positive eye openings",
+        "section_id": "complete_receiver"
+      }
+    ]
+  },
+  "judge_must_ignore_submitter_identity_and_reasoning": true
+}

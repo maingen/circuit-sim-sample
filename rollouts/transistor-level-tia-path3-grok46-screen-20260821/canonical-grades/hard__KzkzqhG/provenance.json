@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "canonical_verifier_version": "1.0.3",
+  "trial_id": "hard__KzkzqhG",
+  "started_at": "2026-08-22T00:30:43.273097+00:00",
+  "finished_at": "2026-08-22T00:31:40.927602+00:00",
+  "requested_model": "gpt-5.6-terra",
+  "reasoning_effort": "high",
+  "api": {
+    "response_id": "resp_0f37554bc8327842016a88edb4c8b887d0b21cfdf8f2481c1c",
+    "returned_model": "gpt-5.6-terra",
+    "created_at": 1787358644.0,
+    "status": "completed",
+    "usage": {
+      "input_tokens": 19072,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 19069
+      },
+      "output_tokens": 5183,
+      "output_tokens_details": {
+        "reasoning_tokens": 3064
+      },
+      "total_tokens": 24255
+    }
+  },
+  "hashes": {
+    "candidate_sha256": "5c0ed5498acc43fd659d27d9a7252ebe1ce355b0f2a6757b72ff2fcf32b6ca4a",
+    "static_details_sha256": "8ebd52cc8a4f4e542e2bc0c73b8030063e6207f4ec8c6298c8dfd6f2b86ada81",
+    "instruction_sha256": "b5ba4983809b2a7e917fa235ade3f50ff6ef1b7eba8d34467b610ce418d2aad3",
+    "reference_sha256": "4ad6aa32b45816ba7fa30b5113d66b0fef1cdd2c9828baa6cbaeca582719b87d",
+    "ledger_sha256": "6f21c44ec042a962e6e76d05feecadc6501ffaad905186c9e63d15a94444909a",
+    "judge_prompt_sha256": "3aad37e8268e788ac5372eaefce57015984791503829904d668706b515c4ffb7",
+    "canonical_verifier_sha256": "6df28b7965c76504e5e8949edb77990589095fa043b03c99722ef20eb73b71a0",
+    "review_packet_sha256": "169b1141320a382dce2e33bf0365d216d640b3087590edb107c1e195dd36f3d6"
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "sections": {
+    "input_tia_dc_cancellation": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "XQcbp",
+            "XQcsp",
+            "Rcp",
+            "XMtp",
+            "Rdc1p",
+            "Rdc2p",
+            "XQcbn",
+            "XQcsn",
+            "Rcn",
+            "XMtn",
+            "Rdc1n",
+            "Rdc2n"
+          ],
+          "nodes": [
+            "inp",
+            "cbp",
+            "tiap",
+            "gtp",
+            "inn",
+            "cbn",
+            "tian",
+            "gtn"
+          ],
+          "public_requirement": "Two transistor-level input TIA branches with DC-overload cancellation must accept inp and inn and preserve the specified input bias and overload behavior.",
+          "electrical_reason": "The two common-base/cascode TIA paths are physically present: inp/inn feed the emitters of XQcbp/XQcbn, their collectors feed XQcsp/XQcsn, and Rcp/Rcn provide collector loads at tiap/tian. However, the asserted DC cancellation sinks XMtp/XMtn have drain terminals at inp/inn and gates gtp/gtn derived resistively from tiap/tian. An increased positive input current increases common-base collector current and lowers tiap/tian through Rcp/Rcn; that lowers gtp/gtn and reduces the respective NMOS input sink current. Thus the supposed cancellation path responds in the same direction as the overload error rather than increasing shunt cancellation current. The favorable overload input-voltage result can arise from the intrinsic low common-base emitter impedance, but does not establish a coherent DC-overload-cancellation loop."
+        }
+      ]
+    },
+    "rf_gain_stages": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Cac1p",
+            "Cac1n",
+            "XQv1p",
+            "XQv1n",
+            "XQv1f",
+            "XMv1g",
+            "Rv1p",
+            "Rv1n",
+            "Cac2p",
+            "Cac2n",
+            "XQv2p",
+            "XQv2n",
+            "XQv2f",
+            "XMv2g",
+            "Rv2p",
+            "Rv2n",
+            "XQef1p",
+            "XQef1n",
+            "XQef2p",
+            "XQef2n"
+          ],
+          "nodes": [
+            "efp",
+            "efn",
+            "vg1p",
+            "vg1n",
+            "ev1t",
+            "nv1p",
+            "nv1n",
+            "ef1p",
+            "ef1n",
+            "vg2p",
+            "vg2n",
+            "ev2t",
+            "nv2p",
+            "nv2n",
+            "nbufp",
+            "nbufn",
+            "gc"
+          ],
+          "public_requirement": "Two transistor-level gain-controlled RF stages must provide monotonic gain control and the specified transimpedance, bandwidth, and group delay.",
+          "electrical_reason": "TIA follower outputs efp/efn are AC-coupled and biased onto the first HBT differential pair bases vg1p/vg1n. XQv1p/XQv1n and XQv2p/XQv2n are genuine loaded differential RF stages, with emitter-follower interfaces carrying the first-stage collector signals to the second-stage inputs. In each stage, the fixed HBT tail and parallel NMOS tail XMv1g/XMv2g share the common emitter node and are controlled by gc, providing a real gain-control mechanism rather than passive feedthrough. The AC sweep confirms monotonic gc response and finite RF bandwidth; gain and delay target misses do not negate the active connected stages."
+        }
+      ]
+    },
+    "output_buffer": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "XQbp",
+            "XQbn",
+            "Reb_p",
+            "Reb_n",
+            "XMbt",
+            "Rbp",
+            "Rbn",
+            "Lbp",
+            "Lbn"
+          ],
+          "nodes": [
+            "bufinp",
+            "bufinn",
+            "outp",
+            "outn",
+            "ebp",
+            "ebn",
+            "ebt",
+            "nref"
+          ],
+          "public_requirement": "A transistor-level differential output buffer must drive outp and outn from bufinp and bufinn with the specified amplitude and distortion behavior.",
+          "electrical_reason": "XQbp and XQbn are active common-emitter output devices driven directly from bufinp and bufinn. Their joined, resistor-degenerated emitter network Reb_p/Reb_n is biased by tail NMOS XMbt, while Rbp/Rbn and Lbp/Lbn form separate collector loads to outp/outn. The direct buffer tests show nonzero differential transfer at both drive amplitudes and low distortion, consistent with this active differential buffer rather than a passive or direct-feedthrough substitute."
+        }
+      ]
+    },
+    "peak_detector": {
+      "verdict": "pass",
+      "findings": [
+        {
+          "elements": [
+            "Crecp",
+            "Crecn",
+            "Rrecp",
+            "Rrecn",
+            "XQor1",
+            "XQor2",
+            "Reor",
+            "Rpdn",
+            "Cdetn",
+            "XQrf1",
+            "XQrf2",
+            "Reref",
+            "Rpdp",
+            "Cdetp"
+          ],
+          "nodes": [
+            "pkdinp",
+            "pkdinn",
+            "brecp",
+            "brecn",
+            "vpd",
+            "detn",
+            "detp",
+            "eor",
+            "eref"
+          ],
+          "public_requirement": "A transistor-level peak detector must accept pkdinp and pkdinn and produce a strictly increasing differential detector response at detp and detn.",
+          "electrical_reason": "The RF test inputs are capacitively coupled to rectifier bases brecp/brecn and have DC bias returns through Rrecp/Rrecn to vpd. XQor1/XQor2 actively rectify the two input phases into collector node detn, which has a supply load Rpdn and output capacitance. XQrf1/XQrf2 form the actively biased reference collector path at detp with Rpdp. Consequently detp and detn have valid DC collector-load output paths, not capacitor-only control paths. The measured strictly monotonic detector response supports that this detector is active and connected despite endpoint scaling error."
+        }
+      ]
+    },
+    "agc_and_selector": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "Cagip",
+            "Cagin",
+            "Ragbp",
+            "Ragbn",
+            "XQagp",
+            "XQagn",
+            "Rdegp",
+            "Rdegn",
+            "XMagt",
+            "Ragp",
+            "Ragn",
+            "Ragser",
+            "Cagc"
+          ],
+          "nodes": [
+            "detp",
+            "detn",
+            "agip",
+            "agin",
+            "agcnet",
+            "agc",
+            "oas",
+            "oa"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "Although XQagp/XQagn, their loads, degeneration, and tail device form a nominal active differential stage, both detector outputs reach its input bases only through Cagip/Cagin. The detector quantity required for automatic gain control is the rectified/averaged differential detp-detn voltage; these capacitors block that DC quantity, while Ragbp/Ragbn merely return both amplifier inputs to vbias. Hence no detector-responsive operating-point control can be conveyed to agc. This is corroborated by the measured AGC gain of exactly 0 V/V, indicating a blocked/nonresponsive detector-error path rather than a sizing-only miss."
+        },
+        {
+          "elements": [
+            "XMman",
+            "XMauto",
+            "Cgc"
+          ],
+          "nodes": [
+            "mgc",
+            "agc",
+            "mc",
+            "gc"
+          ],
+          "public_requirement": "A transistor-level AGC amplifier and manual or automatic gain selector must produce agc and select mgc or agc onto gc according to mc.",
+          "electrical_reason": "The selector itself is electrically valid: PMOS XMman connects mgc to gc when mc is low and NMOS XMauto connects agc to gc when mc is high, with the opposite device off in each stated mode. The forced selector tests therefore pass, but they only prove selection of an externally forced agc node and cannot repair the upstream AGC amplifier's DC-blocked detector-control path."
+        }
+      ]
+    },
+    "complete_receiver": {
+      "verdict": "fail",
+      "findings": [
+        {
+          "elements": [
+            "XQcbp",
+            "XQcsp",
+            "XQef0p",
+            "XQv1p",
+            "XQv2p",
+            "XQbp",
+            "Lf1p",
+            "Lf8p",
+            "XQcbn",
+            "XQcsn",
+            "XQef0n",
+            "XQv1n",
+            "XQv2n",
+            "XQbn",
+            "Lf1n",
+            "Lf8n"
+          ],
+          "nodes": [
+            "inp",
+            "tiap",
+            "efp",
+            "vg1p",
+            "ef1p",
+            "vg2p",
+            "nbufp",
+            "bufinp",
+            "outp",
+            "finalp",
+            "inn",
+            "tian",
+            "efn",
+            "vg1n",
+            "ef1n",
+            "vg2n",
+            "nbufn",
+            "bufinn",
+            "outn",
+            "finaln"
+          ],
+          "public_requirement": "The required TIA, two RF stages, output buffer, detector, AGC, and selector must form a complete receiver whose finalp and finaln outputs meet the nominal, overload, power, and PAM4 requirements.",
+          "electrical_reason": "A continuous main differential RF path exists from the common-base/cascode TIA branches through follower-coupled VGA1 and VGA2, then the active output buffer and the passive LC output chains to finalp/finaln. This accounts for the finite PAM4 output and positive eyes. However, completeness also requires coherent detector-to-AGC-to-gc operation: detp/detn are DC-blocked by Cagip/Cagin before the AGC pair, so the automatic selector can pass a forced agc voltage but cannot close a detector-responsive gain-control loop. The receiver therefore contains a materially disconnected required control function even though its feed-forward signal path is active."
+        }
+      ]
+    }
+  },
+  "summary": "The candidate contains credible active RF gain stages, output buffer, and peak detector, but its input overload-shunt feedback has the wrong DC response polarity and its AGC amplifier is isolated from the detector's averaged output by AC-coupling capacitors. The resulting automatic gain-control loop is not a coherent complete receiver function."
+}
